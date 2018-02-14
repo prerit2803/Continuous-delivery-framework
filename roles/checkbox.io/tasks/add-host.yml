@@ -1,0 +1,7 @@
+- debug: 
+    var: inventory_dir
+- name: Add host    
+  add_host:
+    name: 192.168.11.11
+    group: ec2
+    inventory_dir: /server/roles

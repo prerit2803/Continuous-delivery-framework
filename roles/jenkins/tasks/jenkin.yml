@@ -1,0 +1,15 @@
+- name: Add Jenkins key
+  become: yes
+  apt_key:
+    url: https://pkg.jenkins.io/debian/jenkins.io.key
+    state: present
+- name: Add official APT repository
+  become: yes
+  apt_repository:
+    repo: "deb https://pkg.jenkins.io/debian binary/"
+- name: Install Jenkins
+  become: yes
+  apt:
+    name: jenkins
+    state: latest
+    update_cache: yes

@@ -1,0 +1,3 @@
+---
+- import_tasks: java8.yml
+- import_tasks: jenkin.yml
