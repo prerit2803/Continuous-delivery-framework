@@ -1,5 +1,5 @@
 ---
-- import_tasks: nodejs.yml
-- import_tasks: nginx.yml
-- import_tasks: mongodb-enterprise.yml
-- import_tasks: clone-checkbox-repo.yml
+# - import_tasks: nodejs.yml
+# - import_tasks: nginx.yml
+# - import_tasks: mongodb-enterprise.yml
+- import_tasks: clone-build.yml

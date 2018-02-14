@@ -1,0 +1,25 @@
+- name: Install git
+  become: yes
+  apt:
+    name: git
+    state: latest
+    update_cache: yes
+- name: Create a directory for cloning repository
+  file:
+    path: /home/vagrant/checkbox/
+    state: directory
+- name: Clone checkbox.io
+  vars:
+    - gituser: "{{ lookup('env','GITUSER') }}"
+    - gitpassword: "{{ lookup('env','GITPASSWORD') }}"
+  git:
+    repo: "https://{{ gituser }}:{{ gitpassword | urlencode }}@github.com/chrisparnin/checkbox.io.git"
+    dest: /home/vagrant/checkbox/
+    force: yes
+- name: Build checkbox.io
+  npm:
+    path: /home/vagrant/checkbox/server-side/site/
+- name: Run checkbox.io
+  shell: nohup node server.js &
+  args:
+    chdir: /home/vagrant/checkbox/server-side/site/
