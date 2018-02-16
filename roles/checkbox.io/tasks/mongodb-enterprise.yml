@@ -18,3 +18,24 @@
     name: mongodb-enterprise
     state: latest
     update_cache: yes
+#### Configure Mongodb ####
+- name: Install python-pip
+  become: yes
+  apt:
+    name: python-pip
+    state: present
+- name: Install pyMongo
+  become: yes
+  pip:
+    name: pyMongo
+    state: present
+- name: Add user to mongodb
+  vars:
+    - mongo_user:  "{{ lookup('env','MONGO_USER') }}"
+    - mongo_password: "{{ lookup('env','MONGO_PASSWORD') }}"
+  mongodb_user:
+    database: admin
+    name: "{{mongo_user}}"
+    password: "{{mongo_password}}"
+    state: present
+    roles: dbAdmin,userAdminAnyDatabase,readWriteAnyDatabase
