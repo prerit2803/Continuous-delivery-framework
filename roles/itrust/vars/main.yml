@@ -1,0 +1,3 @@
+---
+app_dir: /home/vagrant/itrust
+mysql_password: "password"
