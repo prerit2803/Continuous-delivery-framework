@@ -1,0 +1,35 @@
+- name: Copy db.properties File
+  command: cp "{{app_dir}}"/iTrust2/src/main/java/db.properties.template "{{app_dir}}"/iTrust2/src/main/java/db.properties
+  become: yes
+
+- name: Copy hibernate.properties File
+  command: cp "{{app_dir}}"/iTrust2/src/main/resources/hibernate.properties.template "{{app_dir}}"/iTrust2/src/main/resources/hibernate.properties
+  become: yes
+
+- name: Copy email.properties File
+  command: cp "{{app_dir}}"/iTrust2/src/main/java/email.properties.template "{{app_dir}}"/iTrust2/src/main/java/email.properties
+  become: yes
+
+- lineinfile:
+    path: /home/vagrant/itrust/iTrust2/src/main/java/db.properties
+    state: present
+    regexp: 'password'
+    line: 'password {{ mysql_password }}'
+    backrefs: yes
+
+- lineinfile:
+    path: /home/vagrant/itrust/iTrust2/src/main/resources/hibernate.properties
+    state: present
+    regexp: 'hibernate.connection.password = '
+    line: 'hibernate.connection.password = {{ mysql_password }}'
+    backrefs: yes
+
+- name: Populate data
+  shell: mvn process-test-classes
+  args:
+    chdir: "/home/vagrant/itrust/iTrust2"
+
+- name: Run Server
+  shell: nohup mvn jetty:run &
+  args:
+    chdir: "/home/vagrant/itrust/iTrust2"

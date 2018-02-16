@@ -1,0 +1,12 @@
+- name: Create a directory for cloning repository
+  file:
+    path: "{{app_dir}}"
+    state: directory
+- name: Clone iTrust2
+  # vars:
+  #   - gituser: "{{ lookup('env','GITUSER') }}"
+  #   - gitpassword: "{{ lookup('env','GITPASSWORD') }}"
+  git:
+    repo: git@github.ncsu.edu:engr-csc326-staff/iTrust2-v2.git
+    dest: "{{app_dir}}"
+    force: yes

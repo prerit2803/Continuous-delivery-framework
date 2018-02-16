@@ -1,0 +1,56 @@
+- name: Download mysql repo
+  get_url:
+    url: https://dev.mysql.com/get/mysql-apt-config_0.8.9-1_all.deb
+    dest: /home/vagrant
+    mode: 0440
+  become: yes
+
+- name: Install mysql repo
+  apt: "deb=/home/vagrant/mysql-apt-config_0.8.9-1_all.deb"
+  become: yes
+
+- name: Install python-mysqldb
+  apt:
+    name: python-mysqldb
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: check latest version of mysql 5.7
+  command: bash -c "apt-cache showpkg mysql-server|grep 5.7|head -1|cut -d' ' -f1"
+  register: latestmysql57
+
+- name: Install mysql 57
+  apt:
+    name: mysql-server={{ latestmysql57.stdout }}
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: update mysql root password for all root accounts
+  become: yes
+  mysql_user:
+    name: root
+    host: "{{ item }}"
+    password: "{{ mysql_password }}"
+    login_user: root
+    login_password: "{{ mysql_password }}"
+    check_implicit_admin: yes
+    priv: "*.*:ALL,GRANT"
+  with_items:
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+# Need to figure out this
+# - file:
+#     path: home/vagrant/mysql-apt-config_0.8.9-1_all.deb
+#     state: absent
+#   become: yes
+
+- name: Start the MySQL service
+  become: yes
+  service:
+    name: mysql
+    state: started
+    enabled: true
