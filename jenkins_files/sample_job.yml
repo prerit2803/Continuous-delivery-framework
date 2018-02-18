@@ -1,0 +1,20 @@
+- job:
+    block-downstream: false
+    block-upstream: false
+    builders:
+    - shell: echo 'hello'
+    concurrent: false
+    description: null
+    disabled: false
+    name: !!python/unicode 'sample-job'
+    project-type: freestyle
+    publishers:
+    - post-tasks:
+      - escalate-status: false
+        matches:
+        - log-text: null
+          operator: AND
+        run-if-job-successful: false
+        script: echo 'JOB PASSED!'
+    triggers: []
+    wrappers: []

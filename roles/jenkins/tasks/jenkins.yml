@@ -16,25 +16,3 @@
     name: jenkins
     state: latest
     update_cache: yes
-
-- name: Copy jenkins_files directory
-  become: yes
-  copy:
-    src: ./jenkins_files
-    dest: /home/ubuntu/
-
-- name: Run cat to get Initial Jenkins admin pass putput
-  become: yes
-  shell: "cat /var/lib/jenkins/secrets/initialAdminPassword"
-  register: jenkins_admin_password_output
-
-- name: Set Jenkins admin pass from stdout
-  set_fact:
-    jenkins_admin_password: "{{ jenkins_admin_password_output.stdout }}"
-
-- name: Set Jenkins admin password for jbb ini file
-  become: yes
-  lineinfile:
-    path: /home/ubuntu/jenkins_files/jbb_config.ini
-    regexp: "^password=''"
-    line: "password='{{ jenkins_admin_password }}'"
