@@ -43,10 +43,11 @@
     - localhost
 
 # Need to figure out this
-# - file:
-#     path: home/vagrant/mysql-apt-config_0.8.9-1_all.deb
-#     state: absent
-#   become: yes
+- file:
+    path: /home/vagrant/mysql-apt-config_0.8.9-1_all.deb
+    state: absent
+    mode: 0440
+  # become: yes
 
 - name: Start the MySQL service
   become: yes

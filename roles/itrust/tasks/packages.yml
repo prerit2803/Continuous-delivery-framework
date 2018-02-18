@@ -1,4 +1,3 @@
----
 # Java Installation
 - name: add repo for java 8, maven3
   apt_repository: repo='{{ item }}' state=present
