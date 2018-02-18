@@ -1,14 +1,23 @@
 - name: Copy db.properties File
-  command: cp "{{app_dir}}"/iTrust2/src/main/java/db.properties.template "{{app_dir}}"/iTrust2/src/main/java/db.properties
   become: yes
+  copy:
+    src: /home/vagrant/itrust/iTrust2/src/main/java/db.properties.template
+    dest: /home/vagrant/itrust/iTrust2/src/main/java/db.properties
+    remote_src: yes
 
 - name: Copy hibernate.properties File
-  command: cp "{{app_dir}}"/iTrust2/src/main/resources/hibernate.properties.template "{{app_dir}}"/iTrust2/src/main/resources/hibernate.properties
   become: yes
+  copy:
+    src: /home/vagrant/itrust/iTrust2/src/main/resources/hibernate.properties.template
+    dest: /home/vagrant/itrust/iTrust2/src/main/resources/hibernate.properties
+    remote_src: yes
 
 - name: Copy email.properties File
-  command: cp "{{app_dir}}"/iTrust2/src/main/java/email.properties.template "{{app_dir}}"/iTrust2/src/main/java/email.properties
   become: yes
+  copy:
+    src: /home/vagrant/itrust/iTrust2/src/main/java/email.properties.template
+    dest: /home/vagrant/itrust/iTrust2/src/main/java/email.properties
+    remote_src: yes
 
 - lineinfile:
     path: /home/vagrant/itrust/iTrust2/src/main/java/db.properties
@@ -29,7 +38,7 @@
   args:
     chdir: "/home/vagrant/itrust/iTrust2"
 
-- name: Run Server
-  shell: nohup mvn jetty:run &
-  args:
-    chdir: "/home/vagrant/itrust/iTrust2"
+# - name: Run Server
+#   shell: nohup mvn jetty:run &
+#   args:
+#     chdir: "/home/vagrant/itrust/iTrust2"
