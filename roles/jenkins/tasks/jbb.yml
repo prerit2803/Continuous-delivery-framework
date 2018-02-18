@@ -13,10 +13,20 @@
   become: yes
   shell: "cat /var/lib/jenkins/secrets/initialAdminPassword"
   register: jenkins_admin_password_output
+  tags:
+    install-jenkins-plugin
 
 - name: Set Jenkins admin pass from stdout
   set_fact:
     jenkins_admin_password: "{{ jenkins_admin_password_output.stdout }}"
+  tags:
+    install-jenkins-plugin
+
+- name: Install Jenkins post build task plugin
+  become: yes
+  shell: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ install-plugin 'postbuild-task' --username 'admin' --password='{{ jenkins_admin_password }}'"
+  tags:
+    install-jenkins-plugin
 
 - name: Set Jenkins admin password for jbb ini file
   become: yes
