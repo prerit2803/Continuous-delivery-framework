@@ -3,6 +3,7 @@
   pip:
     name: boto3
     state: present
+
 - name: Create an AWS server for Jenkins
   ec2:
     key_name: Devops
@@ -15,6 +16,7 @@
   register: aws
 - debug: 
     var: aws.instances[0].id
+
 - name: Get public key of EC2 instance
   # vars:
   #   - aws: "i-0c87635138dd81fa5"
@@ -25,6 +27,7 @@
   register: key_results
   retries: 100
   until: key_results.stdout != ''
+
 - name: Register public key to known_hosts
   lineinfile: 
     name: /home/vagrant/.ssh/known_hosts 
@@ -32,6 +35,7 @@
     line: "{{ aws.instances[0].public_ip }} ecdsa-sha2-nistp256 {{key_results.stdout}}"
     insertafter: EOF
     state: present
+
 - name: Update inventory
   lineinfile:
     path: /server/inventory

@@ -1,15 +1,40 @@
+---
 - name: Add Jenkins key
   become: yes
   apt_key:
     url: https://pkg.jenkins.io/debian/jenkins.io.key
     state: present
+
 - name: Add official APT repository
   become: yes
   apt_repository:
     repo: "deb https://pkg.jenkins.io/debian binary/"
+
 - name: Install Jenkins
   become: yes
   apt:
     name: jenkins
     state: latest
     update_cache: yes
+
+- name: Copy jenkins_files directory
+  become: yes
+  copy:
+    src: ./jenkins_files
+    dest: /home/ubuntu/
+
+- name: Run cat to get Initial Jenkins admin pass putput
+  become: yes
+  shell: "cat /var/lib/jenkins/secrets/initialAdminPassword"
+  register: jenkins_admin_password_output
+
+- name: Set Jenkins admin pass from stdout
+  set_fact:
+    jenkins_admin_password: "{{ jenkins_admin_password_output.stdout }}"
+
+- name: Set Jenkins admin password for jbb ini file
+  become: yes
+  lineinfile:
+    path: /home/ubuntu/jenkins_files/jbb_config.ini
+    regexp: "^password=''"
+    line: "password='{{ jenkins_admin_password }}'"
