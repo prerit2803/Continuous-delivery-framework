@@ -2,33 +2,39 @@
 - name: Add Mongodb ppa key
   become: yes
   apt_key:
-    keyserver: hkp://keyserver.ubuntu.com:80
-    id: 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-    state: present
+    keyserver: keyserver.ubuntu.com
+    id: 7F0CEB10
+
 - name: Add mongodb sources list
   become: yes
-  lineinfile: 
-    line: "deb http://repo.mongodb.com/apt/ubuntu xenial/mongodb-enterprise/3.6 multiverse"
-    dest: /etc/apt/sources.list.d/mongodb-enterprise.list
+  lineinfile:
+    dest: /etc/apt/sources.list.d/mongodb-org-3.0.list
+    line: "deb http://repo.mongodb.org/apt/ubuntu precise/mongodb-org/3.0 multiverse"
     state: present
     create: yes
-- name: Install mongo
+
+- name: Install MongoDB
   become: yes
-  apt: 
-    name: mongodb-enterprise
-    state: latest
-    update_cache: yes
+  apt: name={{ item }}=3.0.7 state=present update_cache=yes
+  with_items:
+    - mongodb-org
+    - mongodb-org-server
+    - mongodb-org-shell
+    - mongodb-org-mongos
+    - mongodb-org-tools
 #### Configure Mongodb ####
 - name: Install python-pip
   become: yes
   apt:
     name: python-pip
     state: present
+
 - name: Install pyMongo
   become: yes
   pip:
     name: pyMongo
     state: present
+
 - name: Add user to mongodb
   vars:
     - mongo_user:  "{{ lookup('env','MONGO_USER') }}"
