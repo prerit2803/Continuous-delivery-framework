@@ -1,4 +1,23 @@
 ---
+- name: Disable Jenkins Security in config.xml file
+  become: yes
+  lineinfile:
+    path: /var/lib/jenkins/config.xml
+    regexp: "<useSecurity>"
+    line: "<useSecurity>false</useSecurity>"
+
+- name: Restart Jenkins to disable security
+  become: yes
+  service:
+    name: jenkins
+    state: restarted
+
+- name: Install pip for JBB install
+  become: yes
+  apt:
+    name: python-pip
+    update_cache: yes
+
 - name: Install Jenkins Job Builder
   pip:
     name: jenkins-job-builder
@@ -9,35 +28,34 @@
     src: ./jenkins_files
     dest: /home/ubuntu/
 
-- name: Run cat to get Initial Jenkins admin pass output
-  become: yes
-  shell: "cat /var/lib/jenkins/secrets/initialAdminPassword"
-  register: jenkins_admin_password_output
-  tags:
-    install-jenkins-plugin
-
-- name: Set Jenkins admin pass from stdout
-  set_fact:
-    jenkins_admin_password: "{{ jenkins_admin_password_output.stdout }}"
-  tags:
-    install-jenkins-plugin
-
 - name: Install Jenkins post build task plugin
   become: yes
-  shell: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ install-plugin 'postbuild-task' --username 'admin' --password='{{ jenkins_admin_password }}'"
+  shell: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ install-plugin 'postbuild-task'"
   tags:
     install-jenkins-plugin
-
-- name: Set Jenkins admin password for jbb ini file
-  become: yes
-  lineinfile:
-    path: /home/ubuntu/jenkins_files/jbb_config.ini
-    regexp: "^password="
-    line: "password={{ jenkins_admin_password }}"
   
-- name: Upload Jobs to Jenkins
-  shell: 'jenkins-jobs --conf jbb_config.ini update sample_job.yml'
+- name: Upload Itrust Job to Jenkins
+  shell: 'jenkins-jobs --conf jbb_config.ini update itrust.yml'
   args:
     chdir: /home/ubuntu/jenkins_files
   tags:
     upload
+
+- name: Upload Checkbox Job to Jenkins
+  shell: 'jenkins-jobs --conf jbb_config.ini update checkbox.yml'
+  args:
+    chdir: /home/ubuntu/jenkins_files
+  tags:
+    upload
+
+- name: Trigger build for Checkbox
+  become: yes
+  shell: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ build 'checkbox-build'"
+  tags:
+    build-jobs
+
+- name: Trigger build for iTrust
+  become: yes
+  shell: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ build 'itrust-build'"
+  tags:
+    build-jobs
