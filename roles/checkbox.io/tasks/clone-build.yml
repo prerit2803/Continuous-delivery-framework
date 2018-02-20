@@ -7,32 +7,32 @@
 
 - name: Clone checkbox.io
   git:
-    repo: "https://github.com/chrisparnin/checkbox.io.git"
-    dest: /home/vagrant/checkbox/
+    repo: https://github.com/chrisparnin/checkbox.io.git
+    dest: "{{ ansible_env.HOME }}/checkbox/"
     force: yes
 
 - name: Build checkbox.io
   npm:
-    path: /home/vagrant/checkbox/server-side/site/
+    path: "{{ ansible_env.HOME }}/checkbox/server-side/site/"
 
 - lineinfile:
-    path: /home/vagrant/checkbox/local-conf/default
+    path: "{{ ansible_env.HOME }}/checkbox/local-conf/default"
     state: present
     regexp: 'root /Users/gameweld/bitbucket/checkbox.io/checkbox.io/public_html/'
-    line: '\troot /home/vagrant/checkbox/public_html/;'
+    line: '\troot {{ ansible_env.HOME }}/checkbox/public_html/;'
     backrefs: yes
 
 - name: Copy default File
   become: yes
   copy:
-    src: /home/vagrant/checkbox/local-conf/default
+    src: "{{ ansible_env.HOME }}/checkbox/local-conf/default"
     dest: /etc/nginx/sites-available/default
     remote_src: yes
 
 - name: Copy nginx Config File
   become: yes
   copy:
-    src: /home/vagrant/checkbox/local-conf/nginx.conf
+    src: "{{ ansible_env.HOME }}/checkbox/local-conf/nginx.conf"
     dest: /etc/nginx/nginx.conf
     remote_src: yes
 
@@ -45,4 +45,4 @@
 - name: Run checkbox.io
   shell: nohup node server.js &
   args:
-    chdir: /home/vagrant/checkbox/server-side/site/
+    chdir: "{{ ansible_env.HOME }}/checkbox/server-side/site/"
