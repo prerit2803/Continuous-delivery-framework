@@ -1,12 +1,12 @@
 - name: Download mysql repo
   get_url:
     url: https://dev.mysql.com/get/mysql-apt-config_0.8.9-1_all.deb
-    dest: /home/vagrant
+    dest: "{{ ansible_env.HOME }}"
     mode: 0440
   become: yes
 
 - name: Install mysql repo
-  apt: "deb=/home/vagrant/mysql-apt-config_0.8.9-1_all.deb"
+  apt: "deb={{ ansible_env.HOME }}/mysql-apt-config_0.8.9-1_all.deb"
   become: yes
 
 - name: Install python-mysqldb
@@ -42,9 +42,8 @@
     - ::1
     - localhost
 
-# Need to figure out this
 - file:
-    path: /home/vagrant/mysql-apt-config_0.8.9-1_all.deb
+    path: "{{ ansible_env.HOME }}/mysql-apt-config_0.8.9-1_all.deb"
     state: absent
     mode: 0440
   # become: yes
