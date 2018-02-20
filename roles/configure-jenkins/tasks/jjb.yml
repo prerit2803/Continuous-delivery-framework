@@ -6,6 +6,7 @@
     state: latest
 
 - name: Install Jenkins Job Builder
+  become: yes
   pip:
     name: jenkins-job-builder
 
