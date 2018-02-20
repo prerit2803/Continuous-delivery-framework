@@ -2,7 +2,11 @@
     block-downstream: false
     block-upstream: false
     builders:
-    - shell: echo 'hello'
+    - shell: |-
+        git clone https://$GIT_USER:$GIT_PASS@github.ncsu.edu/engr-csc326-staff/iTrust2-v2.git
+        cd /iTrust2-v2/iTrust2
+        # wont work yet
+        mvn clean test verify checkstyle:checkstyle
     concurrent: false
     description: null
     disabled: false
@@ -17,4 +21,16 @@
         run-if-job-successful: false
         script: echo 'JOB PASSED!'
     triggers: []
-    wrappers: []
+    wrappers:
+        - inject-passwords:
+            global: true
+            mask-password-params: true
+            job-passwords:
+                - name: AWS_ACCESS_KEY_ID
+                  password: # overwrite this #
+                - name: AWS_SECRET_ACCESS_KEY
+                  password: # overwrite this #
+                - name: GIT_USER
+                  password: # overwrite this #
+                - name: GIT_PASS
+                  password: # overwrite this #

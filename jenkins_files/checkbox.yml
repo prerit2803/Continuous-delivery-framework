@@ -8,8 +8,18 @@
     concurrent: false
     description: null
     disabled: false
-    name: !!python/unicode 'test'
+    name: !!python/unicode 'checkbox-build'
     project-type: freestyle
+    properties:
+        - inject:
+            properties-content: |
+                MONGO_PORT='3002'
+                MONGO_IP='localhost'
+                MONGO_USER='user'
+                MONGO_PASSWORD='pass'
+                MAIL_USER=''
+                MAIL_PASSWORD=''
+                MAIL_SMTP=''
     publishers:
     - post-tasks:
       - escalate-status: false
@@ -24,4 +34,12 @@
         - '*/master'
         url: https://github.com/chrisparnin/checkbox.io.git
     triggers: []
-    wrappers: []
+    wrappers:
+        - inject-passwords:
+            global: true
+            mask-password-params: true
+            job-passwords:
+                - name: AWS_ACCESS_KEY_ID
+                  password: # overwrite this #
+                - name: AWS_SECRET_ACCESS_KEY
+                  password: # overwrite this #
