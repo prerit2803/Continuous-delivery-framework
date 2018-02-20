@@ -43,7 +43,7 @@
   until: key_results.stdout != ''
 - name: Register public key to known_hosts
   lineinfile: 
-    name: /home/vagrant/.ssh/known_hosts 
+    name: "{{ ansible_env.HOME }}/.ssh/known_hosts"
     create: yes
     line: "{{ aws.instances[0].public_ip }} ecdsa-sha2-nistp256 {{key_results.stdout}}"
     insertafter: EOF
