@@ -2,11 +2,13 @@
     block-downstream: false
     block-upstream: false
     builders:
-    - shell: echo 'hello'
+    - shell: |-
+        cd server-side/site
+        npm install
     concurrent: false
     description: null
     disabled: false
-    name: !!python/unicode 'checkbox-build'
+    name: !!python/unicode 'test'
     project-type: freestyle
     publishers:
     - post-tasks:
@@ -16,5 +18,10 @@
           operator: AND
         run-if-job-successful: false
         script: echo 'JOB PASSED!'
+    scm:
+    - git:
+        branches:
+        - '*/master'
+        url: https://github.com/chrisparnin/checkbox.io.git
     triggers: []
     wrappers: []
