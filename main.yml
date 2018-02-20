@@ -1,14 +1,14 @@
 ---
-# - hosts: local
-#   gather_facts: yes
-#   roles:
-#     - provision-jenkins-server
-# - hosts: all
-#   gather_facts: no  
-#   tasks:
-#   - name: Install python 2
-#     raw: sudo test -e /usr/bin/python || (sudo apt-get install -y python-minimal)
 - hosts: local
   gather_facts: yes
+  roles:
+    - provision-jenkins
+- hosts: all
+  gather_facts: no  
+  tasks:
+  - name: Install python 2
+    raw: sudo test -e /usr/bin/python || (sudo apt-get install -y python-minimal)
+- hosts: jenkins
+  gather_facts: yes
   roles: 
-    - jenkins
+    - configure-jenkins

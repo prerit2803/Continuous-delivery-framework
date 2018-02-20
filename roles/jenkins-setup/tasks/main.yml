@@ -1,4 +1,0 @@
----
-- import_tasks: java8.yml
-- import_tasks: jenkins.yml
-- import_tasks: provision.yml
