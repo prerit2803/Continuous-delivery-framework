@@ -2,7 +2,11 @@
 ### Reference: https://stackoverflow.com/questions/37137513/ansible-install-node-js-version-6 ####
 - name: Add apt-key for node
   become: yes
+<<<<<<< HEAD
   apt_key:
+=======
+  apt_key: 
+>>>>>>> 297ab11b37691f04929785d65b45e851857643d5
     url:  https://deb.nodesource.com/gpgkey/nodesource.gpg.key
 - name: Add Nodesource Apt Sources
   become: yes

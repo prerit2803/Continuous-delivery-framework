@@ -1,9 +1,8 @@
-- name: Install boto
+- name: Install boto for ec2 Ansible module
   become: yes
   pip:
     name: boto3
     state: present
-
 - name: Create an AWS server for Jenkins
   ec2:
     key_name: Devops
@@ -15,11 +14,14 @@
     state: present
   register: aws
 - debug: 
-    var: aws.instances[0].id
-
+    msg: Created instance aws.instances[0].id
+- name: Install awscli
+  become: yes
+  apt:
+    name: awscli
+    state: present
+    update_cache: yes
 - name: Get public key of EC2 instance
-  # vars:
-  #   - aws: "i-0c87635138dd81fa5"
   shell: aws ec2 get-console-output \
           --region us-east-2 \
           --instance-id "{{aws.instances[0].id}}" \
@@ -27,7 +29,6 @@
   register: key_results
   retries: 100
   until: key_results.stdout != ''
-
 - name: Register public key to known_hosts
   lineinfile: 
     name: /home/vagrant/.ssh/known_hosts 
@@ -35,7 +36,6 @@
     line: "{{ aws.instances[0].public_ip }} ecdsa-sha2-nistp256 {{key_results.stdout}}"
     insertafter: EOF
     state: present
-
 - name: Update inventory
   lineinfile:
     path: /server/inventory

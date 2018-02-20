@@ -1,0 +1,69 @@
+---
+- name: Install python-pip
+  become: yes
+  apt:
+    name: python-pip
+    state: latest
+- name: Install Jenkins Job Builder
+  pip:
+    name: jenkins-job-builder
+- name: Disable Jenkins' initial authorization wizard
+  become: yes
+  replace:
+    path: /etc/default/jenkins
+    regexp: -Djava.awt.headless=true
+    replace: -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false
+- name: Copy init.grovy to $Jenkins_home
+  become: yes
+  copy:
+    src: /server/jenkins_files/init.groovy
+    dest: /var/lib/jenkins/init.groovy
+- name: Restart Jenkins
+  become: yes
+  service:
+    name: jenkins
+    state: restarted
+- name: Install plugins for Jenkins
+  jenkins_plugin:
+    name: "{{item}}"
+  with_items:
+    - git
+    - post-build-task
+# - name: Copy jenkins_files directory
+#   become: yes
+#   copy:
+#     src: ./jenkins_files
+#     dest: /home/ubuntu/
+
+# - name: Run cat to get Initial Jenkins admin pass output
+#   become: yes
+#   shell: "cat /var/lib/jenkins/secrets/initialAdminPassword"
+#   register: jenkins_admin_password_output
+#   tags:
+#     install-jenkins-plugin
+
+# - name: Set Jenkins admin pass from stdout
+#   set_fact:
+#     jenkins_admin_password: "{{ jenkins_admin_password_output.stdout }}"
+#   tags:
+#     install-jenkins-plugin
+
+# - name: Install Jenkins post build task plugin
+#   become: yes
+#   shell: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ install-plugin 'postbuild-task' --username 'admin' --password='{{ jenkins_admin_password }}'"
+#   tags:
+#     install-jenkins-plugin
+
+# - name: Set Jenkins admin password for jbb ini file
+#   become: yes
+#   lineinfile:
+#     path: /home/ubuntu/jenkins_files/jbb_config.ini
+#     regexp: "^password="
+#     line: "password={{ jenkins_admin_password }}"
+  
+# - name: Upload Jobs to Jenkins
+#   shell: 'jenkins-jobs --conf jbb_config.ini update sample_job.yml'
+#   args:
+#     chdir: /home/ubuntu/jenkins_files
+#   tags:
+#     upload
