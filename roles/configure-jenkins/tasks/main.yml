@@ -2,4 +2,7 @@
 - import_tasks: ansible.yml
 - import_tasks: java8.yml
 - import_tasks: jenkins.yml
+- import_tasks: nodejs.yml
 - import_tasks: jjb.yml
+  tags:
+    jjb

@@ -1,0 +1,48 @@
+---
+- name: Add Mongodb ppa key
+  become: yes
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 7F0CEB10
+
+- name: Add mongodb sources list
+  become: yes
+  lineinfile:
+    dest: /etc/apt/sources.list.d/mongodb-org-3.0.list
+    line: "deb http://repo.mongodb.org/apt/ubuntu precise/mongodb-org/3.0 multiverse"
+    state: present
+    create: yes
+
+- name: Install MongoDB
+  become: yes
+  apt: name={{ item }}=3.0.7 state=present update_cache=yes
+  with_items:
+    - mongodb-org
+    - mongodb-org-server
+    - mongodb-org-shell
+    - mongodb-org-mongos
+    - mongodb-org-tools
+
+#### Configure Mongodb ####
+- name: Install python-pip
+  become: yes
+  apt:
+    name: python-pip
+    state: present
+
+- name: Install pyMongo
+  become: yes
+  pip:
+    name: pyMongo
+    state: present
+
+- name: Add user to mongodb
+  vars:
+    - mongo_user:  "{{ lookup('env','MONGO_USER') }}"
+    - mongo_password: "{{ lookup('env','MONGO_PASSWORD') }}"
+  mongodb_user:
+    database: admin
+    name: "{{mongo_user}}"
+    password: "{{mongo_password}}"
+    state: present
+    roles: dbAdmin,userAdminAnyDatabase,readWriteAnyDatabase

@@ -1,0 +1,19 @@
+- name: Set AWS key in checkbox job yml file
+  replace: 
+    path: ./jenkins_files/checkbox.yml
+    regexp: 'AWS_SEC_KEY'  
+    replace: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}" 
+  become: yes
+
+- name: Set AWS secret in checkbox job yml file
+  replace: 
+    path: ./jenkins_files/checkbox.yml
+    regexp: 'AWS_KEY'  
+    replace: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"    
+  become: yes
+
+- name: Copy AWS key to Jenkins
+  copy:
+    src: ~/.ssh/Devops.pem
+    dest: /home/ubuntu/.ssh/Devops.pem
+    mode: 0700

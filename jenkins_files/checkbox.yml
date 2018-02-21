@@ -27,7 +27,9 @@
         - log-text: null
           operator: AND
         run-if-job-successful: false
-        script: echo 'JOB PASSED!'
+        script: |-
+            cd /home/ubuntu/jenkins_files
+            ansible-playbook checkbox_deploy.yml
     scm:
     - git:
         branches:
@@ -40,6 +42,6 @@
             mask-password-params: true
             job-passwords:
                 - name: AWS_ACCESS_KEY_ID
-                  password: # overwrite this #
+                  password: AWS_KEY
                 - name: AWS_SECRET_ACCESS_KEY
-                  password: # overwrite this #
+                  password: AWS_SEC_KEY
