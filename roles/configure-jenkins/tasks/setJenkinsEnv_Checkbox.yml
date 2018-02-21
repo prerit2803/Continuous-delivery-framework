@@ -13,7 +13,11 @@
   become: yes
 
 - name: Copy AWS key to Jenkins
+  become: yes
   copy:
     src: ~/.ssh/Devops.pem
-    dest: /home/ubuntu/.ssh/Devops.pem
+    dest: /home/ubuntu/Devops.pem
+    owner: jenkins
     mode: 0700
+  tags:
+    set_env_checkbox

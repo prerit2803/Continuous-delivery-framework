@@ -33,13 +33,13 @@
 
   # Some instances might not come with python installed, so we're gonna download it
   - name: Force install python
-    shell: ssh -o "StrictHostKeyChecking no" -i /home/ubuntu/.ssh/Devops.pem ubuntu@{{ aws.instances[0].public_ip }} "sudo apt-get -y install python"
+    shell: ssh -o "StrictHostKeyChecking no" -i /home/ubuntu/Devops.pem ubuntu@{{ aws.instances[0].public_ip }} "sudo apt-get -y install python"
 
 - name: "Configure Checkbox Server and Run"
   hosts: checkbox.io
   gather_facts: yes
   vars:
     - ansible_user: 'ubuntu'
-    - ansible_ssh_private_key_file: 'home/ubuntu/.ssh/Devops.pem'
+    - ansible_ssh_private_key_file: '/home/ubuntu/Devops.pem'
   roles: 
     - checkbox.io
