@@ -16,7 +16,7 @@
     concurrent: false
     description: null
     disabled: false
-    name: !!python/unicode 'itrust-build1'
+    name: !!python/unicode 'itrust-build'
     project-type: freestyle
     publishers: []
     scm:
