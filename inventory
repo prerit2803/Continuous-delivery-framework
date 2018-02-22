@@ -6,3 +6,5 @@ localhost ansible_connection=local
 [checkbox]
 
 [itrust]  
+  
+  
