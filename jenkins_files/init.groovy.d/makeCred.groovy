@@ -71,7 +71,7 @@ if ( envVarsNodePropertyList == null || envVarsNodePropertyList.size() == 0 ) {
 
 
 envVars.put("GIT_CREDID",c.id )
-
+envVars.put("MYSQL_PASSWORD","ENTER_HERE" )
 def source = new File('/var/lib/jenkins/project_repo/jenkins_files/itrust.yml')
 //println source.text
 def cred= envVars.get('GIT_CREDID')
