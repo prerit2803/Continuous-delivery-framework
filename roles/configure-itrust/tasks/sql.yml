@@ -27,14 +27,17 @@
     update_cache: yes
   become: yes
 
+# - debug:
+#     msg: "{{ env_vars.mysql_password }}"
+
 - name: update mysql root password for all root accounts
   become: yes
   mysql_user:
     name: root
     host: "{{ item }}"
-    password: "{{ mysql_password }}"
+    password: "{{ env_vars.mysql_password }}"
     login_user: root
-    login_password: "{{ mysql_password }}"
+    login_password: "{{ env_vars.mysql_password }}"
     check_implicit_admin: yes
     priv: "*.*:ALL,GRANT"
   with_items:

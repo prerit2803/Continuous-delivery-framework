@@ -23,14 +23,14 @@
     path: "{{ app_dir }}/iTrust2/src/main/java/db.properties"
     state: present
     regexp: 'password'
-    line: 'password {{ mysql_password }}'
+    line: 'password {{ lookup( 'env', 'MYSQL_PASSWORD') }}'
     backrefs: yes
 
 - lineinfile:
     path: "{{ app_dir }}/iTrust2/src/main/resources/hibernate.properties"
     state: present
     regexp: 'hibernate.connection.password = '
-    line: 'hibernate.connection.password = {{ mysql_password }}'
+    line: 'hibernate.connection.password = {{ lookup( 'env', 'MYSQL_PASSWORD') }}'
     backrefs: yes
 
 - name: Populate data
@@ -38,7 +38,7 @@
   args:
     chdir: "{{ app_dir }}/iTrust2"
 
-# - name: Run Server
-#   shell: nohup mvn jetty:run &
-#   args:
-#     chdir: "/home/vagrant/itrust/iTrust2"
+- name: Run Server
+  shell: nohup mvn jetty:run &
+  args:
+    chdir: "{{ app_dir }}/iTrust2"

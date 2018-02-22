@@ -16,18 +16,18 @@
 
 - name: Create a new EC2 key
   ec2_key:
-    name: jenkins-key
+    name: itrust-key
     region: us-east-2
   register: ec2_key_result
 
 - name: Save private key
-  copy: content="{{ ec2_key_result.key.private_key }}" dest="~/jenkins-key.pem" mode=0600
+  copy: content="{{ ec2_key_result.key.private_key }}" dest="~/itrust-key.pem" mode=0600
   when: ec2_key_result.changed
 
 - name: Create a new EC2 Security Group
   ec2_group:
-    name: jenkins-sec-grp
-    description: A EC2 security group for Jenkins
+    name: itrust-sec-grp
+    description: A EC2 security group for iTrust
     region: us-east-2
     rules:
       - proto: tcp
@@ -37,10 +37,10 @@
         ports: 8080
         cidr_ip: 0.0.0.0/0
 
-- name: Create an AWS server for Jenkins
+- name: Create an AWS server for iTrust
   ec2:
-    key_name: jenkins-key
-    group: jenkins-sec-grp
+    key_name: itrust-key
+    group: itrust-sec-grp
     instance_type: t2.micro
     image: ami-965e6bf3
     wait: yes
@@ -83,8 +83,7 @@
 - name: Update inventory
   lineinfile:
     path: ./inventory
-    insertafter: 'jenkins'
-    line: "{{aws.instances[0].public_ip}} ansible_ssh_user=ubuntu ansible_ssh_private_key_file=~/jenkins-key.pem"
+    insertafter: 'itrust'
+    line: "{{aws.instances[0].public_ip}} ansible_ssh_user=ubuntu ansible_ssh_private_key_file=~/itrust-key.pem"
     state: present
-
 - meta: refresh_inventory

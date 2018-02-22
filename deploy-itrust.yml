@@ -1,0 +1,17 @@
+---
+- hosts: local
+  gather_facts: yes
+  roles:
+    - provision-itrust
+
+- hosts: all
+  gather_facts: no
+  tasks:
+  - name: Install python 2
+    raw: sudo test -e /usr/bin/python || (sudo apt-get install -y python-minimal)
+
+- hosts: itrust
+  gather_facts: yes
+  roles:
+    - configure-itrust
+    - deploy-itrust

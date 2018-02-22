@@ -1,9 +1,6 @@
 # Java Installation
-- name: add repo for java 8, maven3
-  apt_repository: repo='{{ item }}' state=present
-  with_items:
-    - ppa:andrei-pozolotin/maven3
-    - ppa:webupd8team/java
+- name: add repo for java
+  apt_repository: repo=ppa:webupd8team/java state=present
   become: yes
 
 - name: set licence selected
@@ -13,6 +10,7 @@
 - name: set licence seen
   shell: /bin/echo debconf shared/accepted-oracle-license-v1-1 seen true | /usr/bin/debconf-set-selections
   become: yes
+
 # Update cache
 - name: Update APT package cache
   apt: update_cache=yes
@@ -24,6 +22,6 @@
   with_items:
     - oracle-java8-installer
     - git
-    - maven3
+    - maven
   when: updated.changed
   become: yes

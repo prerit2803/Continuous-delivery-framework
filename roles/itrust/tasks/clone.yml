@@ -1,5 +1,0 @@
-- name: Clone iTrust2 repo
-  git:
-    repo: git@github.ncsu.edu:engr-csc326-staff/iTrust2-v2.git
-    dest: "{{app_dir}}"
-    force: yes

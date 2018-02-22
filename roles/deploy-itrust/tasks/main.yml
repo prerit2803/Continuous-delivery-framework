@@ -1,5 +1,3 @@
 ---
-- import_tasks: packages.yml
-- import_tasks: sql.yml
 - import_tasks: clone.yml
 - import_tasks: setup.yml
