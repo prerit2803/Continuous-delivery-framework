@@ -92,7 +92,13 @@
 
 - import_tasks: restart_jenkins.yml
 
-# - shell: echo $MAIL_USER
+- name: Copy jenkins_files directory
+  become: yes
+  copy:
+    src: ./jenkins_files
+    dest: "{{ ansible_env.HOME }}"
+  tags:
+    set_env_checkbox
 
 - name: Upload Itrust Job to Jenkins
   command: 'jenkins-jobs update itrust.yml'
@@ -106,13 +112,14 @@
   args:
     chdir: /var/lib/jenkins/project_repo/jenkins_files
   tags:
-    upload
+    set_env_checkbox
 
 - name: Trigger build for Checkbox
   become: yes
   command: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ build 'checkbox-build'"
   tags:
-    build-jobs
+    - build-jobs
+    - build_checkbox
 
 - name: Trigger build for iTrust
   become: yes
