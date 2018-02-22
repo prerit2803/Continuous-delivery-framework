@@ -30,19 +30,19 @@ def addPassword = { username, new_password ->
         def description = ""
 
         def result = credentials_store.addCredentials(
-            com.cloudbees.plugins.credentials.domains.Domain.global(), 
+            com.cloudbees.plugins.credentials.domains.Domain.global(),
             new UsernamePasswordCredentialsImpl(scope, null, description, username, new_password)
             )
 
         if (result) {
-            println "credential added for ${username}" 
+            println "credential added for ${username}"
         } else {
             println "failed to add credential for ${username}"
         }
     }
 }
 
-addPassword('vrpandey' ,'githubpwd')
+addPassword('githubuser','githubpwd')
 
 
 def creds = com.cloudbees.plugins.credentials.CredentialsProvider.lookupCredentials(
@@ -72,7 +72,7 @@ if ( envVarsNodePropertyList == null || envVarsNodePropertyList.size() == 0 ) {
 
 envVars.put("GIT_CREDID",c.id )
 
-def source = new File('/files/jobs/job.yml')
+def source = new File('/var/lib/jenkins/project_repo/jenkins_files/itrust.yml')
 //println source.text
 def cred= envVars.get('GIT_CREDID')
 //println "cred:"+cred
@@ -83,5 +83,3 @@ source.text= source.text.replaceAll('gitCredId',cred)
 
 
 }
-
-
