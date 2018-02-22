@@ -11,6 +11,7 @@ import hudson.slaves.EnvironmentVariablesNodeProperty
 def instance= Jenkins.get()
 
 def addPassword = { username, new_password ->
+    println "username ${username} : password ${new_password}"
     def creds = com.cloudbees.plugins.credentials.CredentialsProvider.lookupCredentials(
         com.cloudbees.plugins.credentials.common.StandardUsernameCredentials.class,
         Jenkins.instance
