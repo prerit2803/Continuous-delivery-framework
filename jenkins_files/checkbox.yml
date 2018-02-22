@@ -8,7 +8,7 @@
     concurrent: false
     description: null
     disabled: false
-    name: !!python/unicode 'checkbox-build'
+    name: !!python/unicode 'checkbox-build1'
     project-type: freestyle
     properties:
         - inject:
