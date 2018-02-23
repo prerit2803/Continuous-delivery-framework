@@ -1,44 +1,44 @@
 - name: Copy db.properties File
   become: yes
   copy:
-    src: "{{ app_dir }}/iTrust2/src/main/java/db.properties.template"
-    dest: "{{ app_dir }}/iTrust2/src/main/java/db.properties"
+    src: "{{ ansible_env.HOME }}/itrust/iTrust2/src/main/java/db.properties.template"
+    dest: "{{ ansible_env.HOME }}/itrust/iTrust2/src/main/java/db.properties"
     remote_src: yes
 
 - name: Copy hibernate.properties File
   become: yes
   copy:
-    src: "{{ app_dir }}/iTrust2/src/main/resources/hibernate.properties.template"
-    dest: "{{ app_dir }}/iTrust2/src/main/resources/hibernate.properties"
+    src: "{{ ansible_env.HOME }}/itrust/iTrust2/src/main/resources/hibernate.properties.template"
+    dest: "{{ ansible_env.HOME }}/itrust/iTrust2/src/main/resources/hibernate.properties"
     remote_src: yes
 
 - name: Copy email.properties File
   become: yes
   copy:
-    src: "{{ app_dir }}/iTrust2/src/main/java/email.properties.template"
-    dest: "{{ app_dir }}/iTrust2/src/main/java/email.properties"
+    src: "{{ ansible_env.HOME }}/itrust/iTrust2/src/main/java/email.properties.template"
+    dest: "{{ ansible_env.HOME }}/itrust/iTrust2/src/main/java/email.properties"
     remote_src: yes
 
 - lineinfile:
-    path: "{{ app_dir }}/iTrust2/src/main/java/db.properties"
+    path: "{{ ansible_env.HOME }}/itrust/iTrust2/src/main/java/db.properties"
     state: present
     regexp: 'password'
-    line: 'password {{ lookup( 'env', 'MYSQL_PASSWORD') }}'
+    line: "password {{ lookup( 'env', 'MYSQL_PASSWORD') }}"
     backrefs: yes
 
 - lineinfile:
-    path: "{{ app_dir }}/iTrust2/src/main/resources/hibernate.properties"
+    path: "{{ ansible_env.HOME }}/itrust/iTrust2/src/main/resources/hibernate.properties"
     state: present
     regexp: 'hibernate.connection.password = '
-    line: 'hibernate.connection.password = {{ lookup( 'env', 'MYSQL_PASSWORD') }}'
+    line: "hibernate.connection.password = {{ lookup( 'env', 'MYSQL_PASSWORD') }}"
     backrefs: yes
 
 - name: Populate data
   shell: mvn process-test-classes
   args:
-    chdir: "{{ app_dir }}/iTrust2"
+    chdir: "{{ ansible_env.HOME }}/itrust/iTrust2"
 
 - name: Run Server
   shell: nohup mvn jetty:run &
   args:
-    chdir: "{{ app_dir }}/iTrust2"
+    chdir: "{{ ansible_env.HOME }}/itrust/iTrust2"

@@ -1,5 +1,5 @@
 - name: Clone iTrust2 repo
   git:
-    repo: "https://{{ lookup( 'env', 'GIT_USER' }}:{{ lookup( 'env', 'GIT_PASSWORD' }}@github.ncsu.edu/engr-csc326-staff/iTrust2-v2.git"
-    dest: "{{app_dir}}"
+    repo: "https://{{ lookup( 'env', 'GIT_USER' ) }}:{{ lookup( 'env', 'GIT_PASSWORD' ) | urlencode }}@github.ncsu.edu/engr-csc326-staff/iTrust2-v2.git"
+    dest: "{{ ansible_env.HOME }}/itrust"
     force: yes
