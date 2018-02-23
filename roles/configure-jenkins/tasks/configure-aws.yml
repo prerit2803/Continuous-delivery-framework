@@ -1,0 +1,52 @@
+- name: update mysql root password for all root accounts
+  become: yes
+  mysql_user:
+    name: root
+    host: "{{ item }}"
+    password: "{{ env_vars.mysql_password }}"
+    login_user: root
+    login_password: "{{ env_vars.mysql_password }}"
+    check_implicit_admin: yes
+    priv: "*.*:ALL,GRANT"
+  with_items:
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+- file:
+    path: "{{ ansible_env.HOME }}/mysql-apt-config_0.8.9-1_all.deb"
+    state: absent
+    mode: 0440
+
+- name: Start the MySQL service
+  become: yes
+  service:
+    name: mysql
+    state: started
+    enabled: true
+
+- name: Install python-pip
+  become: yes
+  apt:
+    name: python-pip
+    state: latest
+
+- name: Install boto for ec2 Ansible module
+  become: yes
+  pip:
+    name: "{{item}}"
+    state: present
+  with_items:
+    - boto
+    - boto3
+
+- name: Install awscli
+  become: yes
+  apt:
+    name: awscli
+    state: present
+    update_cache: yes
+
+- name: Change Repo Permission to User Jenkins
+  become: yes
+  command: chown -hR jenkins:jenkins /var/lib/jenkins/project_repo

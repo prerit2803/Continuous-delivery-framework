@@ -21,7 +21,7 @@
         matches:
         - log-text: null
           operator: AND
-        run-if-job-successful: false
+        run-if-job-successful: true
         script: |-
             cd /var/lib/jenkins/project_repo
             ansible-playbook -i deploy-inventory deploy-checkbox.yml

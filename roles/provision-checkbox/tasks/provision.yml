@@ -1,18 +1,18 @@
-- name: Install python-pip
-  become: yes
-  apt:
-    name: python-pip
-    state: latest
-    update_cache: yes
-
-- name: Install boto for ec2 Ansible module
-  become: yes
-  pip:
-    name: "{{item}}"
-    state: present
-  with_items:
-    - boto
-    - boto3
+# - name: Install python-pip
+#   become: yes
+#   apt:
+#     name: python-pip
+#     state: latest
+#     update_cache: yes
+#
+# - name: Install boto for ec2 Ansible module
+#   become: yes
+#   pip:
+#     name: "{{item}}"
+#     state: present
+#   with_items:
+#     - boto
+#     - boto3
 
 - name: Create a new EC2 key
   ec2_key:
@@ -59,12 +59,12 @@
   wait_for:
     timeout: 180
 
-- name: Install awscli
-  become: yes
-  apt:
-    name: awscli
-    state: present
-    update_cache: yes
+# - name: Install awscli
+#   become: yes
+#   apt:
+#     name: awscli
+#     state: present
+#     update_cache: yes
 
 - name: Get public key of EC2 instance
   shell: aws ec2 get-console-output \

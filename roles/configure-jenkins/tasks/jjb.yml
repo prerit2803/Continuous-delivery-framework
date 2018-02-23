@@ -6,11 +6,11 @@
     force: yes
   become: yes
 
-- name: Install python-pip
-  become: yes
-  apt:
-    name: python-pip
-    state: latest
+# - name: Install python-pip
+#   become: yes
+#   apt:
+#     name: python-pip
+#     state: latest
 
 - name: Install Jenkins Job Builder
   become: yes

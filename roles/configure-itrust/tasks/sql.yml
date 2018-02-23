@@ -30,30 +30,30 @@
 # - debug:
 #     msg: "{{ env_vars.mysql_password }}"
 
-- name: update mysql root password for all root accounts
-  become: yes
-  mysql_user:
-    name: root
-    host: "{{ item }}"
-    password: "{{ env_vars.mysql_password }}"
-    login_user: root
-    login_password: "{{ env_vars.mysql_password }}"
-    check_implicit_admin: yes
-    priv: "*.*:ALL,GRANT"
-  with_items:
-    - 127.0.0.1
-    - ::1
-    - localhost
-
-- file:
-    path: "{{ ansible_env.HOME }}/mysql-apt-config_0.8.9-1_all.deb"
-    state: absent
-    mode: 0440
-  # become: yes
-
-- name: Start the MySQL service
-  become: yes
-  service:
-    name: mysql
-    state: started
-    enabled: true
+# - name: update mysql root password for all root accounts
+#   become: yes
+#   mysql_user:
+#     name: root
+#     host: "{{ item }}"
+#     password: "{{ env_vars.mysql_password }}"
+#     login_user: root
+#     login_password: "{{ env_vars.mysql_password }}"
+#     check_implicit_admin: yes
+#     priv: "*.*:ALL,GRANT"
+#   with_items:
+#     - 127.0.0.1
+#     - ::1
+#     - localhost
+#
+# - file:
+#     path: "{{ ansible_env.HOME }}/mysql-apt-config_0.8.9-1_all.deb"
+#     state: absent
+#     mode: 0440
+#   # become: yes
+#
+# - name: Start the MySQL service
+#   become: yes
+#   service:
+#     name: mysql
+#     state: started
+#     enabled: true
