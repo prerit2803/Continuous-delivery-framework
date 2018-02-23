@@ -5,7 +5,7 @@
 ## Team Members:
 | Name | UnityId | Contribution |
 |--------------|-------|----------|
-| Zachery Thomas | zithomas | | 
+| Zachery Thomas | zithomas | Jenkins Setup (config & adding jobs), Checkbox Setup, Video Editing and VO | 
 | Vikas Pandey | vrpandey | |
 | Prerit Bhandari | pbhanda2 | |
 | Ankur Saxena | asaxena3 | Automation of provisioning, Jenkins setup, Documentation |
