@@ -11,15 +11,6 @@
     name: !!python/unicode 'checkbox-build'
     project-type: freestyle
     properties:
-        - inject:
-            properties-content: |
-                MONGO_PORT='3002'
-                MONGO_IP='localhost'
-                MONGO_USER='user'
-                MONGO_PASSWORD='pass'
-                MAIL_USER=''
-                MAIL_PASSWORD=''
-                MAIL_SMTP=''
     publishers:
     - post-tasks:
       - escalate-status: false
@@ -28,8 +19,8 @@
           operator: AND
         run-if-job-successful: false
         script: |-
-            cd /home/ubuntu/jenkins_files
-            ansible-playbook checkbox_deploy.yml
+            cd /var/lib/jenkins/project_repo
+            ansible-playbook -i inventory checkbox-deploy.yml
     scm:
     - git:
         branches:
@@ -42,6 +33,22 @@
             mask-password-params: true
             job-passwords:
                 - name: AWS_ACCESS_KEY_ID
-                  password: AWS_KEY
+                  password: ENTER_HERE_AWS_ACCESS_KEY_ID
                 - name: AWS_SECRET_ACCESS_KEY
-                  password: AWS_SEC_KEY
+                  password: ENTER_HERE_AWS_SECRET_ACCESS_KEY
+                - name: MONGO_USER
+                  password: ENTER_HERE_MONGO_USER
+                - name: MONGO_PASSWORD
+                  password: ENTER_HERE_MONGO_PASSWORD
+                - name: MONGO_PORT
+                  password: ENTER_HERE_MONGO_PORT
+                - name: MONGO_IP
+                  password: ENTER_HERE_MONGO_IP
+                - name: MAIL_USER
+                  password: ENTER_HERE_MAIL_USER
+                - name: MAIL_PASSWORD
+                  password: ENTER_HERE_MAIL_PASSWORD
+                - name: MAIL_SMTP
+                  password: ENTER_HERE_MAIL_SMTP
+        - workspace-cleanup:
+            dirmatch: false
