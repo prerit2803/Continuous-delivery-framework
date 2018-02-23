@@ -267,3 +267,9 @@ For adding a user to MongoDB we used pyMongo and the mongod_user module. This ma
     state: present
     roles: dbAdmin,userAdminAnyDatabase,readWriteAnyDatabase
 ```
+
+## References
+1. [Credentials Provider](https://github.com/jenkinsci/credentials-plugin/blob/master/src/main/java/com/cloudbees/plugins/credentials/CredentialsProvider.java)
+2. [Setting Jenkins Environment Variables](http://javadoc.jenkins.io/hudson/slaves/EnvironmentVariablesNodeProperty.html)
+3. [Jenkins Job Builder](https://docs.openstack.org/infra/jenkins-job-builder/)
+4. [Jenkins CLI](https://wiki.jenkins.io/display/JENKINS/Jenkins+CLI)
