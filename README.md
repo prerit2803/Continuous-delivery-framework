@@ -155,14 +155,29 @@ This included,
     - ansible
  ```
  #### 4. Restart Jenkins to enable setting
- Jenkins' runs the init.groovy upon restart and configure the Jenkins state to **RUNNING** which is ready to be accessed through UI
+Jenkins runs the init.groovy upon restart. After restarting wait for the Jenkins web service to start responding to http requests again which means we can start uploading our jobs.
  ```
  - name: Restart Jenkins again to ready plugins
   become: yes
   service:
     name: jenkins
     state: restarted
+    
+# Make sure Jenkins is ready to run after last restart
+- name: Ensure Jenkins is up and running
+  uri:
+    url: http://localhost:8080
+    status_code: 200
+    timeout: 5
+  register: jenkins_service_status
+  # Keep trying for 5 mins in 5 sec intervals
+  retries: 60
+  delay: 5
+  until: >
+     'status' in jenkins_service_status and
+     jenkins_service_status['status'] == 200
  ```
+
 ### #4 Injecting environment variables into Jenkins
 Jenkins, by default can't access the variables of the host OS. So we need to separately inject environment variables into it's environment. We did this using the __Envinject__ plugin.
 #### 1. Passing Environment Variable to job.yml file
