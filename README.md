@@ -6,6 +6,8 @@
 + Prerit Bhandari (pbhanda2)
 + Ankur Saxena (asaxena3)
 
+## Screencast
+The screencast for the Milestone is [here](https://youtu.be/yg7V67ptg18)
 ## Overview
 For the Miestone1 of the project, we are provisioning Amazon Web Services EC2 instances for our jenkins server, and deploying _Checkbox.io_ and _iTrust2_. 
 Once you clone the repository, you can see the following file structure
@@ -54,14 +56,14 @@ You must edit following variables (don't provide blank values to any variable):
 + `MONGODB_MAIL_PASSWORD`: Password for SMTP  
 + `MONGODB_MAIL_SMTP`: SMTP for mail  
 Besides these values, the `MONGODB_PORT` is being set to **3002** as instructed.  
-
+### Guidelines
++ Make sure your AWS account doesn't have any key names _jenkins-key_, _checkbox-key_ or _itrust-key_. The playbook creates these keys and hence, if they already exist then the code won't work. Please delete any keys by these names from your AWS account before running the playbook.
 ### Running the playbook
 
 To run the playbook, you need to install **ansible** to your local machine. Then use the following command to run the playbook:
 ```
 ansible-playbook -i build-inventory build.yml
 ```
-
 ## Challenges
 ### #1 Automate Host-Checking for AWS server
 The project tasks us to provision a new server and automatically ssh into it and run tasks. But the major challenge in this was to automate the HostChecking that ssh does to verify the newly provisioned instance. We overcame this challenge by using the following method:
