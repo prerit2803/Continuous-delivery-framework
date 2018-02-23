@@ -2,7 +2,7 @@
 ### Reference: https://stackoverflow.com/questions/37137513/ansible-install-node-js-version-6 ####
 - name: Add apt-key for node
   become: yes
-  apt_key: 
+  apt_key:
     url:  https://deb.nodesource.com/gpgkey/nodesource.gpg.key
 - name: Add Nodesource Apt Sources
   become: yes
@@ -20,13 +20,3 @@
     update_cache: yes
   with_items:
     - nodejs
-# ### Install nodejs, npm ####
-# - name: Install NodeJS, and NPM
-#   become: yes
-#   apt:
-#     name: '{{ item }}'
-#     state: latest
-#     update_cache: yes
-#   with_items:
-#     - nodejs-legacy
-#     - npm

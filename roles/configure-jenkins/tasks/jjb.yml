@@ -6,11 +6,9 @@
     force: yes
   become: yes
 
-# - name: Install python-pip
-#   become: yes
-#   apt:
-#     name: python-pip
-#     state: latest
+- name: Change Repo Permission to User Jenkins
+  become: yes
+  command: chown -hR jenkins:jenkins /var/lib/jenkins/project_repo
 
 - name: Install Jenkins Job Builder
   become: yes
@@ -36,7 +34,6 @@
   with_items:
     - init.groovy
     - makeCred.groovy
-    # - envSet.groovy
     - remove.groovy
 
 # Setting Env for Groovy Script
@@ -150,15 +147,6 @@
     replace: "{{secretKey}}"
   become: yes
 
-# - name: Set Mongo Port environment variable for Checkbox.io Job
-#   vars:
-#     mongoport: "{{ env_vars.MONGODB_PORT }}"
-#   replace:
-#     path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
-#     regexp: 'ENTER_HERE_MONGO_PORT'
-#     replace: "{{mongoport}}"
-#   become: yes
-
 - name: Set Mongo IP environment variable for Checkbox.io Job
   vars:
     mongoip: "{{ env_vars.MONGODB_IP }}"
@@ -232,7 +220,6 @@
   with_items:
     - git
     - postbuild-task
-    # - postbuildscript
     - envinject
     - ansible
   tags:
@@ -274,3 +261,15 @@
   command: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ build 'itrust-build'"
   tags:
     build-jobs
+
+- name: Cleanup iTrust
+  - file:
+      path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+      state: absent
+      mode: 0440
+
+- name: Cleanup Checkbox.io
+  - file:
+      path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+      state: absent
+      mode: 0440

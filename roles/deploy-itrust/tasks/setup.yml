@@ -55,6 +55,20 @@
     backrefs: yes
 
 - lineinfile:
+    path: "{{ ansible_env.HOME }}/itrust/iTrust2/src/main/java/email.properties"
+    state: present
+    regexp: 'username'
+    line: "username {{ lookup( 'env', 'MAIL_USER') }}"
+    backrefs: yes
+
+- lineinfile:
+    path: "{{ ansible_env.HOME }}/itrust/iTrust2/src/main/java/email.properties"
+    state: present
+    regexp: 'password'
+    line: "password {{ lookup( 'env', 'MAIL_PASSWORD') }}"
+    backrefs: yes
+
+- lineinfile:
     path: "{{ ansible_env.HOME }}/itrust/iTrust2/src/main/resources/hibernate.properties"
     state: present
     regexp: 'hibernate.connection.password = '

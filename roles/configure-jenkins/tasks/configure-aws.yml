@@ -46,7 +46,3 @@
     name: awscli
     state: present
     update_cache: yes
-
-- name: Change Repo Permission to User Jenkins
-  become: yes
-  command: chown -hR jenkins:jenkins /var/lib/jenkins/project_repo
