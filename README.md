@@ -53,7 +53,7 @@ You must edit following variables (don't provide blank values to any variable):
 + `SECRET_KEY`: Secret key for AWS account  
 + `GIT_USER`: NCSU Github account username  
 + `GIT_PASSWORD`: NCSU Github acccount password  
-+ `MONGODB_IP`: localhost   //Setting to any other value will not guarantee a success  
++ `MONGODB_IP`: localhost   //Setting to any other value will not guarantee that checkbox will function properly
 + `MONGODB_USER`: Username to set for Mongodb  
 + `MONGODB_PASS`: Password for Mongodb username  
 + `MONGODB_MAIL_USER`: User for SMTP  
