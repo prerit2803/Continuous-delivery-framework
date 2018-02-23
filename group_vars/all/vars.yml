@@ -1,0 +1,13 @@
+---
+env_vars:
+  mysql_password: ""
+  ACCESS_KEY: ""
+  SECRET_KEY: ""
+  GIT_USER: ""
+  GIT_PASSWORD: ""
+  MONGODB_IP: ""
+  MONGODB_USER: ""
+  MONGODB_PASS: ""
+  MONGODB_MAIL_USER: ""
+  MONGODB_MAIL_PASSWORD: ""
+  MONGODB_MAIL_SMTP: ""

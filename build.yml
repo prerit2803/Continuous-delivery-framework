@@ -1,7 +1,7 @@
 ---
 - hosts: local
   environment:
-    AWS_ACCESS_KEY_ID: "{{ env_vars.ACCESS_KEY}}"
+    AWS_ACCESS_KEY_ID: "{{ env_vars.ACCESS_KEY }}"
     AWS_SECRET_ACCESS_KEY: "{{ env_vars.SECRET_KEY }}"
   gather_facts: yes
   roles:
