@@ -9,6 +9,8 @@
         mv $WORKSPACE/iTrust2/src/main/resources/hibernate.properties.template $WORKSPACE/iTrust2/src/main/resources/hibernate.properties
         sed -i "s/hibernate.connection.password = /hibernate.connection.password = $MYSQL_PASSWORD/g" $WORKSPACE/iTrust2/src/main/resources/hibernate.properties
         sed -i "s/password/password $MYSQL_PASSWORD/g" $WORKSPACE/iTrust2/src/main/java/db.properties
+        sed -i "s/username/username $MAIL_USER/g" $WORKSPACE/iTrust2/src/main/java/email.properties
+        sed -i "s/password/password $MAIL_PASSWORD/g" $WORKSPACE/iTrust2/src/main/java/email.properties
         cd $WORKSPACE/iTrust2
         mvn process-test-classes
         cd $WORKSPACE/iTrust2

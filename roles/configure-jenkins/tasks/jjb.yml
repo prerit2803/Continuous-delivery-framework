@@ -36,6 +36,7 @@
   with_items:
     - init.groovy
     - makeCred.groovy
+    - envSet.groovy
     - remove.groovy
 
 - name: Set Git User name in Groovy script
@@ -60,10 +61,110 @@
   vars:
     mysqlpass: "{{ env_vars.mysql_password }}"
   replace:
-    path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
-    regexp: 'ENTER_HERE'
+    path: /var/lib/jenkins/init.groovy.d/envSet.groovy
+    regexp: 'ENTER_HERE_MYSQL_PASSWORD'
     replace: "{{mysqlpass}}"
   become: yes
+
+- name: Set AWS Access Key in Groovy script
+  vars:
+    accessKey: "{{ env_vars.ACCESS_KEY }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/envSet.groovy
+    regexp: 'ENTER_HERE_AWS_ACCESS_KEY_ID'
+    replace: "{{accessKey}}"
+  become: yes
+
+- name: Set AWS Secret Key in Groovy script
+  vars:
+    secretKey: "{{ env_vars.SECRET_KEY }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/envSet.groovy
+    regexp: 'ENTER_HERE_AWS_SECRET_ACCESS_KEY'
+    replace: "{{secretKey}}"
+  become: yes
+
+- name: Set GitHub User in Groovy script
+  vars:
+    gituser: "{{ env_vars.GIT_USER }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/envSet.groovy
+    regexp: 'ENTER_HERE_GIT_USER'
+    replace: "{{gituser}}"
+  become: yes
+
+- name: Set GitHub Password in Groovy script
+  vars:
+    gitpass: "{{ env_vars.GIT_PASSWORD }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/envSet.groovy
+    regexp: 'ENTER_HERE_GIT_PASSWORD'
+    replace: "{{gitpass}}"
+  become: yes
+
+- name: Set Mongo Port in Groovy script
+  vars:
+    mongoport: "{{ env_vars.MONGODB_PORT }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/envSet.groovy
+    regexp: 'ENTER_HERE_MONGO_PORT'
+    replace: "{{mongoport}}"
+  become: yes
+
+- name: Set Mongo IP in Groovy script
+  vars:
+    mongoip: "{{ env_vars.MONGODB_IP }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/envSet.groovy
+    regexp: 'ENTER_HERE_MONGO_IP'
+    replace: "{{mongoip}}"
+  become: yes
+
+- name: Set Mongo User in Groovy script
+  vars:
+    mongouser: "{{ env_vars.MONGODB_USER }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/envSet.groovy
+    regexp: 'ENTER_HERE_MONGO_USER'
+    replace: "{{mongouser}}"
+  become: yes
+
+- name: Set Mongo Password in Groovy script
+  vars:
+    mongopass: "{{ env_vars.MONGODB_PASS }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/envSet.groovy
+    regexp: 'ENTER_HERE_MONGO_PASSWORD'
+    replace: "{{mongopass}}"
+  become: yes
+
+- name: Set Mail User in Groovy script
+  vars:
+    mailuser: "{{ env_vars.MONGODB_MAIL_USER }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/envSet.groovy
+    regexp: 'ENTER_HERE_MAIL_USER'
+    replace: "{{mailuser}}"
+  become: yes
+
+- name: Set Mail Password in Groovy script
+  vars:
+    mailpass: "{{ env_vars.MONGODB_MAIL_PASSWORD }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/envSet.groovy
+    regexp: 'ENTER_HERE_MAIL_PASSWORD'
+    replace: "{{mailpass}}"
+  become: yes
+
+- name: Set Mail SMTP in Groovy script
+  vars:
+    mailsmtp: "{{ env_vars.MONGODB_MAIL_SMTP }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/envSet.groovy
+    regexp: 'ENTER_HERE_MAIL_SMTP'
+    replace: "{{mailsmtp}}"
+  become: yes
+
 
 - file:
     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
