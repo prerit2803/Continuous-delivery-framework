@@ -28,7 +28,7 @@
         run-if-job-successful: false
         script: |-
             cd /var/lib/jenkins/project_repo
-            ansible-playbook -i inventory deploy-itrust.yml
+            ansible-playbook -i deploy-inventory deploy-itrust.yml
     scm:
     - git:
         branches:

@@ -150,14 +150,14 @@
     replace: "{{secretKey}}"
   become: yes
 
-- name: Set Mongo Port environment variable for Checkbox.io Job
-  vars:
-    mongoport: "{{ env_vars.MONGODB_PORT }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
-    regexp: 'ENTER_HERE_MONGO_PORT'
-    replace: "{{mongoport}}"
-  become: yes
+# - name: Set Mongo Port environment variable for Checkbox.io Job
+#   vars:
+#     mongoport: "{{ env_vars.MONGODB_PORT }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+#     regexp: 'ENTER_HERE_MONGO_PORT'
+#     replace: "{{mongoport}}"
+#   become: yes
 
 - name: Set Mongo IP environment variable for Checkbox.io Job
   vars:

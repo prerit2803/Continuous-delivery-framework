@@ -3,6 +3,7 @@
     block-upstream: false
     builders:
     - shell: |-
+        echo $MONGO_PORT
         cd server-side/site
         npm install
     concurrent: false
@@ -10,6 +11,10 @@
     disabled: false
     name: !!python/unicode 'checkbox-build'
     project-type: freestyle
+    properties:
+        - inject:
+            properties-content: |
+                MONGO_PORT='3002'
     publishers:
     - post-tasks:
       - escalate-status: false
@@ -19,7 +24,7 @@
         run-if-job-successful: false
         script: |-
             cd /var/lib/jenkins/project_repo
-            ansible-playbook -i inventory deploy-checkbox.yml
+            ansible-playbook -i deploy-inventory deploy-checkbox.yml
     scm:
     - git:
         branches:
@@ -39,8 +44,6 @@
                   password: ENTER_HERE_MONGO_USER
                 - name: MONGO_PASSWORD
                   password: ENTER_HERE_MONGO_PASSWORD
-                - name: MONGO_PORT
-                  password: ENTER_HERE_MONGO_PORT
                 - name: MONGO_IP
                   password: ENTER_HERE_MONGO_IP
                 - name: MAIL_USER
