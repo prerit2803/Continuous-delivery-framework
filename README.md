@@ -246,4 +246,24 @@ The post build jobs are run as Jenkins users so we needed to make sure that all 
   command: chown -hR jenkins:jenkins /var/lib/jenkins/project_repo
 ```
 ### #7 User setup in MySQL and MongoDB Databases
+#### 1. MongoDB User Setup
+For adding a user to MongoDB we used pyMongo and the mongod_user module. This made it fairly easy to set a MongoDB user by passing in our enviornment variables.
 
+```ansible
+- name: Install pyMongo
+  become: yes
+  pip:
+    name: pyMongo
+    state: present
+
+- name: Add user to mongodb
+  vars:
+    - mongo_user:  "{{ lookup('env','MONGO_USER') }}"
+    - mongo_password: "{{ lookup('env','MONGO_PASSWORD') }}"
+  mongodb_user:
+    database: admin
+    name: "{{mongo_user}}"
+    password: "{{mongo_password}}"
+    state: present
+    roles: dbAdmin,userAdminAnyDatabase,readWriteAnyDatabase
+```
