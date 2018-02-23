@@ -282,6 +282,12 @@ For adding a user to MongoDB we used pyMongo and the mongod_user module. This ma
     state: present
     roles: dbAdmin,userAdminAnyDatabase,readWriteAnyDatabase
 ```
+#### 2. MySQL
+We first placed our mysql password in db.properties and hibernate.properties files.
+Then we used the following command to build the database and create sample data.
+```
+mvn process-test-classes
+```
 
 ## References
 1. [Adding Git Credentials](https://github.com/jenkinsci/credentials-plugin/blob/master/src/main/java/com/cloudbees/plugins/credentials/CredentialsProvider.java)
