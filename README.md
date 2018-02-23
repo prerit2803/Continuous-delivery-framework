@@ -8,7 +8,7 @@
 | Zachery Thomas | zithomas | | 
 | Vikas Pandey | vrpandey | |
 | Prerit Bhandari | pbhanda2 | |
-| Ankur Saxena | asaxena3 | |
+| Ankur Saxena | asaxena3 | Automation of provisioning, Jenkins setup, Documentation |
 
 ## Screencast
 The screencast for the Milestone is [here](https://youtu.be/yg7V67ptg18)
