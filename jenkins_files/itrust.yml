@@ -3,7 +3,6 @@
     block-upstream: false
     builders:
     - shell: |-
-        echo $MYSQL_PASSWORD
         mv $WORKSPACE/iTrust2/src/main/java/db.properties.template $WORKSPACE/iTrust2/src/main/java/db.properties
         mv $WORKSPACE/iTrust2/src/main/java/email.properties.template $WORKSPACE/iTrust2/src/main/java/email.properties
         mv $WORKSPACE/iTrust2/src/main/resources/hibernate.properties.template $WORKSPACE/iTrust2/src/main/resources/hibernate.properties
@@ -29,7 +28,7 @@
         run-if-job-successful: false
         script: |-
             cd /var/lib/jenkins/project_repo
-            ansible-playbook -i inventory itrust-deploy.yml
+            ansible-playbook -i inventory deploy-itrust.yml
     scm:
     - git:
         branches:

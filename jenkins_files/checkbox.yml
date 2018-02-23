@@ -10,7 +10,6 @@
     disabled: false
     name: !!python/unicode 'checkbox-build'
     project-type: freestyle
-    properties:
     publishers:
     - post-tasks:
       - escalate-status: false
@@ -20,7 +19,7 @@
         run-if-job-successful: false
         script: |-
             cd /var/lib/jenkins/project_repo
-            ansible-playbook -i inventory checkbox-deploy.yml
+            ansible-playbook -i inventory deploy-checkbox.yml
     scm:
     - git:
         branches:
