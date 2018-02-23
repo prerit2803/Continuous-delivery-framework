@@ -63,7 +63,7 @@ ansible-playbook -i build-inventory build.yml
 ```
 
 ## Challenges
-### => Automate Host-Checking for AWS server
+### #1 Automate Host-Checking for AWS server
 The project tasks us to provision a new server and automatically ssh into it and run tasks. But the major challenge in this was to automate the HostChecking that ssh does to verify the newly provisioned instance. We overcame this challenge by using the following method:
 #### 1. Install awscli to enable running CLI on localhost for AWS
 ```
@@ -99,7 +99,7 @@ Finally the value of key was stored into the known_host file along with the ip a
 ```
 Using this method, we could now access the EC2 instance we created without being prompted by HostKeyCheck.
 
-### => Automate inventory update after server provisioning
+### #2 Automate inventory update after server provisioning
 After the host key was added to the server, we needed to update our inventory so that ansible could access the newly created host. We acheived that by following method  
 #### 1. Update inventory file with the new host details
 The inventory was updated by adding the _host_ip, ansible_ssh_user, _ansible_ssh_private_key_file_ in the inventory in proper group. 
@@ -117,7 +117,7 @@ We used a meta command to refresh the state of ansible's in-memory inventory.
 - meta: refresh_inventory
 ```
 Using this method, we were able to automate the process of accessing the newly provisioned server.
-### => Automate Jenkins installation
+### #3 Automate Jenkins installation
 Once, we created the Jenkins server, we needed to automate the installation process of Jenkins. This was the trickiest part of the Milestone which we did in the following manner:
 #### 1. Disabling Jenkins' installation wizard
 We passed one more argument `-Djenkins.install.runSetupWizard=false` to $JAVA_ARGS in `/etc/default/jenkins` file to disable the self started setup wizard for Jenkins.
@@ -157,7 +157,7 @@ This included,
     name: jenkins
     state: restarted
  ```
-### => Injecting environment variables into Jenkins
+### #4 Injecting environment variables into Jenkins
 Jenkins, by default can't access the variables of the host OS. So we need to separately inject environment variables into it's environment. We did this using the __Envinject__ plugin.
 #### 1. Passing Environment Variable to job.yml file
 The jenkins-job-builder needs a .yml file to build it's job. We inject our environment variables into our job fles as shown in the sample snippet: 
@@ -200,7 +200,7 @@ We delete the yml files after the job finishes. This maintains confidentiality o
     state: absent
     mode: 0440
 ```
-### => Creating git credentials for Jenkins SCM
+### #5 Creating git credentials for Jenkins SCM
 Jenkins needs to clone repositories from git as part of the build step. The yml file needs a git credential associated with the username and password to access the github.ncsu.edu. 
 #### 1. Creating Git Credentials
 We create these credential through a groovy script [makeCred.groovy](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/jenkins_files/init.groovy.d/makeCred.groovy) 
@@ -230,7 +230,7 @@ We set the credentials in the groovy file through ansible
 #### 3. Cleaning up Credentials
 After setting up the environment, we replace the values of github username and password placed in the `makeCred.groovy` file through another file [remove.groovy](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/jenkins_files/init.groovy.d/remove.groovy). This ensures confidentiality of the credentials.
 
-### => Running post-build jobs without sudo access
+### #6 Running post-build jobs without sudo access
 The post build jobs are run as Jenkins users so we needed to make sure that all the jobs that were run in the localhost did not need privilege escalation to root user. 
 + We removed all the installation steps from the deployment playbook, since all of them need sudo access. 
 + Also, the git repository that we copied to `$JENKINS_HOME` was owned by root. Changing ownership to Jenkins made it work for us.
@@ -239,5 +239,5 @@ The post build jobs are run as Jenkins users so we needed to make sure that all 
   become: yes
   command: chown -hR jenkins:jenkins /var/lib/jenkins/project_repo
 ```
-### => User setup in MySQL and MongoDB Databases
+### #7 User setup in MySQL and MongoDB Databases
 
