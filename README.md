@@ -18,7 +18,7 @@ Once you clone the repository, you can see the following file structure
 |-- build-inventory
 |-- deploy-inventory
 |-- group
-    |-- jenkins
+    |-- all
         |-- vars.yml
 |-- jenkins_files
     |-- itrust.yml
