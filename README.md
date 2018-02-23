@@ -50,9 +50,9 @@ You must edit following variables (don't provide blank values to any variable):
 + `MONGODB_IP`: localhost   //Setting to any other value will not guarantee a success  
 + `MONGODB_USER`: Username to set for Mongodb  
 + `MONGODB_PASS`: Password for Mongodb username  
-+ `MONGODB_MAIL_USER`: Email for Mongodb  
-+ `MONGODB_MAIL_PASSWORD`: Password for Mongodb email  
-+ `MONGODB_MAIL_SMTP`: SMTP for Mongodb  
++ `MONGODB_MAIL_USER`: User for SMTP  
++ `MONGODB_MAIL_PASSWORD`: Password for SMTP  
++ `MONGODB_MAIL_SMTP`: SMTP for mail  
 Besides these values, the `MONGODB_PORT` is being set to **3002** as instructed.  
 
 ### Running the playbook
@@ -63,7 +63,7 @@ ansible-playbook -i build-inventory build.yml
 ```
 
 ## Challenges
-### Automate Host-Checking for AWS server
+### => Automate Host-Checking for AWS server
 The project tasks us to provision a new server and automatically ssh into it and run tasks. But the major challenge in this was to automate the HostChecking that ssh does to verify the newly provisioned instance. We overcame this challenge by using the following method:
 #### 1. Install awscli to enable running CLI on localhost for AWS
 ```
@@ -99,7 +99,7 @@ Finally the value of key was stored into the known_host file along with the ip a
 ```
 Using this method, we could now access the EC2 instance we created without being prompted by HostKeyCheck.
 
-### Automate inventory update after server provisioning
+### => Automate inventory update after server provisioning
 After the host key was added to the server, we needed to update our inventory so that ansible could access the newly created host. We acheived that by following method  
 #### 1. Update inventory file with the new host details
 The inventory was updated by adding the _host_ip, ansible_ssh_user, _ansible_ssh_private_key_file_ in the inventory in proper group. 
@@ -117,7 +117,7 @@ We used a meta command to refresh the state of ansible's in-memory inventory.
 - meta: refresh_inventory
 ```
 Using this method, we were able to automate the process of accessing the newly provisioned server.
-### Automate Jenkins installation
+### => Automate Jenkins installation
 Once, we created the Jenkins server, we needed to automate the installation process of Jenkins. This was the trickiest part of the Milestone which we did in the following manner:
 #### 1. Disabling Jenkins' installation wizard
 We passed one more argument `-Djenkins.install.runSetupWizard=false` to $JAVA_ARGS in `/etc/default/jenkins` file to disable the self started setup wizard for Jenkins.
@@ -132,9 +132,9 @@ We passed one more argument `-Djenkins.install.runSetupWizard=false` to $JAVA_AR
 #### 2. Configuring Jenkins through groovy
 We placed an [init.groovy](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/jenkins_files/init.groovy.d/init.groovy) script to set desired values for the Jenkins state.
 This included, 
-    ++ Setting Jenkins' [installState to RUNNING](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/a8857fb4bc701349e7a0bf9124b5a677a9b822a7/jenkins_files/init.groovy.d/init.groovy#L24).
-    ++ [Enabling CLI](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/a8857fb4bc701349e7a0bf9124b5a677a9b822a7/jenkins_files/init.groovy.d/init.groovy#L12)
-    ++ [Disabling security](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/a8857fb4bc701349e7a0bf9124b5a677a9b822a7/jenkins_files/init.groovy.d/init.groovy#L15): This was necessary to automate jenkins setup process.
+    + Setting Jenkins' [installState to RUNNING](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/a8857fb4bc701349e7a0bf9124b5a677a9b822a7/jenkins_files/init.groovy.d/init.groovy#L24)
+    + [Enabling CLI](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/a8857fb4bc701349e7a0bf9124b5a677a9b822a7/jenkins_files/init.groovy.d/init.groovy#L12)
+    + [Disabling security](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/a8857fb4bc701349e7a0bf9124b5a677a9b822a7/jenkins_files/init.groovy.d/init.groovy#L15): This was necessary to make changes to jenikns configuration without having created any user.
  #### 3. Configuring plugins
  Installing the required plugins for Jenkins
  ```
@@ -157,13 +157,87 @@ This included,
     name: jenkins
     state: restarted
  ```
-### Injecting environment variables into Jenkins
+### => Injecting environment variables into Jenkins
+Jenkins, by default can't access the variables of the host OS. So we need to separately inject environment variables into it's environment. We did this using the __Envinject__ plugin.
+#### 1. Passing Environment Variable to job.yml file
+The jenkins-job-builder needs a .yml file to build it's job. We inject our environment variables into our job fles as shown in the sample snippet: 
+```
+- inject-passwords:
+            global: true
+            mask-password-params: true
+            job-passwords:
+                - name: AWS_ACCESS_KEY_ID
+                  password: ENTER_HERE_AWS_ACCESS_KEY_ID
+```
+Job files are located here, [Checkbox.io]((https://github.ncsu.edu/asaxena3/CSC519-Project/blob/43a237e59da65bbe84315da93dc84667a11a3f04/jenkins_files/checkbox.yml) and [iTrust2](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/43a237e59da65bbe84315da93dc84667a11a3f04/jenkins_files/itrust.yml)
+The environment variables injected in this manner are saved to the jenkins' build envorinment and are hidden in the UI as well. 
+#### 2. Substituting values to job.yml file
+We created special keyword to be replaced through regex from ansible as in a sample snippet below
+```
+- name: Set AWS Access Key environment variable for iTrust Job
+  vars:
+    accessKey: "{{ env_vars.ACCESS_KEY }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    regexp: 'ENTER_HERE_AWS_ACCESS_KEY_ID'
+    replace: "{{accessKey}}"
+  become: yes
+```
+#### 3. Deleting the job.yml after job finishes
+We delete the yml files after the job finishes. This maintains confidentiality of the keys since, they are nowhere to be found after the job finishes. And the config.xml for the job contains encrypted values which can't be stolen.
+```
+- name: Cleanup iTrust
+  become: yes
+  file:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    state: absent
+    mode: 0440
 
-### Creating git credentials for Jenkins SCM
+- name: Cleanup Checkbox.io
+  become: yes
+  file:
+    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+    state: absent
+    mode: 0440
+```
+### => Creating git credentials for Jenkins SCM
+Jenkins needs to clone repositories from git as part of the build step. The yml file needs a git credential associated with the username and password to access the github.ncsu.edu. 
+#### 1. Creating Git Credentials
+We create these credential through a groovy script [makeCred.groovy](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/jenkins_files/init.groovy.d/makeCred.groovy) 
++ This creates a new git credential from the username and password provided in the file( which are added to the file by ansible).
++ Once the jenkins restarts, the credential is setup in the Jenkins environment through the script.
+#### 2. Setting credentials in groovy file
+We set the credentials in the groovy file through ansible
+```
+- name: Set Git User name in Groovy script
+  vars:
+    gituser: "{{ env_vars.GIT_USER }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
+    regexp: 'githubuser'
+    replace: "{{gituser}}"
+  become: yes
 
-### Running post-build jobs without sudo access
+- name: Set Git Password in Groovy script
+  vars:
+    gitpass: "{{ env_vars.GIT_PASSWORD }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
+    regexp: 'githubpwd'
+    replace: "{{gitpass}}"
+  become: yes
+```
+#### 3. Cleaning up Credentials
+After setting up the environment, we replace the values of github username and password placed in the `makeCred.groovy` file through another file [remove.groovy](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/jenkins_files/init.groovy.d/remove.groovy). This ensures confidentiality of the credentials.
 
-### Setting up Ansible Vault to store credentials securely
-
-### User setup in MySQL and MongoDB Databases
+### => Running post-build jobs without sudo access
+The post build jobs are run as Jenkins users so we needed to make sure that all the jobs that were run in the localhost did not need privilege escalation to root user. 
++ We removed all the installation steps from the deployment playbook, since all of them need sudo access. 
++ Also, the git repository that we copied to `$JENKINS_HOME` was owned by root. Changing ownership to Jenkins made it work for us.
+```
+- name: Change Repo Permission to User Jenkins
+  become: yes
+  command: chown -hR jenkins:jenkins /var/lib/jenkins/project_repo
+```
+### => User setup in MySQL and MongoDB Databases
 
