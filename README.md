@@ -1,10 +1,12 @@
 # CSC519-Project
 
 ## Team Members:
-+ Zachery Thomas (zithomas)
-+ Vikas Pandey (vrpandey)
-+ Prerit Bhandari (pbhanda2)
-+ Ankur Saxena (asaxena3)
+| Name | UnityId |
+|--------------|-------|
+| Zachery Thomas | zithomas |
+| Vikas Pandey | vrpandey |
+| Prerit Bhandari | pbhanda2 |
+| Ankur Saxena | asaxena3 |
 
 ## Screencast
 The screencast for the Milestone is [here](https://youtu.be/yg7V67ptg18)
