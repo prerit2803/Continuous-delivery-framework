@@ -1,5 +1,7 @@
 # CSC519-Project
 
+![SEE YOU SPACE COWBOY](https://img.youtube.com/vi/yg7V67ptg18/0.jpg)
+
 ## Team Members:
 | Name | UnityId |
 |--------------|-------|
