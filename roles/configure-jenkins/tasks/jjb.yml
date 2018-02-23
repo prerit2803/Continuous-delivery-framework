@@ -263,13 +263,15 @@
     build-jobs
 
 - name: Cleanup iTrust
-  - file:
-      path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-      state: absent
-      mode: 0440
+  become: yes
+  file:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    state: absent
+    mode: 0440
 
 - name: Cleanup Checkbox.io
-  - file:
-      path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
-      state: absent
-      mode: 0440
+  become: yes
+  file:
+    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+    state: absent
+    mode: 0440
