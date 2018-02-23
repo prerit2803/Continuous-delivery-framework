@@ -1,2 +1,0 @@
----
-app_dir: "{{ ansible_env.HOME }}/itrust"
