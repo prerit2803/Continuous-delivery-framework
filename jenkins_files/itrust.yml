@@ -20,7 +20,16 @@
     disabled: false
     name: !!python/unicode 'itrust-build'
     project-type: freestyle
-    publishers: []
+    publishers:
+    - post-tasks:
+      - escalate-status: false
+        matches:
+        - log-text: null
+          operator: AND
+        run-if-job-successful: false
+        script: |-
+            cd /var/lib/jenkins/project_repo
+            ansible-playbook -i inventory itrust-deploy.yml
     scm:
     - git:
         branches:
@@ -29,5 +38,25 @@
         url: https://github.ncsu.edu/engr-csc326-staff/iTrust2-v2.git
     triggers: []
     wrappers:
-    - workspace-cleanup:
-        dirmatch: false
+        - inject-passwords:
+            global: true
+            mask-password-params: true
+            job-passwords:
+                - name: AWS_ACCESS_KEY_ID
+                  password: ENTER_HERE_AWS_ACCESS_KEY_ID
+                - name: AWS_SECRET_ACCESS_KEY
+                  password: ENTER_HERE_AWS_SECRET_ACCESS_KEY
+                - name: GIT_USER
+                  password: ENTER_HERE_GIT_USER
+                - name: GIT_PASSWORD
+                  password: ENTER_HERE_GIT_PASSWORD
+                - name: MAIL_USER
+                  password: ENTER_HERE_MAIL_USER
+                - name: MAIL_PASSWORD
+                  password: ENTER_HERE_MAIL_PASSWORD
+                - name: MAIL_SMTP
+                  password: ENTER_HERE_MAIL_SMTP
+                - name: MYSQL_PASSWORD
+                  password: ENTER_HERE_MYSQL_PASSWORD
+        - workspace-cleanup:
+            dirmatch: false
