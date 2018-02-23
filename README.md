@@ -132,10 +132,10 @@ We passed one more argument `-Djenkins.install.runSetupWizard=false` to $JAVA_AR
     replace: -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false
 ```
 #### 2. Configuring Jenkins through groovy
-We placed an [init.groovy](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/jenkins_files/init.groovy.d/init.groovy) script to set desired values for the Jenkins state.
-This included, 
-    + Setting Jenkins' [installState to RUNNING](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/a8857fb4bc701349e7a0bf9124b5a677a9b822a7/jenkins_files/init.groovy.d/init.groovy#L24)
-    + [Enabling CLI](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/a8857fb4bc701349e7a0bf9124b5a677a9b822a7/jenkins_files/init.groovy.d/init.groovy#L12)
+We placed an [init.groovy](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/jenkins_files/init.groovy.d/init.groovy) script in `$JENKINS_HOME/init.groovy.d/` to set desired values for the Jenkins state.
+This included,    
+    + [Setting Jenkins installState to RUNNING](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/a8857fb4bc701349e7a0bf9124b5a677a9b822a7/jenkins_files/init.groovy.d/init.groovy#L24)  
+    + [Enabling CLI](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/a8857fb4bc701349e7a0bf9124b5a677a9b822a7/jenkins_files/init.groovy.d/init.groovy#L12)    
     + [Disabling security](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/a8857fb4bc701349e7a0bf9124b5a677a9b822a7/jenkins_files/init.groovy.d/init.groovy#L15): This was necessary to make changes to jenikns configuration without having created any user.
  #### 3. Configuring plugins
  Installing the required plugins for Jenkins
@@ -171,7 +171,7 @@ The jenkins-job-builder needs a .yml file to build it's job. We inject our envir
                 - name: AWS_ACCESS_KEY_ID
                   password: ENTER_HERE_AWS_ACCESS_KEY_ID
 ```
-Job files are located here, [Checkbox.io]((https://github.ncsu.edu/asaxena3/CSC519-Project/blob/43a237e59da65bbe84315da93dc84667a11a3f04/jenkins_files/checkbox.yml) and [iTrust2](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/43a237e59da65bbe84315da93dc84667a11a3f04/jenkins_files/itrust.yml)
+Job files are located here, [Checkbox.io](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/43a237e59da65bbe84315da93dc84667a11a3f04/jenkins_files/checkbox.yml) and [iTrust2](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/43a237e59da65bbe84315da93dc84667a11a3f04/jenkins_files/itrust.yml)   
 The environment variables injected in this manner are saved to the jenkins' build envorinment and are hidden in the UI as well. 
 #### 2. Substituting values to job.yml file
 We created special keyword to be replaced through regex from ansible as in a sample snippet below
