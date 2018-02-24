@@ -7,7 +7,7 @@
 | Name | UnityId | Contribution |
 |--------------|-------|----------|
 | Zachery Thomas | zithomas | Jenkins Setup (config & adding jobs), Checkbox Setup, Video Editing and VO |
-| Vikas Pandey | vrpandey | |
+| Vikas Pandey | vrpandey | iTrust Build Job, Groovy scripts for injecting Jenkins envVars & creating Git credentials |
 | Prerit Bhandari | pbhanda2 | |
 | Ankur Saxena | asaxena3 | Automation of provisioning, Jenkins setup, Documentation |
 
