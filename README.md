@@ -70,6 +70,8 @@ You must edit following variables (don't provide blank values to any variable):
 Besides these values, the `MONGO_PORT` is being set to **3002** as instructed.
 ### Guidelines
 + Make sure your AWS account doesn't have any key names _jenkins-key_, _checkbox-key_ or _itrust-key_. The playbook creates these keys and hence, if they already exist then the code won't work. Please delete any keys by these names from your AWS account before running the playbook.
++ The playbook saves key in `$HOME/` so ensure there exist no pem files by the above mentioned names in the $HOME directory. 
++ Make sure your AWS account doesn't have any security groups by names _jenkins-sec-grp_, _itrust-sec-grp_ or _checkbox-sec-grp_. The playbook creates these security groups and hence, if they already exist then the code won't work. Please delete security groups by these names from your AWS account before running the playbook.
 ### Running the playbook
 
 To run the playbook, you need to install [**ansible**](https://github.com/CSC-DevOps/CM/blob/master/Ansible.md) to your local machine. Then use the following command to run the playbook:
