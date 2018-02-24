@@ -8,11 +8,18 @@
 |-------------------|-------|----------|
 | Zachery Thomas | zithomas | Jenkins Setup (config & adding jobs), Checkbox Setup, Video Editing and VO |
 | Vikas Pandey | vrpandey | iTrust Build Job, Groovy scripts for injecting Jenkins envVars & creating Git credentials |
-| Prerit Bhandari | pbhanda2 | iTrust & Checkbox.io setup, Ansible Roles Creation & restructuring|
+| Prerit Bhandari | pbhanda2 | iTrust & Checkbox.io setup, Ansible roles creation & restructuring|
 | Ankur Saxena | asaxena3 | Automation of provisioning, Jenkins setup, Documentation |
 
 ## Screencast
-The screencast for the Milestone is [here](https://youtu.be/yg7V67ptg18)
+The screencast for [Milestone1.](https://youtu.be/yg7V67ptg18)
+## Success Demo
+### iTrust  
+    ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/tutorial_material/itrust-demo.gif)   
+
+### Checkbox.io    
+    ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/tutorial_material/checkbox-demo.gif)
+
 ## Overview
 For the Milestone1 of the project, we are provisioning Amazon Web Services EC2 instances for our jenkins server, and deploying _Checkbox.io_ and _iTrust2_.
 Once you clone the repository, you can see the following file structure:
@@ -292,9 +299,3 @@ Then we used the following command to build the database and create sample data.
 ```
 mvn process-test-classes
 ```
-## Demo
-+ iTrust  
-    ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/tutorial_material/itrust-demo.gif)   
-
-+ Checkbox.io    
-    ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/tutorial_material/checkbox-demo.gif)
