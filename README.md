@@ -5,10 +5,10 @@
 
 ## Team Members:
 | Name | UnityId | Contribution |
-|--------------|-------|----------|
+|-------------------|-------|----------|
 | Zachery Thomas | zithomas | Jenkins Setup (config & adding jobs), Checkbox Setup, Video Editing and VO |
 | Vikas Pandey | vrpandey | iTrust Build Job, Groovy scripts for injecting Jenkins envVars & creating Git credentials |
-| Prerit Bhandari | pbhanda2 | ITrust Setup, Ansible Roles Creation & restructuring, and Checkbox Setup (Configuration)|
+| Prerit Bhandari | pbhanda2 | iTrust & Checkbox.io setup, Ansible Roles Creation & restructuring|
 | Ankur Saxena | asaxena3 | Automation of provisioning, Jenkins setup, Documentation |
 
 ## Screencast
