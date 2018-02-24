@@ -1,5 +1,8 @@
 # CSC519-Project
 
+
+![SEE YOU SPACE COWBOY](https://img.youtube.com/vi/yg7V67ptg18/0.jpg)
+
 ## Team Members:
 | Name | UnityId | Contribution |
 |--------------|-------|----------|
@@ -42,8 +45,8 @@ Once you clone the repository, you can see the following file structure:
 
 ## Setup
 ### Setting variables
-We first set variable values in [`group/all/vars.yml`](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/group_vars/all/vars.yml)
-![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/tutorial_material/vault.PNG).
+We first set variable values in [`group/all/vars.yml`](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/group_vars/all/vars.yml)  
+![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/tutorial_material/vault.PNG).  
 You must edit following variables (don't provide blank values to any variable):
 
 + `mysql_password`: MySQL admin password
