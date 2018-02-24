@@ -8,7 +8,7 @@
 |--------------|-------|----------|
 | Zachery Thomas | zithomas | Jenkins Setup (config & adding jobs), Checkbox Setup, Video Editing and VO |
 | Vikas Pandey | vrpandey | iTrust Build Job, Groovy scripts for injecting Jenkins envVars & creating Git credentials |
-| Prerit Bhandari | pbhanda2 | |
+| Prerit Bhandari | pbhanda2 | ITrust Setup, Ansible Roles Creation and restructuring and Checkbox Setup (Configuration)|
 | Ankur Saxena | asaxena3 | Automation of provisioning, Jenkins setup, Documentation |
 
 ## Screencast
@@ -287,8 +287,14 @@ For adding a user to MongoDB we used pyMongo and the mongod_user module. This ma
       roles: dbAdmin,userAdminAnyDatabase,readWriteAnyDatabase
 ```
 #### 2. MySQL
-We first placed our mysql password in db.properties and hibernate.properties files.
+We first placed our mysql password in `db.properties` and `hibernate.properties` files.
 Then we used the following command to build the database and create sample data.
 ```
 mvn process-test-classes
 ```
+## Demo
++ iTrust  
+    ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/tutorial_material/itrust-demo.gif)   
+
++ Checkbox.io    
+    ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/tutorial_material/checkbox-demo.gif)
