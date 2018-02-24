@@ -1,3 +1,4 @@
+# REFERENCES: https://coderwall.com/p/4ogyuw/ansible-install-java-8
 # Java Installation
 - name: add repo for java
   apt_repository: repo=ppa:webupd8team/java state=present

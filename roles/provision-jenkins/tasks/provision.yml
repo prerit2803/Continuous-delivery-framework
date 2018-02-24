@@ -14,6 +14,8 @@
     - boto
     - boto3
 
+# REFERENCES: https://fullmetalhealth.com/spin-off-ansible-ssh-bastion-host-dynamic-infrastructure-aws-gathering-ssh-public-key-aws-system-log/
+
 - name: Create a new EC2 key
   ec2_key:
     name: jenkins-key

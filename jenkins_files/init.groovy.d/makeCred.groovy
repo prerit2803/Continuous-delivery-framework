@@ -10,6 +10,7 @@ import hudson.slaves.EnvironmentVariablesNodeProperty
 //import com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl
 def instance= Jenkins.get()
 
+// REFERENCES: https://stackoverflow.com/questions/32208763/update-jenkins-credentials-by-script
 
 def changePassword = { username, new_password ->
     def creds = com.cloudbees.plugins.credentials.CredentialsProvider.lookupCredentials(
@@ -41,6 +42,7 @@ def changePassword = { username, new_password ->
       println "could not find credential for ${username}"
     }
 }
+// REFERENCES: https://github.com/jenkinsci/credentials-plugin/blob/master/src/main/java/com/cloudbees/plugins/credentials/CredentialsProvider.java
 
 def addPassword = { username, new_password ->
     def creds = com.cloudbees.plugins.credentials.CredentialsProvider.lookupCredentials(
@@ -95,6 +97,8 @@ def addPassword = { username, new_password ->
             // Setting necessary environment varibales for build and deployment of iTrust and Checkbox.io
           //println "Hello : ${newCred}"
           envVars.put("GIT_CREDID",newCred.id )
+          
+// REFERENCES: http://javadoc.jenkins.io/hudson/slaves/EnvironmentVariablesNodeProperty.html
 
             def source = new File('/var/lib/jenkins/project_repo/jenkins_files/itrust.yml')
             //println source.text

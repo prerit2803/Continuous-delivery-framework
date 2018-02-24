@@ -1,3 +1,4 @@
+# REFERENCES:  https://stackoverflow.com/questions/42267299/ansible-install-mysql-5-7-set-root-user-password?rq=1
 - name: update mysql root password for all root accounts
   become: yes
   mysql_user:
@@ -39,6 +40,8 @@
   with_items:
     - boto
     - boto3
+
+# REFERENCES: https://wiki.jenkins.io/display/JENKINS/Jenkins+CLI
 
 - name: Install awscli
   become: yes

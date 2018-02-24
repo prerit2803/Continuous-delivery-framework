@@ -1,4 +1,5 @@
 ---
+# REFERENCES: https://stackoverflow.com/questions/37568848/how-to-install-mongodb-with-ansible
 - name: Add Mongodb ppa key
   become: yes
   apt_key:
@@ -8,7 +9,7 @@
 
 - name: Add mongodb sources list
   become: yes
-  lineinfile: 
+  lineinfile:
     line: "deb http://repo.mongodb.com/apt/ubuntu xenial/mongodb-enterprise/3.6 multiverse"
     dest: /etc/apt/sources.list.d/mongodb-enterprise.list
     state: present
@@ -16,7 +17,7 @@
 
 - name: Install mongo
   become: yes
-  apt: 
+  apt:
     name: mongodb-enterprise
     state: latest
     update_cache: yes

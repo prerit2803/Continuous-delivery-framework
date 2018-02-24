@@ -8,6 +8,8 @@
   copy: content="{{ ec2_key_result.key.private_key }}" dest="~/checkbox-key.pem" mode=0600
   when: ec2_key_result.changed
 
+# REFERENCES: https://fullmetalhealth.com/spin-off-ansible-ssh-bastion-host-dynamic-infrastructure-aws-gathering-ssh-public-key-aws-system-log/
+
 - name: Create a new EC2 Security Group
   ec2_group:
     name: checkbox-sec-grp
