@@ -8,7 +8,7 @@
 |--------------|-------|----------|
 | Zachery Thomas | zithomas | Jenkins Setup (config & adding jobs), Checkbox Setup, Video Editing and VO |
 | Vikas Pandey | vrpandey | iTrust Build Job, Groovy scripts for injecting Jenkins envVars & creating Git credentials |
-| Prerit Bhandari | pbhanda2 | ITrust Setup, Ansible Roles Creation & restructuring and Checkbox Setup (Configuration)|
+| Prerit Bhandari | pbhanda2 | ITrust Setup, Ansible Roles Creation & restructuring, and Checkbox Setup (Configuration)|
 | Ankur Saxena | asaxena3 | Automation of provisioning, Jenkins setup, Documentation |
 
 ## Screencast
@@ -22,7 +22,7 @@ Once you clone the repository, you can see the following file structure:
 |-- deploy-itrust.yml
 |-- build-inventory
 |-- deploy-inventory
-|-- group
+|-- group_vars
     |-- all
         |-- vars.yml
 |-- jenkins_files
