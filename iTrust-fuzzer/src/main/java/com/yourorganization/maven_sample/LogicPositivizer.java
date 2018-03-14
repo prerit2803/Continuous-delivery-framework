@@ -3,6 +3,7 @@ package com.yourorganization.maven_sample;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
+import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.body.TypeDeclaration;
@@ -36,6 +37,7 @@ public class LogicPositivizer {
         
         List<String> results = new ArrayList<String>();
 
+        // recursively find files and store names in results list
         Files.walk(Paths.get(path))
             .filter(Files::isRegularFile)
             .forEach(fname -> results.add(fname.toString()));
@@ -45,6 +47,10 @@ public class LogicPositivizer {
             if (!results.get(i).contains(".java") || results.get(i).contains("/models/")){
                 results.remove(i);
             }
+        }
+
+        if (numFilesToChange > results.size()){
+            numFilesToChange = results.size();
         }
 
         for (int i = 0; i < numFilesToChange; i++){
@@ -68,6 +74,9 @@ public class LogicPositivizer {
     }
         
 
+    /*
+     * Pass in filename, fuzz the file
+     */
     public static String fuzzFile(String fileName) throws IOException {
         // Heres the fuzzing part...
         FileInputStream in = new FileInputStream(fileName);
@@ -87,6 +96,19 @@ public class LogicPositivizer {
                 //String v = n.getValue();
                 //System.out.println(v);
                 n.setValue("new val");
+                return n;
+            }
+
+            /**
+             * For every integer, change the value
+             */
+            @Override
+            public Visitable visit(final IntegerLiteralExpr n, final Void arg) {
+
+                // determine if we wanna mutate
+                if (randomizer.nextDouble() > mutationRate){return n;}
+
+                n.setValue(Integer.toString(randomizer.nextInt()));
                 return n;
             }
 
