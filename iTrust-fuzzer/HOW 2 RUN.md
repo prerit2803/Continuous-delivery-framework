@@ -1,7 +1,17 @@
-Only need to run this once:
+To install dependencies (javaparser and exec plugin):
+
+```
 mvn clean install
+```
 
 
-Run this every time you change code:
+To compile:
+
+```
 mvn compile
-mvn exec:java -Dexec.mainClass="com.yourorganization.maven_sample.LogicPositivizer"
+```
+
+To Run:
+```
+mvn exec:java -Dexec.mainClass="com.yourorganization.maven_sample.LogicPositivizer
+```
