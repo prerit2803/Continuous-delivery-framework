@@ -2,6 +2,7 @@ package com.yourorganization.maven_sample;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.expr.BinaryExpr;
+import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.body.TypeDeclaration;
@@ -18,41 +19,90 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.charset.StandardCharsets;
 
 
 /**
  * Some code that uses JavaParser.
  */
 public class LogicPositivizer {
+
+    private static String path = "../iTrust2/iTrust2/src/main/java/edu/ncsu/csc/itrust2";
+    private static int    numFilesToChange = 5;
+    private static double mutationRate = 25/100;
+    private static Random randomizer = new Random();
+
     public static void main(String[] args) throws IOException {
         
         List<String> results = new ArrayList<String>();
 
-        String path = "../iTrust2";
-
         Files.walk(Paths.get(path))
-        .filter(Files::isRegularFile)
-        .forEach(fname -> results.add(fname.toString()));
+            .filter(Files::isRegularFile)
+            .forEach(fname -> results.add(fname.toString()));
 
-        Random randomizer = new Random();
-        String fname = results.get(randomizer.nextInt(results.size())).toString();
-        System.out.println(fname);
+        // remove everything that is not java or has models in path
+        for (int i = 0; i < results.size(); i++){
+            if (!results.get(i).contains(".java") || results.get(i).contains("/models/")){
+                results.remove(i);
+            }
+        }
 
-        FileInputStream in = new FileInputStream(fname);
-        System.exit(0);
-        // Our sample is in the root of this directory, so no package name.
+        for (int i = 0; i < numFilesToChange; i++){
+            String fname = results.get(randomizer.nextInt(results.size())).toString();
+            String fuzzedFileContent = fuzzFile(fname);
+            overwrite(fname, fuzzedFileContent);
+
+            results.remove(fname);
+            System.out.println("File Modified: " + fname);
+        }
+    }
+
+    /*
+     * Overwrite file with fuzzed file content
+     */
+    public static void overwrite(String fileName, String content) throws IOException {
+        try (PrintWriter out = new PrintWriter(new FileOutputStream(fileName, false))) {
+            out.print(content);
+            out.close();
+        }
+    }
+        
+
+    public static String fuzzFile(String fileName) throws IOException {
+        // Heres the fuzzing part...
+        FileInputStream in = new FileInputStream(fileName);
+
         CompilationUnit cu = JavaParser.parse(in);
 
         cu.accept(new ModifierVisitor<Void>() {
             /**
-             * For every if-statement, see if it has a comparison using "!=".
-             * Change it to "==" and switch the "then" and "else" statements around.
+             * For every string, change the value
+             */
+            @Override
+            public Visitable visit(final StringLiteralExpr n, final Void arg) {
+
+                // determine if we wanna mutate
+                if (randomizer.nextDouble() > mutationRate){return n;}
+
+                //String v = n.getValue();
+                //System.out.println(v);
+                n.setValue("new val");
+                return n;
+            }
+
+
+            /**
+             * For every if-statement, see if it has a comparison using "!=" or "==" make it the opposite
+             * For every if-statement, see if it has a comparison using ">" or "<" make it the opposite
              */
             @Override
             public Visitable visit(IfStmt n, Void arg) {
+
+                // determine if we wanna mutate
+                if (randomizer.nextDouble() > mutationRate){return n;}
+
                 // Figure out what to get and what to cast simply by looking at the AST in a debugger! 
                 n.getCondition().ifBinaryExpr(binaryExpr -> {
-                    // System.out.println(binaryExpr.getOperator());
                     if (binaryExpr.getOperator() == BinaryExpr.Operator.NOT_EQUALS || binaryExpr.getOperator() == BinaryExpr.Operator.EQUALS) {
                         if (binaryExpr.getOperator() == BinaryExpr.Operator.NOT_EQUALS) {
                             binaryExpr.setOperator(BinaryExpr.Operator.EQUALS);
@@ -62,7 +112,6 @@ public class LogicPositivizer {
                     }
     
                     if (binaryExpr.getOperator() == BinaryExpr.Operator.GREATER || binaryExpr.getOperator() == BinaryExpr.Operator.LESS) {
-                        // System.out.println('GT or LT');
                         if (binaryExpr.getOperator() == BinaryExpr.Operator.GREATER) {
                             binaryExpr.setOperator(BinaryExpr.Operator.LESS);
                         } else {
@@ -70,34 +119,11 @@ public class LogicPositivizer {
                         }
                     }
                 });
-                //Method[] methods = n.getClass().getMethods();
-                //for (int i = 0; i < methods.length; i++) {
-			    //    System.out.println("public method: " + methods[i]);
-		        //}
-                //System.out.println('\n');
-                //System.out.println(n.getClass().getMethods());
-                System.out.println(n);
                 return super.visit(n, arg);
             }
         }, null);
 
-        /*
-        cu.accept(new ModifierVisitor<Void>() {
-            @Override
-            public Visitable visit(TypeDeclaration n, Void arg) {
-                System.out.println(n);
-                return super.visit(n, arg);
-            }
-        }, null);
-        */
-
-        /*
-        // This saves all the files we just read to an output directory.  
-        sourceRoot.saveAll(
-                // The path of the Maven module/project which contains the LogicPositivizer class.
-                CodeGenerationUtils.mavenModuleRoot(LogicPositivizer.class)
-                        // appended with a path to "output"
-                        .resolve(Paths.get("output")));
-        */
+        return cu.toString();
     }
+    
 }
