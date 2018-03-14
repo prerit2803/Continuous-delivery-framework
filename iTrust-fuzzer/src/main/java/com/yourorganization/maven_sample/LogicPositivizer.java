@@ -28,7 +28,7 @@ public class LogicPositivizer {
         
         List<String> results = new ArrayList<String>();
 
-        String path = "../iTrust2-v2";
+        String path = "../iTrust2";
 
         Files.walk(Paths.get(path))
         .filter(Files::isRegularFile)
