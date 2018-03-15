@@ -13,5 +13,5 @@ mvn compile
 
 To Run:
 ```
-mvn exec:java -Dexec.mainClass="com.yourorganization.maven_sample.LogicPositivizer
+mvn exec:java -Dexec.mainClass="com.cowboydevop.fuzzer.Fuzzer"
 ```

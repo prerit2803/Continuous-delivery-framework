@@ -1,4 +1,4 @@
-package com.yourorganization.maven_sample;
+package com.cowboydevop.fuzzer;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.expr.BinaryExpr;
@@ -26,7 +26,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Some code that uses JavaParser.
  */
-public class LogicPositivizer {
+public class Fuzzer {
 
     private static String path = "../iTrust2/iTrust2/src/main/java/edu/ncsu/csc/itrust2";
     private static int    numFilesToChange = 5;
