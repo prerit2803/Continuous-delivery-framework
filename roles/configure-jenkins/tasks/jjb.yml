@@ -1,7 +1,7 @@
 - name: Cloning Project Repo at $JENKINS_HOME
   git:
     repo: "https://{{ env_vars.GIT_USER }}:{{env_vars.GIT_PASSWORD | urlencode }}@github.ncsu.edu/asaxena3/CSC519-Project.git"
-    version: Milestone1
+    version: Milestone2
     dest: /var/lib/jenkins/project_repo
     force: yes
   become: yes
@@ -39,179 +39,179 @@
     - remove.groovy
 
 # Setting Env for Groovy Script
-- name: Set Git User name in Groovy script
-  vars:
-    gituser: "{{ env_vars.GIT_USER }}"
-  replace:
-    path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
-    regexp: 'githubuser'
-    replace: "{{gituser}}"
-  become: yes
+# - name: Set Git User name in Groovy script
+#   vars:
+#     gituser: "{{ env_vars.GIT_USER }}"
+#   replace:
+#     path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
+#     regexp: 'githubuser'
+#     replace: "{{gituser}}"
+#   become: yes
 
-- name: Set Git Password in Groovy script
-  vars:
-    gitpass: "{{ env_vars.GIT_PASSWORD }}"
-  replace:
-    path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
-    regexp: 'githubpwd'
-    replace: "{{gitpass}}"
-  become: yes
+# - name: Set Git Password in Groovy script
+#   vars:
+#     gitpass: "{{ env_vars.GIT_PASSWORD }}"
+#   replace:
+#     path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
+#     regexp: 'githubpwd'
+#     replace: "{{gitpass}}"
+#   become: yes
 
-# Setting env for iTrust Job
-- name: Set MySQL Password environment variable for iTrust Job
-  vars:
-    mysqlpass: "{{ env_vars.mysql_password }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-    regexp: 'ENTER_HERE_MYSQL_PASSWORD'
-    replace: "{{mysqlpass}}"
-  become: yes
+# # Setting env for iTrust Job
+# - name: Set MySQL Password environment variable for iTrust Job
+#   vars:
+#     mysqlpass: "{{ env_vars.mysql_password }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+#     regexp: 'ENTER_HERE_MYSQL_PASSWORD'
+#     replace: "{{mysqlpass}}"
+#   become: yes
 
-- name: Set AWS Access Key environment variable for iTrust Job
-  vars:
-    accessKey: "{{ env_vars.ACCESS_KEY }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-    regexp: 'ENTER_HERE_AWS_ACCESS_KEY_ID'
-    replace: "{{accessKey}}"
-  become: yes
+# - name: Set AWS Access Key environment variable for iTrust Job
+#   vars:
+#     accessKey: "{{ env_vars.ACCESS_KEY }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+#     regexp: 'ENTER_HERE_AWS_ACCESS_KEY_ID'
+#     replace: "{{accessKey}}"
+#   become: yes
 
-- name: Set AWS Secret Key environment variable for iTrust Job
-  vars:
-    secretKey: "{{ env_vars.SECRET_KEY }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-    regexp: 'ENTER_HERE_AWS_SECRET_ACCESS_KEY'
-    replace: "{{secretKey}}"
-  become: yes
+# - name: Set AWS Secret Key environment variable for iTrust Job
+#   vars:
+#     secretKey: "{{ env_vars.SECRET_KEY }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+#     regexp: 'ENTER_HERE_AWS_SECRET_ACCESS_KEY'
+#     replace: "{{secretKey}}"
+#   become: yes
 
-- name: Set GitHub User environment variable for iTrust Job
-  vars:
-    gituser: "{{ env_vars.GIT_USER }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-    regexp: 'ENTER_HERE_GIT_USER'
-    replace: "{{gituser}}"
-  become: yes
+# - name: Set GitHub User environment variable for iTrust Job
+#   vars:
+#     gituser: "{{ env_vars.GIT_USER }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+#     regexp: 'ENTER_HERE_GIT_USER'
+#     replace: "{{gituser}}"
+#   become: yes
 
-- name: Set GitHub Password environment variable for iTrust Job
-  vars:
-    gitpass: "{{ env_vars.GIT_PASSWORD }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-    regexp: 'ENTER_HERE_GIT_PASSWORD'
-    replace: "{{gitpass}}"
-  become: yes
+# - name: Set GitHub Password environment variable for iTrust Job
+#   vars:
+#     gitpass: "{{ env_vars.GIT_PASSWORD }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+#     regexp: 'ENTER_HERE_GIT_PASSWORD'
+#     replace: "{{gitpass}}"
+#   become: yes
 
-- name: Set Mail User environment variable for iTrust Job
-  vars:
-    mailuser: "{{ env_vars.MONGODB_MAIL_USER }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-    regexp: 'ENTER_HERE_MAIL_USER'
-    replace: "{{mailuser}}"
-  become: yes
+# - name: Set Mail User environment variable for iTrust Job
+#   vars:
+#     mailuser: "{{ env_vars.MONGODB_MAIL_USER }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+#     regexp: 'ENTER_HERE_MAIL_USER'
+#     replace: "{{mailuser}}"
+#   become: yes
 
-- name: Set Mail Password environment variable for iTrust Job
-  vars:
-    mailpass: "{{ env_vars.MONGODB_MAIL_PASSWORD }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-    regexp: 'ENTER_HERE_MAIL_PASSWORD'
-    replace: "{{mailpass}}"
-  become: yes
+# - name: Set Mail Password environment variable for iTrust Job
+#   vars:
+#     mailpass: "{{ env_vars.MONGODB_MAIL_PASSWORD }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+#     regexp: 'ENTER_HERE_MAIL_PASSWORD'
+#     replace: "{{mailpass}}"
+#   become: yes
 
-- name: Set Mail SMTP environment variable for iTrust Job
-  vars:
-    mailsmtp: "{{ env_vars.MONGODB_MAIL_SMTP }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-    regexp: 'ENTER_HERE_MAIL_SMTP'
-    replace: "{{mailsmtp}}"
-  become: yes
+# - name: Set Mail SMTP environment variable for iTrust Job
+#   vars:
+#     mailsmtp: "{{ env_vars.MONGODB_MAIL_SMTP }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+#     regexp: 'ENTER_HERE_MAIL_SMTP'
+#     replace: "{{mailsmtp}}"
+#   become: yes
 
-# Setting Env for Checkbox.io job
-- name: Set AWS Access Key environment variable for Checkbox.io Job
-  vars:
-    accessKey: "{{ env_vars.ACCESS_KEY }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
-    regexp: 'ENTER_HERE_AWS_ACCESS_KEY_ID'
-    replace: "{{accessKey}}"
-  become: yes
+# # Setting Env for Checkbox.io job
+# - name: Set AWS Access Key environment variable for Checkbox.io Job
+#   vars:
+#     accessKey: "{{ env_vars.ACCESS_KEY }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+#     regexp: 'ENTER_HERE_AWS_ACCESS_KEY_ID'
+#     replace: "{{accessKey}}"
+#   become: yes
 
-- name: Set AWS Secret Key environment variable for Checkbox.io Job
-  vars:
-    secretKey: "{{ env_vars.SECRET_KEY }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
-    regexp: 'ENTER_HERE_AWS_SECRET_ACCESS_KEY'
-    replace: "{{secretKey}}"
-  become: yes
+# - name: Set AWS Secret Key environment variable for Checkbox.io Job
+#   vars:
+#     secretKey: "{{ env_vars.SECRET_KEY }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+#     regexp: 'ENTER_HERE_AWS_SECRET_ACCESS_KEY'
+#     replace: "{{secretKey}}"
+#   become: yes
 
-- name: Set Mongo IP environment variable for Checkbox.io Job
-  vars:
-    mongoip: "{{ env_vars.MONGODB_IP }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
-    regexp: 'ENTER_HERE_MONGO_IP'
-    replace: "{{mongoip}}"
-  become: yes
+# - name: Set Mongo IP environment variable for Checkbox.io Job
+#   vars:
+#     mongoip: "{{ env_vars.MONGODB_IP }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+#     regexp: 'ENTER_HERE_MONGO_IP'
+#     replace: "{{mongoip}}"
+#   become: yes
 
-- name: Set Mongo User environment variable for Checkbox.io Job
-  vars:
-    mongouser: "{{ env_vars.MONGODB_USER }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
-    regexp: 'ENTER_HERE_MONGO_USER'
-    replace: "{{mongouser}}"
-  become: yes
+# - name: Set Mongo User environment variable for Checkbox.io Job
+#   vars:
+#     mongouser: "{{ env_vars.MONGODB_USER }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+#     regexp: 'ENTER_HERE_MONGO_USER'
+#     replace: "{{mongouser}}"
+#   become: yes
 
-- name: Set Mongo Password environment variable for Checkbox.io Job
-  vars:
-    mongopass: "{{ env_vars.MONGODB_PASS }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
-    regexp: 'ENTER_HERE_MONGO_PASSWORD'
-    replace: "{{mongopass}}"
-  become: yes
+# - name: Set Mongo Password environment variable for Checkbox.io Job
+#   vars:
+#     mongopass: "{{ env_vars.MONGODB_PASS }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+#     regexp: 'ENTER_HERE_MONGO_PASSWORD'
+#     replace: "{{mongopass}}"
+#   become: yes
 
-- name: Set Mail User environment variable for Checkbox.io Job
-  vars:
-    mailuser: "{{ env_vars.MONGODB_MAIL_USER }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
-    regexp: 'ENTER_HERE_MAIL_USER'
-    replace: "{{mailuser}}"
-  become: yes
+# - name: Set Mail User environment variable for Checkbox.io Job
+#   vars:
+#     mailuser: "{{ env_vars.MONGODB_MAIL_USER }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+#     regexp: 'ENTER_HERE_MAIL_USER'
+#     replace: "{{mailuser}}"
+#   become: yes
 
-- name: Set Mail Password environment variable for Checkbox.io Job
-  vars:
-    mailpass: "{{ env_vars.MONGODB_MAIL_PASSWORD }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
-    regexp: 'ENTER_HERE_MAIL_PASSWORD'
-    replace: "{{mailpass}}"
-  become: yes
+# - name: Set Mail Password environment variable for Checkbox.io Job
+#   vars:
+#     mailpass: "{{ env_vars.MONGODB_MAIL_PASSWORD }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+#     regexp: 'ENTER_HERE_MAIL_PASSWORD'
+#     replace: "{{mailpass}}"
+#   become: yes
 
-- name: Set Mail SMTP environment variable for Checkbox.io Job
-  vars:
-    mailsmtp: "{{ env_vars.MONGODB_MAIL_SMTP }}"
-  replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
-    regexp: 'ENTER_HERE_MAIL_SMTP'
-    replace: "{{mailsmtp}}"
-  become: yes
+# - name: Set Mail SMTP environment variable for Checkbox.io Job
+#   vars:
+#     mailsmtp: "{{ env_vars.MONGODB_MAIL_SMTP }}"
+#   replace:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+#     regexp: 'ENTER_HERE_MAIL_SMTP'
+#     replace: "{{mailsmtp}}"
+#   become: yes
 
-- file:
-    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-    mode: "u=rw,g=rw,o=rw"
-  become: yes
+# - file:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+#     mode: "u=rw,g=rw,o=rw"
+#   become: yes
 
-- file:
-    path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
-    mode: "u=rw,g=rw,o=rw"
-  become: yes
+# - file:
+#     path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
+#     mode: "u=rw,g=rw,o=rw"
+#   become: yes
 
 - import_tasks: restart_jenkins.yml
 
@@ -224,56 +224,57 @@
     - postbuild-task
     - envinject
     - ansible
+    - jacoco
   tags:
     installer
 
 - import_tasks: restart_jenkins.yml
 
-- name: Copy jenkins_files directory
-  become: yes
-  copy:
-    src: ./jenkins_files
-    dest: "{{ ansible_env.HOME }}"
-  tags:
-    set_env_checkbox
+# - name: Copy jenkins_files directory
+#   become: yes
+#   copy:
+#     src: ./jenkins_files
+#     dest: "{{ ansible_env.HOME }}"
+#   tags:
+#     set_env_checkbox
 
-- name: Upload Itrust Job to Jenkins
-  command: 'jenkins-jobs update itrust.yml'
-  args:
-    chdir: /var/lib/jenkins/project_repo/jenkins_files
-  tags:
-    upload
+# - name: Upload Itrust Job to Jenkins
+#   command: 'jenkins-jobs update itrust.yml'
+#   args:
+#     chdir: /var/lib/jenkins/project_repo/jenkins_files
+#   tags:
+#     upload
 
-- name: Upload Checkbox Job to Jenkins
-  command: 'jenkins-jobs update checkbox.yml'
-  args:
-    chdir: /var/lib/jenkins/project_repo/jenkins_files
-  tags:
-    set_env_checkbox
+# - name: Upload Checkbox Job to Jenkins
+#   command: 'jenkins-jobs update checkbox.yml'
+#   args:
+#     chdir: /var/lib/jenkins/project_repo/jenkins_files
+#   tags:
+#     set_env_checkbox
 
-- name: Trigger build for Checkbox
-  become: yes
-  command: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ build 'checkbox-build'"
-  tags:
-    - build-jobs
-    - build_checkbox
+# - name: Trigger build for Checkbox
+#   become: yes
+#   command: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ build 'checkbox-build'"
+#   tags:
+#     - build-jobs
+#     - build_checkbox
 
-- name: Trigger build for iTrust
-  become: yes
-  command: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ build 'itrust-build'"
-  tags:
-    build-jobs
+# - name: Trigger build for iTrust
+#   become: yes
+#   command: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ build 'itrust-build'"
+#   tags:
+#     build-jobs
 
-- name: Cleanup iTrust
-  become: yes
-  file:
-    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-    state: absent
-    mode: 0440
+# - name: Cleanup iTrust
+#   become: yes
+#   file:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+#     state: absent
+#     mode: 0440
 
-- name: Cleanup Checkbox.io
-  become: yes
-  file:
-    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
-    state: absent
-    mode: 0440
+# - name: Cleanup Checkbox.io
+#   become: yes
+#   file:
+#     path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+#     state: absent
+#     mode: 0440

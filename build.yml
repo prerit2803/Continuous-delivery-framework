@@ -1,21 +1,14 @@
 ---
 - hosts: local
-  environment:
-    AWS_ACCESS_KEY_ID: "{{ env_vars.ACCESS_KEY }}"
-    AWS_SECRET_ACCESS_KEY: "{{ env_vars.SECRET_KEY }}"
-  gather_facts: yes
-  roles:
-    - provision-jenkins
-
-- hosts: jenkins
   gather_facts: no
   tasks:
   - name: Install python 2
     raw: sudo test -e /usr/bin/python || (sudo apt-get install -y python-minimal)
 
-- hosts: jenkins
+- hosts: local
   gather_facts: yes
+  ignore_errors: yes
   roles:
-    - configure-checkbox
-    - configure-itrust
+  #  - configure-checkbox
+  # - configure-itrust
     - configure-jenkins
