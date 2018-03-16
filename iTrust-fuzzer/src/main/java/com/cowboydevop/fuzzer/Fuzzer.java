@@ -30,7 +30,7 @@ public class Fuzzer {
 
     private static String path = "../iTrust2-v2/iTrust2/src/main/java/edu/ncsu/csc/itrust2";
     private static int    numFilesToChange = 5;
-    private static double mutationRate = 25/100;
+    private static double mutationRate = 0.50;
     private static Random randomizer = new Random();
 
     public static void main(String[] args) throws IOException {
@@ -91,10 +91,10 @@ public class Fuzzer {
             public Visitable visit(final StringLiteralExpr n, final Void arg) {
 
                 // determine if we wanna mutate
-                if (randomizer.nextDouble() > mutationRate){return n;}
+                if (randomizer.nextDouble() < mutationRate){return n;}
 
-                //String v = n.getValue();
-                //System.out.println(v);
+                // String v = n.getValue();
+                // System.out.println(v);
                 n.setValue("new val");
                 return n;
             }
@@ -106,7 +106,7 @@ public class Fuzzer {
             public Visitable visit(final IntegerLiteralExpr n, final Void arg) {
 
                 // determine if we wanna mutate
-                if (randomizer.nextDouble() > mutationRate){return n;}
+                if (randomizer.nextDouble() < mutationRate){return n;}
 
                 n.setValue(Integer.toString(randomizer.nextInt()));
                 return n;
@@ -121,7 +121,7 @@ public class Fuzzer {
             public Visitable visit(IfStmt n, Void arg) {
 
                 // determine if we wanna mutate
-                if (randomizer.nextDouble() > mutationRate){return n;}
+                if (randomizer.nextDouble() < mutationRate){return n;}
 
                 // Figure out what to get and what to cast simply by looking at the AST in a debugger! 
                 n.getCondition().ifBinaryExpr(binaryExpr -> {
