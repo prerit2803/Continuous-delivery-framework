@@ -1,0 +1,5 @@
+---
+- import_tasks: clone-milestone2-repo.yml
+- import_tasks: clone-itrust2-repo.yml
+- import_tasks: fuzz-itrust-repo.yml
+

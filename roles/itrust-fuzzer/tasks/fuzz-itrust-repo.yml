@@ -1,0 +1,46 @@
+- name: Create fuzzer branch in iTrust repo
+  command: git checkout -b fuzzer
+  become: yes
+  args:
+    chdir: "{{ ansible_env.HOME }}/Milestone2/iTrust2-v2"
+  ignore_errors: True
+  
+
+#- name: Run mvn install for fuzzer
+#  shell: mvn clean install
+#  become: yes
+#  args:
+#    chdir: "{{ ansible_env.HOME }}/Milestone2/iTrust-fuzzer"
+
+
+- name: Run mvn compile for fuzzer
+  shell: mvn compile
+  become: yes
+  args:
+    chdir: "{{ ansible_env.HOME }}/Milestone2/iTrust-fuzzer"
+  tags:
+    - "compile_fuzzer"
+
+
+- name: Run fuzzer, commit, revert 100 times
+  shell: >
+    git config --global user.email "temp@temp.com";
+    git config --global user.name "temp";
+
+    for i in `seq 1 100`; do
+      cd {{ ansible_env.HOME }}/Milestone2/iTrust-fuzzer;
+      mvn exec:java -Dexec.mainClass="com.cowboydevop.fuzzer.Fuzzer";
+
+      cd {{ ansible_env.HOME }}/Milestone2/iTrust2-v2;
+      git add *;
+      git commit -m 'temp commit';
+      git reset --hard HEAD^;
+    done
+  async: 1000
+  poll: 0
+  become: yes
+  args:
+    chdir: "{{ ansible_env.HOME }}/Milestone2"
+  tags:
+    - "shell"
+
