@@ -1,0 +1,21 @@
+- job:
+    block-downstream: false
+    block-upstream: false
+    builders:
+    - shell: |-
+        cd iTrust2
+        # code goes here
+        # mvn test
+    concurrent: false
+    description: null
+    disabled: false
+    name: !!python/unicode 'a'
+    project-type: freestyle
+    publishers: []
+    scm:
+    - git:
+        branches:
+        - '*/fuzzer'
+        url: /home/vagrant/Milestone2/iTrust2-v2
+    triggers: []
+    wrappers: []

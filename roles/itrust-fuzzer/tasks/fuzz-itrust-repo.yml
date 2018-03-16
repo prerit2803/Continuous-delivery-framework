@@ -30,20 +30,22 @@
     COUNTER=0
     RUNS=100
 
-    while [ $COUNTER -lt $RUNS ]; do
+    while [ "$COUNTER" -lt "$RUNS" ]; do
       cd {{ ansible_env.HOME }}/Milestone2/iTrust-fuzzer;
       mvn exec:java -Dexec.mainClass="com.cowboydevop.fuzzer.Fuzzer";
 
       cd {{ ansible_env.HOME }}/Milestone2/iTrust2-v2/iTrust2;
-      mvn compile;
+      # mvn compile;
       if [ "$?" -eq "0" ]
       then
         echo "Compiles. Committing!"
+        git diff;
         git add *;
         git commit -m 'temp commit';
         # May need to push to remote repo too
+        java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ build 'itrust-fuzzer'
         git reset --hard HEAD^;
-        let COUNTER+=1
+        COUNTER=`expr $COUNTER + 1`
 
       else
         echo "Does not compile. Removing Changes."
