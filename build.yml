@@ -9,6 +9,6 @@
   gather_facts: yes
   ignore_errors: yes
   roles:
-    # - configure-checkbox
-    # - configure-itrust
+    - configure-checkbox
+    - configure-itrust
     - configure-jenkins
