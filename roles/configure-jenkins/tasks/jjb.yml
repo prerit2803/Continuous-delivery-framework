@@ -39,23 +39,23 @@
     - remove.groovy
 
 # Setting Env for Groovy Script
-# - name: Set Git User name in Groovy script
-#   vars:
-#     gituser: "{{ env_vars.GIT_USER }}"
-#   replace:
-#     path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
-#     regexp: 'githubuser'
-#     replace: "{{gituser}}"
-#   become: yes
+- name: Set Git User name in Groovy script
+  vars:
+    gituser: "{{ env_vars.GIT_USER }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
+    regexp: 'githubuser'
+    replace: "{{gituser}}"
+  become: yes
 
-# - name: Set Git Password in Groovy script
-#   vars:
-#     gitpass: "{{ env_vars.GIT_PASSWORD }}"
-#   replace:
-#     path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
-#     regexp: 'githubpwd'
-#     replace: "{{gitpass}}"
-#   become: yes
+- name: Set Git Password in Groovy script
+  vars:
+    gitpass: "{{ env_vars.GIT_PASSWORD }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
+    regexp: 'githubpwd'
+    replace: "{{gitpass}}"
+  become: yes
 
 # # Setting env for iTrust Job
 # - name: Set MySQL Password environment variable for iTrust Job
@@ -203,15 +203,15 @@
 #     replace: "{{mailsmtp}}"
 #   become: yes
 
-# - file:
-#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-#     mode: "u=rw,g=rw,o=rw"
-#   become: yes
+- file:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    mode: "u=rw,g=rw,o=rw"
+  become: yes
 
-# - file:
-#     path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
-#     mode: "u=rw,g=rw,o=rw"
-#   become: yes
+- file:
+    path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
+    mode: "u=rw,g=rw,o=rw"
+  become: yes
 
 - import_tasks: restart_jenkins.yml
 
