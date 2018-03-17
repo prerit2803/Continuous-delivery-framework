@@ -42,9 +42,9 @@ public class Fuzzer {
             .filter(Files::isRegularFile)
             .forEach(fname -> results.add(fname.toString()));
 
-        // remove everything that is not java or has models in path
+        // remove everything that is not a .java file
         for (int i = 0; i < results.size(); i++){
-            if (!results.get(i).contains(".java") || results.get(i).contains("/models/")){
+            if (!results.get(i).contains(".java")){
                 results.remove(i);
             }
         }
