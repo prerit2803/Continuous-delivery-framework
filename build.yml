@@ -7,8 +7,9 @@
 
 - hosts: local
   gather_facts: yes
-  ignore_errors: yes
+  ignore_errors: no
   roles:
     - configure-checkbox
     - configure-itrust
     - configure-jenkins
+    - itrust-fuzzer
