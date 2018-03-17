@@ -1,7 +1,0 @@
----
-env_vars:
-  mysql_password: ""
-  ACCESS_KEY: ""
-  SECRET_KEY: ""
-  GIT_USER: ""
-  GIT_PASSWORD: ""
