@@ -51,7 +51,7 @@
     scm:
     - git:
         branches:
-        - '*/master'
+        - '*/fuzzer'
         url: /var/lib/jenkins/project_repo/iTrust2-v1/
     triggers: []
     wrappers:

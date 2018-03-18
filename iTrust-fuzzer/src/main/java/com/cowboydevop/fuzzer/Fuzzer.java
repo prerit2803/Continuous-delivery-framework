@@ -28,7 +28,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class Fuzzer {
 
-    private static String path = "../iTrust2-v2/iTrust2/src/main/java/edu/ncsu/csc/itrust2";
+    private static String path = "../iTrust2-v1/iTrust2/src/main/java/edu/ncsu/csc/itrust2";
     private static int    numFilesToChange = 5;
     private static double mutationRate = 0.50;
     private static Random randomizer = new Random();
