@@ -211,7 +211,7 @@
 #   become: yes
 
 - file:
-    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust-test.yml
     mode: "u=rw,g=rw,o=rw"
   become: yes
 
