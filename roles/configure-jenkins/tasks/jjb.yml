@@ -250,8 +250,20 @@
   replace:
     path: /var/lib/jenkins/project_repo/jenkins_files/jenkins_jobs.ini
     regexp: url=
-    replace: "url={{env_vars.jenkins_port}}"
-  
+    replace: "url=http://localhost:{{env_vars.jenkins_port}}"
+- name: Create /etc/jenkins_jobs to place jenkins_jobs.ini
+  become: yes
+  file:
+    path: /etc/jenkins_jobs/
+    state: directory
+    group: jenkins
+    owner: jenkins
+- name: Copy jenkins_jobs.ini file  
+  become: yes
+  copy:
+    src: /var/lib/jenkins/project_repo/jenkins_files/jenkins_jobs.ini
+    dest: /etc/jenkins_jobs/jenkins_jobs.ini
+    
 - name: Upload Itrust Job to Jenkins
   command: 'jenkins-jobs update itrust-test.yml'
   args:
