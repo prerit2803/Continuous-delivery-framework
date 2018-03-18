@@ -28,7 +28,7 @@
     git config --global user.name "temp";
 
     COUNTER=0
-    RUNS=100
+    RUNS=5
 
     while [ "$COUNTER" -lt "$RUNS" ]; do
       cd /var/lib/jenkins/project_repo/iTrust-fuzzer;
