@@ -232,11 +232,11 @@
     dest: /etc/jenkins_jobs/jenkins_jobs.ini
     
 - name: Upload Itrust Job to Jenkins
-  command: 'jenkins-jobs update itrust-test.yml'
+  command: jenkins-jobs update itrust-test.yml
   args:
     chdir: /var/lib/jenkins/project_repo/jenkins_files/
   tags:
-    upload
+    upload-job
 
 # - name: Upload Checkbox Job to Jenkins
 #   command: 'jenkins-jobs update checkbox.yml'

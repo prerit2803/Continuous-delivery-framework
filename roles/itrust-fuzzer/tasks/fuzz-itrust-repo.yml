@@ -51,6 +51,7 @@
         echo "Does not compile. Removing Changes."
         git reset --hard HEAD;
       fi
+      sleep 1m
     done
   async: 1000
   poll: 0
