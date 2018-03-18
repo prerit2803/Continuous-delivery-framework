@@ -1,0 +1,70 @@
+- job:
+    block-downstream: false
+    block-upstream: false
+    builders:
+    - shell: |-
+        mv $WORKSPACE/iTrust2/src/main/java/db.properties.template $WORKSPACE/iTrust2/src/main/java/db.properties
+        mv $WORKSPACE/iTrust2/src/main/java/email.properties.template $WORKSPACE/iTrust2/src/main/java/email.properties
+        mv $WORKSPACE/iTrust2/src/main/resources/hibernate.properties.template $WORKSPACE/iTrust2/src/main/resources/hibernate.properties
+        sed -i "s/hibernate.connection.password = /hibernate.connection.password = $MYSQL_PASSWORD/g" $WORKSPACE/iTrust2/src/main/resources/hibernate.properties
+        sed -i "s/password/password $MYSQL_PASSWORD/g" $WORKSPACE/iTrust2/src/main/java/db.properties
+        sed -i "s/username/username $MAIL_USER/g" $WORKSPACE/iTrust2/src/main/java/email.properties
+        sed -i "s/password/password $MAIL_PASSWORD/g" $WORKSPACE/iTrust2/src/main/java/email.properties
+        cd $WORKSPACE/iTrust2
+        mvn clean test
+    concurrent: false
+    description: null
+    disabled: false
+    name: !!python/unicode 'itrust_test'
+    project-type: freestyle
+    publishers:
+    - raw:
+        xml: |
+          <hudson.plugins.jacoco.JacocoPublisher plugin="jacoco@3.0.1">
+          <execPattern>**/**.exec</execPattern>
+          <classPattern>**/classes</classPattern>
+          <sourcePattern>**/src/</sourcePattern>
+          <inclusionPattern />
+          <exclusionPattern />
+          <skipCopyOfSrcFiles>false</skipCopyOfSrcFiles>
+          <minimumInstructionCoverage>0</minimumInstructionCoverage>
+          <minimumBranchCoverage>0</minimumBranchCoverage>
+          <minimumComplexityCoverage>0</minimumComplexityCoverage>
+          <minimumLineCoverage>0</minimumLineCoverage>
+          <minimumMethodCoverage>0</minimumMethodCoverage>
+          <minimumClassCoverage>0</minimumClassCoverage>
+          <maximumInstructionCoverage>0</maximumInstructionCoverage>
+          <maximumBranchCoverage>0</maximumBranchCoverage>
+          <maximumComplexityCoverage>0</maximumComplexityCoverage>
+          <maximumLineCoverage>0</maximumLineCoverage>
+          <maximumMethodCoverage>0</maximumMethodCoverage>
+          <maximumClassCoverage>0</maximumClassCoverage>
+          <changeBuildStatus>false</changeBuildStatus>
+          <deltaInstructionCoverage>0</deltaInstructionCoverage>
+          <deltaBranchCoverage>0</deltaBranchCoverage>
+          <deltaComplexityCoverage>0</deltaComplexityCoverage>
+          <deltaLineCoverage>0</deltaLineCoverage>
+          <deltaMethodCoverage>0</deltaMethodCoverage>
+          <deltaClassCoverage>0</deltaClassCoverage>
+          <buildOverBuild>false</buildOverBuild>
+          </hudson.plugins.jacoco.JacocoPublisher>
+    scm:
+    - git:
+        branches:
+        - '*/master'
+        url: /var/lib/jenkins/project_repo/iTrust2-v1/
+    triggers: []
+    wrappers:
+        - inject-passwords:
+            global: true
+            mask-password-params: true
+            job-passwords:
+                - name: MAIL_USER
+                  password: ENTER_HERE_MAIL_USER
+                - name: MAIL_PASSWORD
+                  password: ENTER_HERE_MAIL_PASSWORD
+                - name: MYSQL_PASSWORD
+                  password: ENTER_HERE_MYSQL_PASSWORD
+        - workspace-cleanup:
+            dirmatch: false
+

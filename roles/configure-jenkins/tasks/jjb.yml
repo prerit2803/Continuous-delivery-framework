@@ -64,15 +64,15 @@
     replace: "{{gitpass}}"
   become: yes
 
-# # Setting env for iTrust Job
-# - name: Set MySQL Password environment variable for iTrust Job
-#   vars:
-#     mysqlpass: "{{ env_vars.mysql_password }}"
-#   replace:
-#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-#     regexp: 'ENTER_HERE_MYSQL_PASSWORD'
-#     replace: "{{mysqlpass}}"
-#   become: yes
+# Setting env for iTrust Job
+- name: Set MySQL Password environment variable for iTrust Job
+  vars:
+    mysqlpass: "{{ env_vars.mysql_password }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust-test.yml
+    regexp: 'ENTER_HERE_MYSQL_PASSWORD'
+    replace: "{{mysqlpass}}"
+  become: yes
 
 # - name: Set AWS Access Key environment variable for iTrust Job
 #   vars:
@@ -110,23 +110,23 @@
 #     replace: "{{gitpass}}"
 #   become: yes
 
-# - name: Set Mail User environment variable for iTrust Job
-#   vars:
-#     mailuser: "{{ env_vars.MONGODB_MAIL_USER }}"
-#   replace:
-#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-#     regexp: 'ENTER_HERE_MAIL_USER'
-#     replace: "{{mailuser}}"
-#   become: yes
+- name: Set Mail User environment variable for iTrust Job
+  vars:
+    mailuser: "{{ env_vars.MAIL_USER }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust-test.yml
+    regexp: 'ENTER_HERE_MAIL_USER'
+    replace: "{{mailuser}}"
+  become: yes
 
-# - name: Set Mail Password environment variable for iTrust Job
-#   vars:
-#     mailpass: "{{ env_vars.MONGODB_MAIL_PASSWORD }}"
-#   replace:
-#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-#     regexp: 'ENTER_HERE_MAIL_PASSWORD'
-#     replace: "{{mailpass}}"
-#   become: yes
+- name: Set Mail Password environment variable for iTrust Job
+  vars:
+    mailpass: "{{ env_vars.MAIL_PASSWORD }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust-test.yml
+    regexp: 'ENTER_HERE_MAIL_PASSWORD'
+    replace: "{{mailpass}}"
+  become: yes
 
 # - name: Set Mail SMTP environment variable for iTrust Job
 #   vars:
@@ -246,12 +246,12 @@
 #   tags:
 #     set_env_checkbox
 
-# - name: Upload Itrust Job to Jenkins
-#   command: 'jenkins-jobs update itrust.yml'
-#   args:
-#     chdir: /var/lib/jenkins/project_repo/jenkins_files
-#   tags:
-#     upload
+- name: Upload Itrust Job to Jenkins
+  command: 'jenkins-jobs update itrust-test.yml'
+  args:
+    chdir: /var/lib/jenkins/project_repo/jenkins_files
+  tags:
+    upload
 
 # - name: Upload Checkbox Job to Jenkins
 #   command: 'jenkins-jobs update checkbox.yml'

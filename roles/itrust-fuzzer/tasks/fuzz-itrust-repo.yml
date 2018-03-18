@@ -2,7 +2,7 @@
   command: git checkout -b fuzzer
   become: yes
   args:
-    chdir: "{{ ansible_env.HOME }}/Milestone2/iTrust2-v2"
+    chdir: "/var/lib/jenkins/project_repo/iTrust2-v1"
   ignore_errors: True
   
 
@@ -10,14 +10,14 @@
 #  shell: mvn clean install
 #  become: yes
 #  args:
-#    chdir: "{{ ansible_env.HOME }}/Milestone2/iTrust-fuzzer"
+#    chdir: "/var/lib/jenkins/project_repo/iTrust-fuzzer"
 
 
 - name: Run mvn compile for fuzzer
   shell: mvn compile
   become: yes
   args:
-    chdir: "{{ ansible_env.HOME }}/Milestone2/iTrust-fuzzer"
+    chdir: "/var/lib/jenkins/project_repo/iTrust-fuzzer"
   tags:
     - "compile_fuzzer"
 
@@ -31,10 +31,10 @@
     RUNS=100
 
     while [ "$COUNTER" -lt "$RUNS" ]; do
-      cd {{ ansible_env.HOME }}/Milestone2/iTrust-fuzzer;
+      cd /var/lib/jenkins/project_repo/iTrust-fuzzer;
       mvn exec:java -Dexec.mainClass="com.cowboydevop.fuzzer.Fuzzer";
 
-      cd {{ ansible_env.HOME }}/Milestone2/iTrust2-v2/iTrust2;
+      cd /var/lib/jenkins/project_repo/iTrust2-v1/iTrust2;
       mvn compile;
       if [ "$?" -eq "0" ]
       then
@@ -56,7 +56,7 @@
   poll: 0
   become: yes
   args:
-    chdir: "{{ ansible_env.HOME }}/Milestone2"
+    chdir: "/var/lib/jenkins/project_repo"
   tags:
     - "shell"
 
