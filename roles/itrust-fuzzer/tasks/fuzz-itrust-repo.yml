@@ -2,7 +2,7 @@
   command: git checkout -b fuzzer
   become: yes
   args:
-    chdir: "/var/lib/jenkins/project_repo/iTrust2-v1"
+    chdir: "/var/lib/jenkins/project_repo/iTrust2-v2"
   ignore_errors: True
   
 
@@ -17,7 +17,7 @@
   command: mvn compile
   become: yes
   args:
-    chdir: "/var/lib/jenkins/project_repo/iTrust-fuzzer"
+    chdir: "/var/lib/jenkins/project_repo/iTrust-fuzzer/"
   tags:
     - "compile_fuzzer"
 
@@ -34,7 +34,7 @@
       cd /var/lib/jenkins/project_repo/iTrust-fuzzer;
       mvn exec:java -Dexec.mainClass="com.cowboydevop.fuzzer.Fuzzer";
 
-      cd /var/lib/jenkins/project_repo/iTrust2-v1/iTrust2;
+      cd /var/lib/jenkins/project_repo/iTrust2-v2/iTrust2;
       mvn compile;
       if [ "$?" -eq "0" ]
       then
@@ -51,12 +51,13 @@
         echo "Does not compile. Removing Changes."
         git reset --hard HEAD;
       fi
+      sleep 1m
     done
   async: 1000
   poll: 0
   become: yes
   args:
-    chdir: "/var/lib/jenkins/project_repo"
+    chdir: "/var/lib/jenkins/project_repo/"
   tags:
     - "shell"
 

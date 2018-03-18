@@ -14,6 +14,7 @@
   become: yes
   pip:
     name: jenkins-job-builder
+    state: present
 
 # REFERENCES: https://docs.openstack.org/infra/jenkins-job-builder/
 
@@ -37,7 +38,7 @@
     path: /var/lib/jenkins/init.groovy.d/
     state: directory
 
-- name: Copy grovy scripts to $JENKINS_HOME
+- name: Copy groovy scripts to $JENKINS_HOME
   become: yes
   command: cp -r /var/lib/jenkins/project_repo/jenkins_files/init.groovy.d/{{ item }} /var/lib/jenkins/init.groovy.d/
   with_items:
@@ -73,42 +74,6 @@
     regexp: 'ENTER_HERE_MYSQL_PASSWORD'
     replace: "{{mysqlpass}}"
   become: yes
-
-# - name: Set AWS Access Key environment variable for iTrust Job
-#   vars:
-#     accessKey: "{{ env_vars.ACCESS_KEY }}"
-#   replace:
-#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-#     regexp: 'ENTER_HERE_AWS_ACCESS_KEY_ID'
-#     replace: "{{accessKey}}"
-#   become: yes
-
-# - name: Set AWS Secret Key environment variable for iTrust Job
-#   vars:
-#     secretKey: "{{ env_vars.SECRET_KEY }}"
-#   replace:
-#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-#     regexp: 'ENTER_HERE_AWS_SECRET_ACCESS_KEY'
-#     replace: "{{secretKey}}"
-#   become: yes
-
-# - name: Set GitHub User environment variable for iTrust Job
-#   vars:
-#     gituser: "{{ env_vars.GIT_USER }}"
-#   replace:
-#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-#     regexp: 'ENTER_HERE_GIT_USER'
-#     replace: "{{gituser}}"
-#   become: yes
-
-# - name: Set GitHub Password environment variable for iTrust Job
-#   vars:
-#     gitpass: "{{ env_vars.GIT_PASSWORD }}"
-#   replace:
-#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-#     regexp: 'ENTER_HERE_GIT_PASSWORD'
-#     replace: "{{gitpass}}"
-#   become: yes
 
 - name: Set Mail User environment variable for iTrust Job
   vars:
@@ -251,6 +216,7 @@
     path: /var/lib/jenkins/project_repo/jenkins_files/jenkins_jobs.ini
     regexp: url=
     replace: "url=http://localhost:{{env_vars.jenkins_port}}"
+
 - name: Create /etc/jenkins_jobs to place jenkins_jobs.ini
   become: yes
   file:
@@ -258,6 +224,7 @@
     state: directory
     group: jenkins
     owner: jenkins
+
 - name: Copy jenkins_jobs.ini file  
   become: yes
   copy:
@@ -265,11 +232,11 @@
     dest: /etc/jenkins_jobs/jenkins_jobs.ini
     
 - name: Upload Itrust Job to Jenkins
-  command: 'jenkins-jobs update itrust-test.yml'
+  command: jenkins-jobs update itrust-test.yml
   args:
-    chdir: /var/lib/jenkins/project_repo/jenkins_files
+    chdir: /var/lib/jenkins/project_repo/jenkins_files/
   tags:
-    upload
+    upload-job
 
 # - name: Upload Checkbox Job to Jenkins
 #   command: 'jenkins-jobs update checkbox.yml'
@@ -291,12 +258,12 @@
 #   tags:
 #     build-jobs
 
-# - name: Cleanup iTrust
-#   become: yes
-#   file:
-#     path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-#     state: absent
-#     mode: 0440
+- name: Cleanup iTrust
+  become: yes
+  file:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust-test.yml
+    state: absent
+    mode: 0440
 
 # - name: Cleanup Checkbox.io
 #   become: yes

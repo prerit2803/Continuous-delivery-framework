@@ -1,0 +1,8 @@
+---
+env_vars:
+  mysql_password: ""
+  jenkins_port: ""
+  GIT_USER: ""
+  GIT_PASSWORD: ""
+  MAIL_PASSWORD: ""
+  MAIL_USER: ""
