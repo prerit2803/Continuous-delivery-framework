@@ -14,7 +14,7 @@
 
 
 - name: Run mvn compile for fuzzer
-  shell: mvn compile
+  command: mvn compile
   become: yes
   args:
     chdir: "/var/lib/jenkins/project_repo/iTrust-fuzzer"
