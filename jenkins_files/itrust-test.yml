@@ -15,7 +15,7 @@
     concurrent: false
     description: null
     disabled: false
-    name: !!python/unicode 'itrust_test'
+    name: !!python/unicode 'itrust-test'
     project-type: freestyle
     publishers:
     - raw:
