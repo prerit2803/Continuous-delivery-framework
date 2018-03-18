@@ -43,7 +43,7 @@
         git add *;
         git commit -m 'temp commit';
         # May need to push to remote repo too
-        java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ build 'itrust-fuzzer'
+        java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8081/ build 'itrust-test'
         git reset --hard HEAD^;
         COUNTER=`expr $COUNTER + 1`
 
