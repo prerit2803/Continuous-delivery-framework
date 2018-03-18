@@ -245,7 +245,13 @@
 #     dest: "{{ ansible_env.HOME }}"
 #   tags:
 #     set_env_checkbox
-
+- name: Add Jenkins url to Jenkins_job.ini
+  become: yes
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files
+    regexp: url=
+    replace: "url={{env_vars.jenkins_port}}"
+  
 - name: Upload Itrust Job to Jenkins
   command: 'jenkins-jobs update itrust-test.yml'
   args:
