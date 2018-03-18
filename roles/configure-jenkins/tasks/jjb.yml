@@ -245,10 +245,10 @@
 #     dest: "{{ ansible_env.HOME }}"
 #   tags:
 #     set_env_checkbox
-- name: Add Jenkins url to Jenkins_job.ini
+- name: Add Jenkins url to jenkins_jobs.ini
   become: yes
   replace:
-    path: /var/lib/jenkins/project_repo/jenkins_files
+    path: /var/lib/jenkins/project_repo/jenkins_files/jenkins_jobs.ini
     regexp: url=
     replace: "url={{env_vars.jenkins_port}}"
   
