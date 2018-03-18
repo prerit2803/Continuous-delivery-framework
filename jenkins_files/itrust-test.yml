@@ -10,6 +10,7 @@
         sed -i "s/password/password $MYSQL_PASSWORD/g" $WORKSPACE/iTrust2/src/main/java/db.properties
         sed -i "s/username/username $MAIL_USER/g" $WORKSPACE/iTrust2/src/main/java/email.properties
         sed -i "s/password/password $MAIL_PASSWORD/g" $WORKSPACE/iTrust2/src/main/java/email.properties
+        sed -i "s/from/from $MAIL_USER/g" $WORKSPACE/iTrust2/src/main/java/email.properties
         cd $WORKSPACE/iTrust2
         mvn clean test
     concurrent: false
@@ -52,7 +53,7 @@
     - git:
         branches:
         - '*/fuzzer'
-        url: /var/lib/jenkins/project_repo/iTrust2-v1/
+        url: /var/lib/jenkins/project_repo/iTrust2-v2/
     triggers: []
     wrappers:
         - inject-passwords:
