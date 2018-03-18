@@ -14,7 +14,7 @@
 
 
 - name: Run mvn compile for fuzzer
-  shell: mvn compile
+  command: mvn compile
   become: yes
   args:
     chdir: "/var/lib/jenkins/project_repo/iTrust-fuzzer"
@@ -43,7 +43,7 @@
         git add *;
         git commit -m 'temp commit';
         # May need to push to remote repo too
-        java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ build 'itrust-test'
+        java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8081/ build 'itrust-test'
         git reset --hard HEAD^;
         COUNTER=`expr $COUNTER + 1`
 
