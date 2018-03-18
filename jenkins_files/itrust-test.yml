@@ -11,7 +11,9 @@
         sed -i "s/username/username $MAIL_USER/g" $WORKSPACE/iTrust2/src/main/java/email.properties
         sed -i "s/password/password $MAIL_PASSWORD/g" $WORKSPACE/iTrust2/src/main/java/email.properties
         sed -i "s/from/from $MAIL_USER/g" $WORKSPACE/iTrust2/src/main/java/email.properties
-        cd iTrust2 &&  mvn compile && mvn clean test
+        cd iTrust2
+        mvn -f ../../project_repo/jenkins_files/pom-data.xml process-test-classes
+        mvn clean test verify
     concurrent: false
     description: null
     disabled: false
