@@ -17,7 +17,7 @@
   command: mvn compile
   become: yes
   args:
-    chdir: "/var/lib/jenkins/project_repo/iTrust-fuzzer"
+    chdir: "/var/lib/jenkins/project_repo/iTrust-fuzzer/"
   tags:
     - "compile_fuzzer"
 
@@ -56,7 +56,7 @@
   poll: 0
   become: yes
   args:
-    chdir: "/var/lib/jenkins/project_repo"
+    chdir: "/var/lib/jenkins/project_repo/"
   tags:
     - "shell"
 
