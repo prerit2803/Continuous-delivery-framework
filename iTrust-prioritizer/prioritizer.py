@@ -18,13 +18,14 @@ for build in build_num_dirs:
         for tc in root.findall('testcase'):
             name = tc.get('name')
             time = tc.get('time')
-            fail = tc.get('failure')
-            error = tc.get('error')
+            fail = tc.findall('failure')
+            error = tc.findall('error')
 
             if not name in tests:
                 tests[name] = {'runtimes': [], 'num_passes': []}
 
             passed = (not fail) and (not error)
+ 
             if passed:
                 tests[name]['runtimes'].append(float(time))
                 tests[name]['num_passes'].append(1)
@@ -41,19 +42,18 @@ for key, value in tests.iteritems():
 
 for key, value in tests.iteritems():
     sum = 0
-    runtimes = tests[key]['num_passes']
-    for val in runtimes:
+    passes = tests[key]['num_passes']
+    for val in passes:
         sum += val
-    avg = sum / len(runtimes)
+    avg = float(sum) / len(passes)
     tests[key]['avg_pass_rate'] = avg
 
 test_list = [[key, tests[key]['avg_runtime'], tests[key]['avg_pass_rate']] for key in tests]
-sorted_test_list = sorted(test_list, key = operator.itemgetter(1))
+sorted_test_list = sorted(test_list, key = operator.itemgetter(1), reverse=True)
 sorted_test_list = sorted(sorted_test_list, key = operator.itemgetter(2), reverse=True)
 
 for test in sorted_test_list:
     spaces = ''
     for x in range(40 - len(test[0])):
         spaces += ' '
-
-    print "Test: %s %s Avg_Time: %.2f \t Pass_Rate: %s" % (test[0], spaces, test[1], test[2] * 100,)
+    print "Test: %s %s Avg_Time: %.2f \t Pass_Rate: %.2f" % (test[0], spaces, test[1], test[2] * 100.0,)
