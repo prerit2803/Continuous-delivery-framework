@@ -13,7 +13,12 @@ for build in build_num_dirs:
     test_files = test_files.split()
 
     for test in test_files:
-        tree = ET.parse(test)
+        tree = None
+        try:
+            tree = ET.parse(test)
+        except ET.ParseError:
+            continue
+
         root = tree.getroot()
         for tc in root.findall('testcase'):
             name = tc.get('name')
@@ -33,19 +38,19 @@ for build in build_num_dirs:
                 tests[name]['num_passes'].append(0)
 
 for key, value in tests.iteritems():
-    sum = 0
+    adder = 0
     runtimes = tests[key]['runtimes']
     for val in runtimes:
-        sum += val
-    avg = sum / len(runtimes)
+        adder += val
+    avg = adder / len(runtimes)
     tests[key]['avg_runtime'] = avg
 
 for key, value in tests.iteritems():
-    sum = 0
+    adder = 0
     passes = tests[key]['num_passes']
     for val in passes:
-        sum += val
-    avg = float(sum) / len(passes)
+        adder += val
+    avg = float(adder) / len(passes)
     tests[key]['avg_pass_rate'] = avg
 
 test_list = [[key, tests[key]['avg_runtime'], tests[key]['avg_pass_rate']] for key in tests]
