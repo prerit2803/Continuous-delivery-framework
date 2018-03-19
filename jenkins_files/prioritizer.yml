@@ -3,8 +3,7 @@
     block-upstream: false
     builders:
     - shell: |-
-        echo 'node script goes here'
-        echo ''
+        python $HOME/project_repo/iTrust-prioritizer/prioritizer.py
     concurrent: false
     description: null
     disabled: false
