@@ -30,6 +30,9 @@
     COUNTER=0
     RUNS=5
 
+    # Run job without fuzzing
+    java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:{{ env_vars.jenkins_port }}/ build 'itrust-test'
+
     while [ "$COUNTER" -lt "$RUNS" ]; do
       cd /var/lib/jenkins/project_repo/iTrust-fuzzer;
       mvn exec:java -Dexec.mainClass="com.cowboydevop.fuzzer.Fuzzer";
@@ -39,19 +42,19 @@
       if [ "$?" -eq "0" ]
       then
         echo "Compiles. Committing!"
-        git diff;
         git add *;
         git commit -m 'temp commit';
         # May need to push to remote repo too
-        java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8081/ build 'itrust-test'
+        java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:{{ env_vars.jenkins_port }}/ build 'itrust-test'
+        sleep 5m
         git reset --hard HEAD^;
         COUNTER=`expr $COUNTER + 1`
+        echo $COUNTER
 
       else
         echo "Does not compile. Removing Changes."
         git reset --hard HEAD;
       fi
-      sleep 1m
     done
   async: 1000
   poll: 0
