@@ -238,6 +238,13 @@
   tags:
     upload-job
 
+- name: Upload prioritizer Job to Jenkins
+  command: jenkins-jobs --conf jenkins_jobs.ini update prioritizer.yml
+  args:
+    chdir: /var/lib/jenkins/project_repo/jenkins_files/
+  tags:
+    upload-job
+
 # - name: Upload Checkbox Job to Jenkins
 #   command: 'jenkins-jobs update checkbox.yml'
 #   args:
@@ -262,6 +269,13 @@
   become: yes
   file:
     path: /var/lib/jenkins/project_repo/jenkins_files/itrust-test.yml
+    state: absent
+    mode: 0440
+
+- name: Cleanup prioritizer
+  become: yes
+  file:
+    path: /var/lib/jenkins/project_repo/jenkins_files/prioritizer.yml
     state: absent
     mode: 0440
 
