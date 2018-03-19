@@ -3,6 +3,7 @@
     block-upstream: false
     builders:
     - shell: |-
+        git diff --name-only HEAD^ HEAD
         mv $WORKSPACE/iTrust2/src/main/java/db.properties.template $WORKSPACE/iTrust2/src/main/java/db.properties
         mv $WORKSPACE/iTrust2/src/main/java/email.properties.template $WORKSPACE/iTrust2/src/main/java/email.properties
         mv $WORKSPACE/iTrust2/src/main/resources/hibernate.properties.template $WORKSPACE/iTrust2/src/main/resources/hibernate.properties
