@@ -1,0 +1,13 @@
+- job:
+    block-downstream: false
+    block-upstream: false
+    builders:
+    - shell: |-
+      echo 'node script goes here'
+    concurrent: false
+    disabled: false
+    name: !!python/unicode 'prioritizer'
+    project-type: freestyle
+    publishers: []
+    triggers: []
+    wrappers: []

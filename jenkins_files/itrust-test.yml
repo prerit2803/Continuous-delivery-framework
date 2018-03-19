@@ -21,6 +21,18 @@
     name: !!python/unicode 'itrust-test'
     project-type: freestyle
     publishers:
+    - trigger:
+        project: prioritizer
+        threshold: FAILURE
+    - post-tasks:
+      - escalate-status: false
+        matches:
+        - log-text: null
+          operator: AND
+        run-if-job-successful: true
+        script: |-
+            mkdir -p $HOME/project_repo/reports;
+            mv $WORKSPACE/iTrust2/target/surefire-reports/ $HOME/project_repo/reports/$BUILD_NUMBER;
     - raw:
         xml: |
           <hudson.plugins.jacoco.JacocoPublisher plugin="jacoco@3.0.1">
