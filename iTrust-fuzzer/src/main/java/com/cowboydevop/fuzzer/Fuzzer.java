@@ -44,7 +44,7 @@ public class Fuzzer {
 
         // remove everything that is not a .java file
         for (int i = 0; i < results.size(); i++){
-            if (!results.get(i).contains(".java")){
+            if (!results.get(i).contains(".java") || results.get(i).contains("model")){
                 results.remove(i);
             }
         }
