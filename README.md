@@ -5,49 +5,48 @@
 
 ## Team Members:
 | Name | UnityId | Contribution |
-|-------------------|-------|----------|
-| Zachery Thomas | zithomas | Jenkins Setup (config & adding jobs), Checkbox Setup, Video Editing and VO |
-| Vikas Pandey | vrpandey | iTrust Build Job, Groovy scripts for injecting Jenkins envVars & creating Git credentials |
-| Prerit Bhandari | pbhanda2 | iTrust & Checkbox.io setup, Ansible roles creation & restructuring|
-| Ankur Saxena | asaxena3 | Automation of provisioning, Jenkins setup, Documentation |
+|---------------------|-------|----------|
+| Zachery Thomas | zithomas |  |
+| Vikas Pandey | vrpandey |  |
+| Prerit Bhandari | pbhanda2 | |
+| Ankur Saxena | asaxena3 |  |
 
 ## Screencast
-The screencast for [Milestone1.](https://youtu.be/yg7V67ptg18)
++ The screencast for [Milestone2 - iTrust2-v2]()
++ The screencast for [Milestone2 - checkbox.io]()
+
 ## Success Demo
 ### iTrust  
-    ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/tutorial_material/itrust-demo.gif)   
+    ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial_material/itrust-demo.gif)   
 
 ### Checkbox.io    
-    ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/tutorial_material/checkbox-demo.gif)
+    ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial_material/checkbox-demo.gif)
 
 ## Overview
-For the Milestone1 of the project, we are provisioning Amazon Web Services EC2 instances for our jenkins server, and deploying _Checkbox.io_ and _iTrust2_.
+For the Milestone2 of the project, we are provisioning local instances for our jenkins server and performing the following tasks:
++ Setting up Jenkins on a local server(ubuntu xenial VM) and configuring plugins to display coverage, and test results.
++ Generates 100 fuzzed commits on iTrust2-v2 repository locally ,triggers build jobs, and generated reports(on build success) for each commit.
++ Once all fuzzed builds are finished, displays the prioritization results for all the tests of the suite.
++ Automates test generation for the chickbox.io and presents Instanbul coverage reports at the end of the playbook.  
 Once you clone the repository, you can see the following file structure:
 ```
 |-- build.yml
-|-- deploy-checkbox.yml
-|-- deploy-itrust.yml
-|-- build-inventory
-|-- deploy-inventory
+|-- inventory
 |-- group_vars
     |-- all
         |-- vars.yml
 |-- jenkins_files
-    |-- itrust.yml
-    |-- checkbox.yml
+    |-- itrust-test.yml
     |-- init.groovy.d
         |-- init.groovy
         |-- makeCred.groovy
         |-- remove.groovy
 |-- roles
-    |-- provision-jenkins
     |-- configure-jenkins
-    |-- provision-checkbox
     |-- configure-checkbox
-    |-- provision-itrust
     |-- configure-itrust
-    |-- deploy-checkbox
-    |-- deploy-itrust
+    |-- itrust-fuzzer
+    |-- checkbox-test    
 ```
 
 ## Setup
@@ -57,15 +56,13 @@ We first set variable values in [`group/all/vars.yml`](https://github.ncsu.edu/a
 You must edit following variables (don't provide blank values to any variable):
 
 + `mysql_password`: MySQL admin password
-+ `ACCESS_KEY`: Secret access key for AWS account
-+ `SECRET_KEY`: Secret key for AWS account
 + `GIT_USER`: NCSU Github account username
 + `GIT_PASSWORD`: NCSU Github account password
++ `MAIL_USER`: User for SMTP
++ `MAIL_PASSWORD`: Password for SMTP
 + `MONGODB_IP`: localhost   //Setting to any other value will not guarantee that checkbox will function properly
 + `MONGODB_USER`: Username to set for Mongodb
 + `MONGODB_PASS`: Password for Mongodb username
-+ `MONGODB_MAIL_USER`: User for SMTP
-+ `MONGODB_MAIL_PASSWORD`: Password for SMTP
 + `MONGODB_MAIL_SMTP`: SMTP for mail  
 Besides these values, the `MONGO_PORT` is being set to **3002** as instructed.
 ### Guidelines
