@@ -3,8 +3,10 @@
     block-upstream: false
     builders:
     - shell: |-
-      echo 'node script goes here'
+        echo 'node script goes here'
+        echo ''
     concurrent: false
+    description: null
     disabled: false
     name: !!python/unicode 'prioritizer'
     project-type: freestyle
