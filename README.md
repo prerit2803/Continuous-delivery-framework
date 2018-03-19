@@ -74,4 +74,9 @@ ansible-playbook -i inventory build.yml
 ```
 ## Approach
 ### 1. Configuration of iTrust2-v2
+### 2. Fuzzing
+### 3. Test Prioritization
+### 4. Checkbox Test Automation
+
+
 The version update of iTrust2-v2 posed a minor challenge in the setup of the project. 
