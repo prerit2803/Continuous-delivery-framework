@@ -160,7 +160,7 @@ async function constraints(dictionary) {
             }
           }
           if(child.type == "CallExpression" && child.arguments && child.arguments.length == 3 && child.arguments[0].name == "req" && child.arguments[1].name == "res"){
-            console.log("for fd", child.callee.name, functionName);
+            // console.log("for fd", child.callee.name, functionName);
             functionConstraints[functionName]["helper"] = child.callee.name;
           }
         });

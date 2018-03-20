@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-console.log("in Models", models)
 
   mongoose.connect('mongodb://localhost:27017/site');
 

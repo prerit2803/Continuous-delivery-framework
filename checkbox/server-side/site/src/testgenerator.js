@@ -5,6 +5,9 @@ const fs      = require("fs");
 const _       = require('lodash');
 const async = require('async');
 const sleep = require('sleep');
+var faker = require("faker");
+var randomstring = require("randomstring");
+faker.locale  = "en";
 var Models = require("../models").models;
 var study= Models.StudyModel;
 
@@ -21,42 +24,66 @@ async function generateTestCases(stream, info, functionConstraints) {
     // let filePath = "./routes/"+dictionary.file;
     // Content string. This will be built up to generate the full text of the test string.
 
-    console.log("INFO", info);
+    // console.log("INFO", info);
+    var studyId = info._id;
+    var contact = info.contact;
+    var studyKind = info.studyKind;
+    var token = info.token;
+    var fingerprint = randomstring.generate(12);
+    var email = faker.internet.email();
+    var answers = `{"Question1": "${faker.lorem.paragraph()}", "Question2": "${faker.lorem.paragraph()}"}`
     // functionConstraints.then(function(result){
      // console.log(result);
      for ( let funcName in  functionConstraints){
+       let requestType = functionConstraints[funcName]["method"];
        let content = "";
        // console.log("FC ",funcName, functionConstraints[funcName]);
-         let indexOfColon = funcName.indexOf(":");
-         let url = "";
-         var needData = [false, false];
-         console.log("USR",funcName);
-         if(indexOfColon > -1 ){
-           if(funcName.indexOf("id") > -1){
-             needData[0] = true;
-           }else if(funcName.indexOf("token") > -1){
-             needData[1] = true;
-           }
-           url = funcName.substring(0, indexOfColon);
-         }else{
-           url = funcName;
+       let indexOfColon = funcName.indexOf(":");
+       let url = "";
+       var needData = [false, false];
+       // console.log("USR",funcName);
+       if(indexOfColon > -1 ){
+         if(funcName.indexOf("id") > -1){
+           needData[0] = true;
+         }else if(funcName.indexOf("token") > -1){
+           needData[1] = true;
          }
-         console.log("bool", needData[0], needData[1])
-         content += `\n\n\nvar options = {\n uri: 'http://localhost:3002${url}`;
-         if(needData[0]){
-           console.log("NEED DATA", info._id);
-           content += info._id;
-         }
-         else if(needData[1]){
-           console.log("NEED TOKEN", info.token);
-           content += info.token;
-         }
-         content += `',\n method: '${functionConstraints[funcName]["method"]}'`;
-         if(functionConstraints[funcName]["method"] == "POST"){
-           content += ',\njson: {}\n';
-         }
-         content += "\n};\n\nrequest(options, function (error, response, body) {\nif (!error && response.statusCode == 200) {}\n});";
-         stream.write(content);
+         url = funcName.substring(0, indexOfColon);
+       }else{
+         url = funcName;
+       }
+       // console.log("bool", needData[0], needData[1])
+       content += `\n\n\nvar options = {\n uri: 'http://localhost:3002${url}`;
+       if(needData[0]){
+         // console.log("NEED DATA", info._id);
+         content += studyId;
+       }
+       else if(needData[1]){
+         // console.log("NEED TOKEN", info.token);
+         content += token;
+       }
+       content += `',\n method: '${requestType}'`;
+       if(requestType == "POST"){
+         content += ',\n json: {';
+       }
+      for(let constraint in functionConstraints[funcName]){
+        if(constraint == "method" || constraint == "helper")
+          continue;
+        let param = functionConstraints[funcName][constraint];
+        // console.log("Details", constraint, param, param.length);
+        if(requestType === "POST"){
+          if(param.length === 0){
+            content += `\n\t'${constraint}': '${eval(constraint)}',`;
+          }
+        }
+      }
+      if(requestType === "POST"){
+        content = content.slice(0, -1);
+        content += "\n}\n";
+      }
+
+       content += "\n};\n\nrequest(options, function (error, response, body) {\nif (!error && response.statusCode == 200) {}\n});";
+       stream.write(content);
      }
    // })
 

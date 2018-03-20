@@ -28,7 +28,7 @@ var study= Models.StudyModel;
  * Parse an input file and generate test cases for it.
  */
  var dictionary = [];
-(module.exports.main = async function() {
+(module.exports.main = function() {
     // console.log("asdas",buf);
     // Parse file input, defaulting to subject.js if not provided
     // let args = process.argv.slice(2);
@@ -126,7 +126,7 @@ function getData(){
       // console.log("now here");
       study.findOne(function (err, kittens) {
         if (err) return console.error(err);
-        console.log("ID HER in getE", kittens._id, kittens.token);
+        // console.log("ID HER in getE", kittens._id, kittens.token);
         resolve(kittens);
       });
     });

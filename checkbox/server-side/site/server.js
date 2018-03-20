@@ -83,6 +83,7 @@ app.post('/api/study/admin/notify/', admin.notifyParticipant);
 //app.get('/api/design/survey/vote/status', votes.status );
 //app.get('/api/design/survey/vote/stat/:id', votes.getSurveyStats );
 
-var server = app.listen(process.env.MONGO_PORT);
-module.exports.server = server;
+
+
+app.listen(process.env.MONGO_PORT);
 console.log('Listening on port 3002...');
