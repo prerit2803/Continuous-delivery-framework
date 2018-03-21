@@ -31,7 +31,7 @@
     git checkout fuzzer;
 
     COUNTER=0;
-    RUNS=10;
+    RUNS=50;
     JOB_URL=http://localhost:{{ env_vars.jenkins_port }}/job/itrust-test
     JOB_STATUS_URL=${JOB_URL}/lastBuild/api/json
 
