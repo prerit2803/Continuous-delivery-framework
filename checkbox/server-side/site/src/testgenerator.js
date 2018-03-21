@@ -36,7 +36,6 @@ async function generateTestCases(stream, info, functionConstraints) {
      // console.log(result);
      for ( let funcName in  functionConstraints){
        let requestType = functionConstraints[funcName]["method"];
-       let content = "";
        // console.log("FC ",funcName, functionConstraints[funcName]);
        let indexOfColon = funcName.indexOf(":");
        let url = "";
@@ -53,37 +52,82 @@ async function generateTestCases(stream, info, functionConstraints) {
          url = funcName;
        }
        // console.log("bool", needData[0], needData[1])
-       content += `\n\n\nvar options = {\n uri: 'http://localhost:3002${url}`;
-       if(needData[0]){
-         // console.log("NEED DATA", info._id);
-         content += studyId;
+       var empytyConstraint = [];
+       let constraintWithData;
+       for(let constraint in functionConstraints[funcName]){
+         if(constraint == "method" || constraint == "helper")
+           continue;
+         let param = functionConstraints[funcName][constraint];
+         if(param.length === 0){
+           empytyConstraint.push(constraint);
+         }
+         else {
+           constraintWithData = constraint;
+         }
        }
-       else if(needData[1]){
-         // console.log("NEED TOKEN", info.token);
-         content += token;
-       }
-       content += `',\n method: '${requestType}'`;
-       if(requestType == "POST"){
-         content += ',\n json: {';
-       }
-      for(let constraint in functionConstraints[funcName]){
-        if(constraint == "method" || constraint == "helper")
-          continue;
-        let param = functionConstraints[funcName][constraint];
-        // console.log("Details", constraint, param, param.length);
-        if(requestType === "POST"){
-          if(param.length === 0){
-            content += `\n\t'${constraint}': '${eval(constraint)}',`;
-          }
-        }
-      }
-      if(requestType === "POST"){
-        content = content.slice(0, -1);
-        content += "\n}\n";
-      }
 
-       content += "\n};\n\nrequest(options, function (error, response, body) {\nif (!error && response.statusCode == 200) {}\n});";
-       stream.write(content);
+       // console.log(url, requestType, empytyConstraint, constraintWithData);
+      //  if(!constraintWithData)
+      //     console.log("empty");
+      // else{
+        // console.log(functionConstraints[funcName][constraintWithData].length);
+      // }
+      let i = 0;
+
+      do{
+        let content = "";
+        content += `\n\n\nvar options = {\n uri: 'http://localhost:3002${url}`;
+        if(needData[0]){
+          // console.log("NEED DATA", info._id);
+          content += studyId;
+        }
+        else if(needData[1]){
+          // console.log("NEED TOKEN", info.token);
+          content += token;
+        }
+
+        content += `',\n method: '${requestType}'`;
+        if(requestType == "POST"){
+          content += ',\n json: {';
+          for(var j = 0; j < empytyConstraint.length; j++){
+            // console.log("empty constraint", empytyConstraint[j]);
+            content += `\n\t'${empytyConstraint[j]}': '${eval(empytyConstraint[j])}',`;
+          }
+
+          if(constraintWithData){
+            // console.log("adding constraint");
+            content += `\n\t'${constraintWithData}': ${functionConstraints[funcName][constraintWithData][i++].value},`;
+          }
+          content = content.slice(0, -1);
+          content += "\n}\n";
+        }
+
+        content += "\n};\n\nrequest(options, function (error, response, body) {\nif (!error && response.statusCode == 200) {}\n});";
+        stream.write(content);
+
+      }while(i < (constraintWithData ? functionConstraints[funcName][constraintWithData].length : -1))
+
+
+
+       // }
+      // for(let constraint in functionConstraints[funcName]){
+      //   if(constraint == "method" || constraint == "helper")
+      //     continue;
+      //   let param = functionConstraints[funcName][constraint];
+      //   console.log("Details", constraint, param, param.length);
+      //   if(requestType === "POST"){
+      //     if(param.length === 0){
+      //       content += `\n\t'${constraint}': '${eval(constraint)}',`;
+      //     }
+      //   }
+      // }
+      // if(requestType === "POST"){
+      //   content = content.slice(0, -1);
+      //   content += "\n}\n";
+      // }
+      //
+      //  content += "\n};\n\nrequest(options, function (error, response, body) {\nif (!error && response.statusCode == 200) {}\n});";
+      //  stream.write(content);
      }
    // })
 

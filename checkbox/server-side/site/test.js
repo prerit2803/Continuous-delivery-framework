@@ -7,9 +7,9 @@ var options = {
  method: 'POST',
  json: {
 	'studyId': '5ab001a23faedc2d4a83a237',
-	'fingerprint': 'yHYwFIE1EPLQ',
-	'answers': '{"Question1": "Rerum aperiam dolor fugiat nihil mollitia. Necessitatibus est ad voluptatum non ipsa. Exercitationem sit praesentium.", "Question2": "Officia corporis in qui beatae minus et perferendis. Adipisci a quo voluptas omnis. Nisi error aliquid architecto. Sit esse ut aut. Sit est et quia ut et veritatis debitis voluptatem sit. Asperiores suscipit est vitae quibusdam impedit aspernatur sequi."}',
-	'email': 'Katelyn_Nader19@gmail.com',
+	'fingerprint': 'QMR9jrJyVgal',
+	'answers': '{"Question1": "Possimus nemo tempora laudantium deserunt. Fugit vel vel quia consequatur quam. Veniam accusantium eveniet corporis saepe sed facilis.", "Question2": "Laborum qui necessitatibus aut nesciunt iure autem beatae iste odit. Quae non optio sed. Ipsam facere ut occaecati perspiciatis laudantium quis autem labore dicta. Est hic excepturi vero est modi. Quaerat exercitationem sit officia mollitia impedit fugit assumenda in. Nemo qui fugit."}',
+	'email': 'Jedediah.Legros49@hotmail.com',
 	'contact': '705.636.5982'
 }
 
@@ -24,7 +24,23 @@ var options = {
  uri: 'http://localhost:3002/api/study/create',
  method: 'POST',
  json: {
-	'studyKind': 'dataStudy'
+	'studyKind': 'dataStudy',
+	'invitecode': "RESEARCH"
+}
+
+};
+
+request(options, function (error, response, body) {
+if (!error && response.statusCode == 200) {}
+});
+
+
+var options = {
+ uri: 'http://localhost:3002/api/study/create',
+ method: 'POST',
+ json: {
+	'studyKind': 'dataStudy',
+	'invitecode': 'NEQ - RESEARCH'
 }
 
 };
@@ -66,7 +82,143 @@ var options = {
  uri: 'http://localhost:3002/api/study/admin/notify/',
  method: 'POST',
  json: {
-	'email': 'Katelyn_Nader19@gmail.com'
+	'email': 'Jedediah.Legros49@hotmail.com',
+	'kind': "AMZN"
+}
+
+};
+
+request(options, function (error, response, body) {
+if (!error && response.statusCode == 200) {}
+});
+
+
+var options = {
+ uri: 'http://localhost:3002/api/study/admin/notify/',
+ method: 'POST',
+ json: {
+	'email': 'Jedediah.Legros49@hotmail.com',
+	'kind': 'NEQ - AMZN'
+}
+
+};
+
+request(options, function (error, response, body) {
+if (!error && response.statusCode == 200) {}
+});
+
+
+var options = {
+ uri: 'http://localhost:3002/api/study/admin/notify/',
+ method: 'POST',
+ json: {
+	'email': 'Jedediah.Legros49@hotmail.com',
+	'kind': "SURFACE"
+}
+
+};
+
+request(options, function (error, response, body) {
+if (!error && response.statusCode == 200) {}
+});
+
+
+var options = {
+ uri: 'http://localhost:3002/api/study/admin/notify/',
+ method: 'POST',
+ json: {
+	'email': 'Jedediah.Legros49@hotmail.com',
+	'kind': 'NEQ - SURFACE'
+}
+
+};
+
+request(options, function (error, response, body) {
+if (!error && response.statusCode == 200) {}
+});
+
+
+var options = {
+ uri: 'http://localhost:3002/api/study/admin/notify/',
+ method: 'POST',
+ json: {
+	'email': 'Jedediah.Legros49@hotmail.com',
+	'kind': "IPADMINI"
+}
+
+};
+
+request(options, function (error, response, body) {
+if (!error && response.statusCode == 200) {}
+});
+
+
+var options = {
+ uri: 'http://localhost:3002/api/study/admin/notify/',
+ method: 'POST',
+ json: {
+	'email': 'Jedediah.Legros49@hotmail.com',
+	'kind': 'NEQ - IPADMINI'
+}
+
+};
+
+request(options, function (error, response, body) {
+if (!error && response.statusCode == 200) {}
+});
+
+
+var options = {
+ uri: 'http://localhost:3002/api/study/admin/notify/',
+ method: 'POST',
+ json: {
+	'email': 'Jedediah.Legros49@hotmail.com',
+	'kind': "GITHUB"
+}
+
+};
+
+request(options, function (error, response, body) {
+if (!error && response.statusCode == 200) {}
+});
+
+
+var options = {
+ uri: 'http://localhost:3002/api/study/admin/notify/',
+ method: 'POST',
+ json: {
+	'email': 'Jedediah.Legros49@hotmail.com',
+	'kind': 'NEQ - GITHUB'
+}
+
+};
+
+request(options, function (error, response, body) {
+if (!error && response.statusCode == 200) {}
+});
+
+
+var options = {
+ uri: 'http://localhost:3002/api/study/admin/notify/',
+ method: 'POST',
+ json: {
+	'email': 'Jedediah.Legros49@hotmail.com',
+	'kind': "BROWSERSTACK"
+}
+
+};
+
+request(options, function (error, response, body) {
+if (!error && response.statusCode == 200) {}
+});
+
+
+var options = {
+ uri: 'http://localhost:3002/api/study/admin/notify/',
+ method: 'POST',
+ json: {
+	'email': 'Jedediah.Legros49@hotmail.com',
+	'kind': 'NEQ - BROWSERSTACK'
 }
 
 };
