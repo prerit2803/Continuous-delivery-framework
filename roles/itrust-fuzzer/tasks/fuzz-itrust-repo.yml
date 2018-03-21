@@ -69,6 +69,7 @@
         git reset --hard HEAD^;
 
         COUNTER=`expr $COUNTER + 1`
+        echo "job finished; incrementing counter"
         echo $COUNTER
 
       else
