@@ -69,7 +69,7 @@
         git reset --hard HEAD^;
 
         COUNTER=`expr $COUNTER + 1`
-        echo "counter now: " $COUNTER
+        echo $COUNTER
 
       else
         echo "Does not compile. Removing Changes."
