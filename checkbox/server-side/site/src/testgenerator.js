@@ -4,7 +4,6 @@ const fs      = require("fs");
 // const mock    = require('mock-fs');
 const _       = require('lodash');
 const async = require('async');
-const sleep = require('sleep');
 var faker = require("faker");
 var randomstring = require("randomstring");
 faker.locale  = "en";
