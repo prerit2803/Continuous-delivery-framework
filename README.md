@@ -6,7 +6,7 @@
 ## Team Members:
 | Name | UnityId | Contribution |
 |---------------------|-------|----------|
-| Zachery Thomas | zithomas |  |
+| Zachery Thomas | zithomas | iTrust Fuzzer, iTrust test Prioritizer |
 | Vikas Pandey | vrpandey |  |
 | Prerit Bhandari | pbhanda2 | |
 | Ankur Saxena | asaxena3 |  |
@@ -75,7 +75,24 @@ ansible-playbook -i inventory build.yml
 ## Approach
 ### 1. Configuration of iTrust2-v2
 ### 2. Fuzzing
+#### 1. Fuzzer Features
+Currently our fuzzer can modify java files within iTrust such that:
+* Comparitors in if statements (ex. if(value == 4) ) are flipped to reverse condition (ex. == to != or != to ==)
+* String literals (ex. "Hello World!") are switched to a default string value (ex. "new val")
+* Integer literals (ex. 123) are switched to a random integer value
+
+
 ### 3. Test Prioritization
+Upon each run of iTrust-test, using a post build action we move the iTrust2/target/surfire-reports that are generated from the tests to a centeral directory.
+Each of the surfire-reports contains information about which tests were run, which tests failed, and which tests had errors and how long each test took.
+We can then iterate over these files to view trends in tests over time.
+
+We set up a prioritizer job within Jenkins that is triggered upon every run of iTrust-test.
+Our prioritizer records the pass rate for each test (number of time test passes / total number of runs) as well as the average run time for each test.
+We sort each test within the prioritizer to show test pass rates in decending order with a secondary sort applied to the average run times.
+That way users can see which tests pass reguardless of changes in source code.
+
+
 ### 4. Checkbox Test Automation
 
 
