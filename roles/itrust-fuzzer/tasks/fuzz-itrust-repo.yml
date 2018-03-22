@@ -4,13 +4,6 @@
   args:
     chdir: "/var/lib/jenkins/project_repo/iTrust2-v2"
   ignore_errors: True
-  
-
-#- name: Run mvn install for fuzzer
-#  shell: mvn clean install
-#  become: yes
-#  args:
-#    chdir: "/var/lib/jenkins/project_repo/iTrust-fuzzer"
 
 
 - name: Run mvn compile for fuzzer
@@ -31,7 +24,7 @@
     git checkout fuzzer;
 
     COUNTER=0;
-    RUNS=50;
+    RUNS=100;
     JOB_URL=http://localhost:{{ env_vars.jenkins_port }}/job/itrust-test
     JOB_STATUS_URL=${JOB_URL}/lastBuild/api/json
 
@@ -49,7 +42,7 @@
       then
         echo "Compiles. Committing!"
         git add --all;
-        git commit -m "commit `date +%s`";
+        git commit -m "commit `echo "$COUNTER"`";
 
         sleep 10;
         java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:{{ env_vars.jenkins_port }}/ build 'itrust-test';
@@ -77,7 +70,7 @@
         git reset --hard HEAD;
       fi
     done
-  async: 1000
+  async: 99999 
   poll: 0
   become: yes
   args:
