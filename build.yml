@@ -8,8 +8,13 @@
 - hosts: local
   gather_facts: yes
   ignore_errors: no
-  roles:
-    - configure-checkbox
+  environment:
+  - MONGO_PORT: "{{ env_vars.MONGO_PORT }}"
+  - MONGO_IP: "{{ env_vars.MONGO_IP }}"
+  - MONGO_USER: "{{ env_vars.MONGO_USER }}"
+  - MONGO_PASSWORD: "{{ env_vars.MONGO_PASSWORD }}"
+  roles:  
     - configure-itrust
     - configure-jenkins
     - itrust-fuzzer
+    - configure-checkbox

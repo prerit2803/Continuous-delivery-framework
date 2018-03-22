@@ -1,0 +1,52 @@
+- name: Install git
+  become: yes
+  apt:
+    name: git
+    state: latest
+    update_cache: yes
+
+- name: Build checkbox.io
+  become: yes
+  npm:
+    path: "/var/lib/jenkins/project_repo/checkbox/server-side/site/"
+
+- lineinfile:
+    path: "/var/lib/jenkins/project_repo/checkbox/local-conf/default"
+    state: present
+    regexp: 'root /Users/gameweld/bitbucket/checkbox.io/checkbox.io/public_html/'
+    line: '\troot /var/lib/jenkins/project_repo/checkbox/public_html/;'
+    backrefs: yes
+
+- name: Copy default File
+  become: yes
+  copy:
+    src: "/var/lib/jenkins/project_repo/checkbox/local-conf/default"
+    dest: /etc/nginx/sites-available/default
+    remote_src: yes
+
+- name: Copy nginx Config File
+  become: yes
+  copy:
+    src: "/var/lib/jenkins/project_repo/checkbox/local-conf/nginx.conf"
+    dest: /etc/nginx/nginx.conf
+    remote_src: yes
+
+- name: Restart nginx
+  become: yes
+  service:
+    name: nginx
+    state: restarted
+
+- name: Run checkbox.io Test Server
+  shell: nohup node testServer.js --coverage &
+  become: yes
+  args:
+    chdir: "/var/lib/jenkins/project_repo/checkbox/server-side/site/"
+  
+
+- name: Test
+  shell: npm run test
+  become: yes 
+  args:
+    chdir: "/var/lib/jenkins/project_repo/checkbox/server-side/site/"   
+
