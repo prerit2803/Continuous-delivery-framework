@@ -100,8 +100,7 @@ Upon each run of iTrust-test, using a post build action we move the `iTrust2/tar
 
 We set up a [prioritizer Jenkins job](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/19469e684c7545ce2c8fedc370f79ff0007fdf21/jenkins_files/prioritizer.yml#L1) within Jenkins that is triggered upon every run of iTrust-test.
 Our [prioritizer script](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/19469e684c7545ce2c8fedc370f79ff0007fdf21/iTrust-prioritizer/prioritizer.py#L1) records the pass rate for each test **(number of time test passes / total number of runs)** as well as the **average run time** for each test.
-We sort each test within the prioritizer to show test pass rates in decending order with a secondary sort applied to the average run times. That way users can see which tests pass regardless of changes in source code.   
-The **tests with least priority appear at the top** of the report, as shown in the sample report below as well as in the [full prioritization report](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial-material/prioritizer-final.txt).
+We sort each test within the prioritizer to show test pass rates in decending order with a secondary sort applied to the average run times. That way users can see which tests pass regardless of changes in source code. The **tests with least priority appear at the top** of the report, as shown in the sample report below as well as in the [full prioritization report](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial-material/prioritizer-final.txt).
 ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial-material/priority-report.gif)
 
 ### 4. Checkbox Test Automation
