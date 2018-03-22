@@ -100,10 +100,27 @@ Upon each run of iTrust-test, using a post build action we move the `iTrust2/tar
 
 We set up a [prioritizer Jenkins job](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/19469e684c7545ce2c8fedc370f79ff0007fdf21/jenkins_files/prioritizer.yml#L1) within Jenkins that is triggered upon every run of iTrust-test.
 Our [prioritizer script](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/19469e684c7545ce2c8fedc370f79ff0007fdf21/iTrust-prioritizer/prioritizer.py#L1) records the pass rate for each test **(number of time test passes / total number of runs)** as well as the **average run time** for each test.
-We sort each test within the prioritizer to show test pass rates in decending order with a secondary sort applied to the average run times. That way users can see which tests pass regardless of changes in source code. The **tests with least priority appear at the top** of the report, as shown in the sample report below as well as in the [full prioritization report](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial-material/prioritizer-final.txt).
+We sort each test within the prioritizer to show test pass rates in decending order with a secondary sort applied to the average run times. That way users can see which tests pass regardless of changes in source code. The **tests with least priority appear at the top** of the report, as shown in the sample report below as well as in the [full prioritization report](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial-material/prioritizer-final.txt).  
+  
 ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial-material/priority-report.gif)
 
 ### 4. Checkbox Test Automation
 
+We first created Test Data using Mongodb Models for Study collection. Then, we traversed server.js file and created a dictionary where each object contains four fields:
+```javascript
+{
+"URL path" : "url"
+"method" : "(get/post)"
+"File(called by the url)": "file"
+"File method": "method"
+}
+```
+Once the dictionary is created, we traversed the dictionary and for each object we traversed the corresponding file and file method using AST visitor pattern and esprima. For each route path, we created the constraints and stored in a json object(functionConstraints). After creating constraints for each route path, we created test cases for each constraints using request module and appended each test case to test.js file. Finally, test.js is executed and code coverage is generated.
+
+For code-coverage, we have used [istanbul-middleware](https://github.com/gotwarlost/istanbul-middleware)
+In istanbul-middleware, flag `isCoverageEnabled` is checked. If isCoverageEnabled is set true, the code-coverage is run on the entire directiory which we mention in `im.hookLoader(dirName)` function except the node_modules.
+
+To check the code-coverage open url: 
+`IP:port/coverage`
 
 
