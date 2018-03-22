@@ -65,7 +65,7 @@ You must edit following variables (don't provide blank values to any variable):
 + `MAIL_PASSWORD`: Password for iTrust SMTP
 + `MONGODB_IP`: localhost   //Setting to any other value will not guarantee that checkbox will function properly
 + `MONGODB_USER`: Username to set for Mongodb
-+ `MONGODB_PASS`: Password for Mongodb username
++ `MONGODB_PASS`: Password for Mongodb username  
 Besides these values, the `MONGO_PORT` is being set to **3002** as instructed.
 ### Guidelines
 + The Jenkins' port address needs to be changed from 8080 to another empty port. Ensure that the port value entered in [jenkins_port](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/8f1c1e285e24aec7b612b1184d45e6be034dbd0b/group_vars/all/vars.yml#L4) is available. 
@@ -81,31 +81,28 @@ ansible-playbook -i inventory build.yml
 ## Approach
 ### #1 Configuration of iTrust2-v2
 The version update of iTrust2-v2 posed a minor challenge in the setup of the project. We applied following steps to resolve it:
-+ **iTrust2 test:** From the [older version](https://github.ncsu.edu/vrpandey/iTrust2-v2/tree/0965f8cc0d1f7a4fae1e6c07248db1bc882bb643) of iTrust2, we used the [pom-data.xml](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/8f1c1e285e24aec7b612b1184d45e6be034dbd0b/jenkins_files/pom-data.xml#L1) to generate the test data and the [pom.file](https://github.ncsu.edu/engr-csc326-staff/iTrust2-v2/blob/b1f340b2be4e4b03801b2de46e806ba2aed0250f/iTrust2/pom.xml#L1) from latest version to run tests.
++ **iTrust2 test:** From the [older version](https://github.ncsu.edu/vrpandey/iTrust2-v2/tree/0965f8cc0d1f7a4fae1e6c07248db1bc882bb643) of iTrust2, we used the [pom-data.xml](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/8f1c1e285e24aec7b612b1184d45e6be034dbd0b/jenkins_files/pom-data.xml#L1) to generate the test data and the [pom.xml](https://github.ncsu.edu/engr-csc326-staff/iTrust2-v2/blob/b1f340b2be4e4b03801b2de46e806ba2aed0250f/iTrust2/pom.xml#L1) from latest version to run tests.
 ```
  mvn -f pom-data.xml process-test-classes
  mvn clean test verify
 ```
-+ **Coverage using Jacoco:** To display the reports of coverage, we used [Jacoco](https://plugins.jenkins.io/jacoco) plugin in Jenkins which displays reports of code coverage once the test stage os completed. Sample coverage report looks like
++ **Coverage using Jacoco:** To display the reports of coverage, we used [Jacoco](https://plugins.jenkins.io/jacoco) plugin in Jenkins which displays reports of code coverage once the test stage is completed. Sample coverage report looks like
+![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial-material/Jacoco-coverage.jpeg)
 
 ## #2 Fuzzing
-#### 1. Fuzzer Features
-Currently our fuzzer can modify java files within iTrust such that:
-* Comparitors in if statements (ex. if(value == 4) ) are flipped to reverse condition (ex. == to != or != to ==)
-* String literals (ex. "Hello World!") are switched to a default string value (ex. "new val")
-* Integer literals (ex. 123) are switched to a random integer value
+Currently our [fuzzer](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/19469e684c7545ce2c8fedc370f79ff0007fdf21/iTrust-fuzzer/src/main/java/com/cowboydevop/fuzzer/Fuzzer.java#L29) can modify java files within iTrust such that:
+* Comparitors in if statements _(e.g. if(value == 4) )_ are flipped to reverse condition _(e.g. '==' to '!=' or '!=' to '==')_
+* String literals _(e.g. "Hello World!")_ are switched to a default string value _(e.g. "new val")_
+* Integer literals _(e.g. 123)_ are switched to a random integer value
 
+## #3 Test Prioritization
+Upon each run of iTrust-test, using a post build action we move the `iTrust2/target/surfire-reports` that are generated from the tests to a centeral directory. Each of the surfire-reports contains information about **which tests were _run_, which tests _failed_, and which tests _had errors_ and _how long_ each test took**.
 
-### 3. Test Prioritization
-Upon each run of iTrust-test, using a post build action we move the iTrust2/target/surfire-reports that are generated from the tests to a centeral directory.
-Each of the surfire-reports contains information about which tests were run, which tests failed, and which tests had errors and how long each test took.
-We can then iterate over these files to view trends in tests over time.
-
-We set up a prioritizer job within Jenkins that is triggered upon every run of iTrust-test.
-Our prioritizer records the pass rate for each test (number of time test passes / total number of runs) as well as the average run time for each test.
+We set up a [prioritizer Jenkins job](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/19469e684c7545ce2c8fedc370f79ff0007fdf21/jenkins_files/prioritizer.yml#L1) within Jenkins that is triggered upon every run of iTrust-test.
+Our [prioritizer script](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/19469e684c7545ce2c8fedc370f79ff0007fdf21/iTrust-prioritizer/prioritizer.py#L1) records the pass rate for each test **(number of time test passes / total number of runs)** as well as the **average run time** for each test.
 We sort each test within the prioritizer to show test pass rates in decending order with a secondary sort applied to the average run times.
-That way users can see which tests pass reguardless of changes in source code.
-
+That way users can see which tests pass regardless of changes in source code. The **tests with least priority appear at the top** of the report, as shown in the sample report below
+![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial-material/prioritizer-final.txt)
 
 ### 4. Checkbox Test Automation
 
