@@ -10,7 +10,7 @@ const fs      = require('fs');
 const async = require('async');
 
 
-// var populateData = require('./populateData').data;
+var populateData = require('./populateData');
 var Models = require("./models").models;
 var asyncLoop = require('node-async-loop');
 
