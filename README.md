@@ -15,13 +15,6 @@
 + The screencast for [Milestone2 - iTrust2-v2]()
 + The screencast for [Milestone2 - checkbox.io]()
 
-## Success Demo
-### iTrust  
-    ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial_material/itrust-demo.gif)   
-
-### Checkbox.io    
-    ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial_material/checkbox-demo.gif)
-
 ## Overview
 For the Milestone2 of the project, we are provisioning local instances for our jenkins server and performing the following tasks:
 + Sets up Jenkins on a local server(Ubuntu-xenial64 VM) and configures plugins to display coverage, and test results.
