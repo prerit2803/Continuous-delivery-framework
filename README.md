@@ -18,7 +18,7 @@
 ## Overview
 For the Milestone2 of the project, we are provisioning local instances for our jenkins server and performing the following tasks:
 + Sets up Jenkins on a local server(Ubuntu-xenial64 VM) and configures plugins to display coverage, and test results.
-+ Generates 100 fuzzed commits on iTrust2-v2 repository locally ,triggers build jobs, and generated reports(on build success) for each commit.
++ Generates 100 fuzzed commits on iTrust2-v2 repository locally ,triggers build jobs, and generated reports (on build success) for each commit.
 + Once all fuzzed builds are finished, displays the prioritization results for all the tests of the suite.
 + Automates test generation for the checkbox.io and presents Istanbul coverage reports at the end of the playbook.  
 
@@ -47,18 +47,22 @@ Once you clone the repository, you can see the following file structure:
 ## Setup
 ### Setting variables
 We first set variable values in [`group_vars/all/vars.yml`](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/group_vars/all/vars.yml)  
-![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial_material/vault.PNG).  
+![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial_material/vault.PNG)  
 You must edit following variables (don't provide blank values to any variable):
 
-+ `mysql_password`: MySQL admin password
++ `mysql_password`: MySQL admin password  
++ `jenkins_port`: Jenkins Port
 + `GIT_USER`: NCSU Github account username
 + `GIT_PASSWORD`: NCSU Github account password
 + `MAIL_USER`: User for iTrust SMTP
 + `MAIL_PASSWORD`: Password for iTrust SMTP
-+ `MONGODB_IP`: localhost   //Setting to any other value will not guarantee that checkbox will function properly
-+ `MONGODB_USER`: Username to set for Mongodb
-+ `MONGODB_PASS`: Password for Mongodb username  
-Besides these values, the `MONGO_PORT` is being set to **3002** as instructed.
++ `MONGO_IP`: localhost   //Setting to any other value will not guarantee that checkbox will function properly
++ `MONGO_USER`: Username to set for Mongodb
++ `MONGO_PASSWORD`: Password for Mongodb username  
++ `MONGO_PORT`: Port for Mongodb  
++ `MAIL_SMTP`: Mail SMTP  
+
+The `MONGO_PORT` must be set to **3002** as instructed.
 ### Guidelines
 + The Jenkins' port address needs to be changed from 8080 to another empty port. Ensure that the port value entered in [jenkins_port](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/8f1c1e285e24aec7b612b1184d45e6be034dbd0b/group_vars/all/vars.yml#L4) is available. 
 + We created email for testing purpose that you can use: 
