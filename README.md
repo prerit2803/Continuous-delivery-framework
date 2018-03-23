@@ -13,7 +13,7 @@
 
 ## Screencast
 + The screencast for [Milestone2 - iTrust2-v2](https://youtu.be/32AC1298EB8)
-+ The screencast for [Milestone2 - checkbox.io]()
++ The screencast for [Milestone2 - checkbox.io](https://youtu.be/PNBee_jy8hw)
 
 ## Overview
 For the Milestone2 of the project, we are provisioning local instances for our jenkins server and performing the following tasks:
