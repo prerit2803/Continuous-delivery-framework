@@ -95,6 +95,15 @@ Currently our [fuzzer](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/1946
 * String literals _(e.g. "Hello World!")_ are switched to a default string value _(e.g. "new val")_
 * Integer literals _(e.g. 123)_ are switched to a random integer value
 
+### Types of problems the fuzzer discovered?
+The fuzzer was able to find problems in the API calls which set parameters through strings and hence changed due to improper input values. 
+### Ways fuzzer could be extended in the future?
++ Fuzzer can be extended to change float values in the code. 
++ The fuzzer currently only inverts equivalence condition but it can be extended to change inequalities.
++ Also, we can selectively modify different files in dofferent manner like **models** can be modified to not change string values but change in some settings.
++ Config files can be added for fuzzing as well.
+### Explanation for tests that were ranked the highest?
+The fuzzer discovered the tests that were largely independent of the values provided in the source code. These tests took their values from either database or the environment variables so changes in the source codes didn't affect their result. The test ranked highest was **testEmail** which retrieved it's value form the `MAIL_USER` and `MAIL_PASSWROD` mentioned previously in the `vars.yml`. Fuzzing didn't help to modify it's functioning and consequently it's result was always _pass_.
 ## #3 Test Prioritization
 Upon each run of iTrust-test, using a post build action we move the `iTrust2/target/surfire-reports` that are generated from the tests to a centeral directory. Each of the surfire-reports contains information about **which tests were _run_, which tests _failed_, and which tests _had errors_ and _how long_ each test took**.
 
@@ -109,10 +118,10 @@ We sort each test within the prioritizer to show test pass rates in decending or
 We first created Test Data using Mongodb Models for Study collection. Then, we traversed server.js file and created a dictionary where each object contains four fields:
 ```javascript
 {
-"URL path" : "url"
-"method" : "(get/post)"
-"File(called by the url)": "file"
-"File method": "method"
+   "URL path" : "url"
+   "method" : "(get/post)"
+   "File(called by the url)": "file"
+   "File method": "method"
 }
 ```
 Once the dictionary is created, we traversed the dictionary and for each object we traversed the corresponding file and file method using AST visitor pattern and esprima. For each route path, we created the constraints and stored in a json object(functionConstraints). After creating constraints for each route path, we created test cases for each constraints using request module and appended each test case to test.js file. Finally, test.js is executed and code coverage is generated.
