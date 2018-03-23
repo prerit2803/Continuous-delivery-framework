@@ -7,7 +7,7 @@
 | Name | UnityId | Contribution |
 |---------------------|-------|----------|
 | Zachery Thomas | zithomas | iTrust Fuzzer, iTrust test Prioritizer |
-| Vikas Pandey | vrpandey |  |
+| Vikas Pandey | vrpandey | Collection Schemas, MongoDB models, Documentation, Checkbox-Screencast |
 | Prerit Bhandari | pbhanda2 | |
 | Ankur Saxena | asaxena3 | Jenkins setup for iTrust2-v2 and coverage report, Documentation  |
 
