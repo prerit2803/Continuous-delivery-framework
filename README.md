@@ -125,4 +125,7 @@ In istanbul-middleware, flag `isCoverageEnabled` is checked. If isCoverageEnable
 To check the code-coverage open url: 
 `IP:port/coverage`
 
+![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial-material/CoverageReport.png)
+![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial-material/CheckboxCoverage.gif)
+
 
