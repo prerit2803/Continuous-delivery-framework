@@ -8,7 +8,7 @@
 |---------------------|-------|----------|
 | Zachery Thomas | zithomas | iTrust Fuzzer, iTrust test Prioritizer |
 | Vikas Pandey | vrpandey | Collection Schemas, MongoDB models, Documentation, Checkbox-Screencast |
-| Prerit Bhandari | pbhanda2 | |
+| Prerit Bhandari | pbhanda2 | Automated Test Generation for checkbox.io|
 | Ankur Saxena | asaxena3 | Jenkins setup for iTrust2-v2 and coverage report, Documentation  |
 
 ## Screencast
@@ -39,15 +39,14 @@ Once you clone the repository, you can see the following file structure:
         |-- remove.groovy
 |-- roles
     |-- configure-jenkins
-    |-- configure-checkbox
     |-- configure-itrust
     |-- itrust-fuzzer
-    |-- checkbox-test    
+    |-- configure-checkbox  
 ```
 
 ## Setup
 ### Setting variables
-We first set variable values in [`group/all/vars.yml`](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/group_vars/all/vars.yml)  
+We first set variable values in [`group_vars/all/vars.yml`](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/group_vars/all/vars.yml)  
 ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial_material/vault.PNG).  
 You must edit following variables (don't provide blank values to any variable):
 
