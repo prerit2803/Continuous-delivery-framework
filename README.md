@@ -93,8 +93,8 @@ The fuzzer was able to find problems in the API calls which set parameters throu
 ### Ways fuzzer could be extended in the future?
 + Fuzzer can be extended to change float values in the code. 
 + The fuzzer currently only inverts equivalence condition but it can be extended to change inequalities.
-+ Also, we can selectively modify different files in dofferent manner like **models** can be modified to not change string values but change in some settings.
-+ Config files can be added for fuzzing as well.
++ Also, we can selectively modify different files in different manner like **models** can be modified to not change string values but change in some settings.
++ Config files can be included for fuzzing as well.
 ### Explanation for tests that were ranked the highest?
 The fuzzer discovered the tests that were largely independent of the values provided in the source code. These tests took their values from either database or the environment variables so changes in the source codes didn't affect their result. The test ranked highest was **testEmail** which retrieved it's value form the `MAIL_USER` and `MAIL_PASSWROD` mentioned previously in the `vars.yml`. Fuzzing didn't help to modify it's functioning and consequently it's result was always _pass_.
 ## #3 Test Prioritization
