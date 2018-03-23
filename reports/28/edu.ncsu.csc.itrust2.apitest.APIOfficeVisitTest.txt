@@ -1,0 +1,56 @@
+-------------------------------------------------------------------------------
+Test set: edu.ncsu.csc.itrust2.apitest.APIOfficeVisitTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 0.09 s <<< FAILURE! - in edu.ncsu.csc.itrust2.apitest.APIOfficeVisitTest
+testDeleteNonExistentOfficeVisit(edu.ncsu.csc.itrust2.apitest.APIOfficeVisitTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: 
+Error creating bean with name 'requestMappingHandlerMapping' defined in org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'APIAppointmentRequestController' method 
+public java.util.List<edu.ncsu.csc.itrust2.models.persistent.AppointmentRequest> edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequests()
+to {[/api/v1/new val],methods=[GET]}: There is already 'APIAppointmentRequestController' bean method
+public org.springframework.http.ResponseEntity edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequest(java.lang.Long) mapped.
+Caused by: java.lang.IllegalStateException: 
+Ambiguous mapping. Cannot map 'APIAppointmentRequestController' method 
+public java.util.List<edu.ncsu.csc.itrust2.models.persistent.AppointmentRequest> edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequests()
+to {[/api/v1/new val],methods=[GET]}: There is already 'APIAppointmentRequestController' bean method
+public org.springframework.http.ResponseEntity edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequest(java.lang.Long) mapped.
+
+testGetNonExistentOfficeVisit(edu.ncsu.csc.itrust2.apitest.APIOfficeVisitTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: 
+Error creating bean with name 'requestMappingHandlerMapping' defined in org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'APIAppointmentRequestController' method 
+public java.util.List<edu.ncsu.csc.itrust2.models.persistent.AppointmentRequest> edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequests()
+to {[/api/v1/new val],methods=[GET]}: There is already 'APIAppointmentRequestController' bean method
+public org.springframework.http.ResponseEntity edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequest(java.lang.Long) mapped.
+Caused by: java.lang.IllegalStateException: 
+Ambiguous mapping. Cannot map 'APIAppointmentRequestController' method 
+public java.util.List<edu.ncsu.csc.itrust2.models.persistent.AppointmentRequest> edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequests()
+to {[/api/v1/new val],methods=[GET]}: There is already 'APIAppointmentRequestController' bean method
+public org.springframework.http.ResponseEntity edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequest(java.lang.Long) mapped.
+
+testOfficeVisitAPI(edu.ncsu.csc.itrust2.apitest.APIOfficeVisitTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: 
+Error creating bean with name 'requestMappingHandlerMapping' defined in org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'APIAppointmentRequestController' method 
+public java.util.List<edu.ncsu.csc.itrust2.models.persistent.AppointmentRequest> edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequests()
+to {[/api/v1/new val],methods=[GET]}: There is already 'APIAppointmentRequestController' bean method
+public org.springframework.http.ResponseEntity edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequest(java.lang.Long) mapped.
+Caused by: java.lang.IllegalStateException: 
+Ambiguous mapping. Cannot map 'APIAppointmentRequestController' method 
+public java.util.List<edu.ncsu.csc.itrust2.models.persistent.AppointmentRequest> edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequests()
+to {[/api/v1/new val],methods=[GET]}: There is already 'APIAppointmentRequestController' bean method
+public org.springframework.http.ResponseEntity edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequest(java.lang.Long) mapped.
+
+testPreScheduledOfficeVisit(edu.ncsu.csc.itrust2.apitest.APIOfficeVisitTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: 
+Error creating bean with name 'requestMappingHandlerMapping' defined in org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'APIAppointmentRequestController' method 
+public java.util.List<edu.ncsu.csc.itrust2.models.persistent.AppointmentRequest> edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequests()
+to {[/api/v1/new val],methods=[GET]}: There is already 'APIAppointmentRequestController' bean method
+public org.springframework.http.ResponseEntity edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequest(java.lang.Long) mapped.
+Caused by: java.lang.IllegalStateException: 
+Ambiguous mapping. Cannot map 'APIAppointmentRequestController' method 
+public java.util.List<edu.ncsu.csc.itrust2.models.persistent.AppointmentRequest> edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequests()
+to {[/api/v1/new val],methods=[GET]}: There is already 'APIAppointmentRequestController' bean method
+public org.springframework.http.ResponseEntity edu.ncsu.csc.itrust2.controllers.api.APIAppointmentRequestController.getAppointmentRequest(java.lang.Long) mapped.
+

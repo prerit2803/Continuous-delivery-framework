@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: edu.ncsu.csc.itrust2.apitest.APIICDCodeTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 2.352 s <<< FAILURE! - in edu.ncsu.csc.itrust2.apitest.APIICDCodeTest
+testCodeAPI(edu.ncsu.csc.itrust2.apitest.APIICDCodeTest)  Time elapsed: 0.011 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'HCPController' defined in file [/var/lib/jenkins/workspace/itrust-test/iTrust2/target/classes/edu/ncsu/csc/itrust2/controllers/hcp/HCPController.class]: Initialization of bean failed; nested exception is java.lang.IllegalArgumentException: Failed to parse expression 'new val'
+Caused by: java.lang.IllegalArgumentException: Failed to parse expression 'new val'
+Caused by: org.springframework.expression.spel.SpelParseException: Expression [new val] @7: EL1050E: The arguments (...) for the constructor call are missing
+

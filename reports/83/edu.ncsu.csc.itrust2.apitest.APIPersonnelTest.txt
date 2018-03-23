@@ -1,0 +1,30 @@
+-------------------------------------------------------------------------------
+Test set: edu.ncsu.csc.itrust2.apitest.APIPersonnelTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.053 s <<< FAILURE! - in edu.ncsu.csc.itrust2.apitest.APIPersonnelTest
+testGetNonExistentPersonnel(edu.ncsu.csc.itrust2.apitest.APIPersonnelTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: 
+Error creating bean with name 'requestMappingHandlerMapping' defined in org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'passwordController' method 
+public java.lang.String edu.ncsu.csc.itrust2.controllers.personnel.PasswordController.resetPassword(org.springframework.ui.Model,long)
+to {[/new val],methods=[GET]}: There is already 'appointmentControllerHCP' bean method
+public java.lang.String edu.ncsu.csc.itrust2.controllers.hcp.AppointmentControllerHCP.requestAppointmentForm(org.springframework.ui.Model) mapped.
+Caused by: java.lang.IllegalStateException: 
+Ambiguous mapping. Cannot map 'passwordController' method 
+public java.lang.String edu.ncsu.csc.itrust2.controllers.personnel.PasswordController.resetPassword(org.springframework.ui.Model,long)
+to {[/new val],methods=[GET]}: There is already 'appointmentControllerHCP' bean method
+public java.lang.String edu.ncsu.csc.itrust2.controllers.hcp.AppointmentControllerHCP.requestAppointmentForm(org.springframework.ui.Model) mapped.
+
+testPersonnelAPI(edu.ncsu.csc.itrust2.apitest.APIPersonnelTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: 
+Error creating bean with name 'requestMappingHandlerMapping' defined in org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration: Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'passwordController' method 
+public java.lang.String edu.ncsu.csc.itrust2.controllers.personnel.PasswordController.resetPassword(org.springframework.ui.Model,long)
+to {[/new val],methods=[GET]}: There is already 'appointmentControllerHCP' bean method
+public java.lang.String edu.ncsu.csc.itrust2.controllers.hcp.AppointmentControllerHCP.requestAppointmentForm(org.springframework.ui.Model) mapped.
+Caused by: java.lang.IllegalStateException: 
+Ambiguous mapping. Cannot map 'passwordController' method 
+public java.lang.String edu.ncsu.csc.itrust2.controllers.personnel.PasswordController.resetPassword(org.springframework.ui.Model,long)
+to {[/new val],methods=[GET]}: There is already 'appointmentControllerHCP' bean method
+public java.lang.String edu.ncsu.csc.itrust2.controllers.hcp.AppointmentControllerHCP.requestAppointmentForm(org.springframework.ui.Model) mapped.
+
