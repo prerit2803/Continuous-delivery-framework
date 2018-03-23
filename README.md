@@ -1,4 +1,4 @@
-# CSC519-Project
+# CSC519-Project: Test + Analysis Milestone
 
 
 ![SEE YOU SPACE COWBOY](https://img.youtube.com/vi/yg7V67ptg18/0.jpg)
