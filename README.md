@@ -113,7 +113,7 @@ We sort each test within the prioritizer to show test pass rates in decending or
   
 ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone2/tutorial-material/priority-report.gif)
 
-### 4. Checkbox Test Automation
+## #4 Checkbox Test Automation
 
 We first created Test Data using Mongodb Models for Study collection. Then, we traversed server.js file and created a dictionary where each object contains four fields:
 ```javascript
