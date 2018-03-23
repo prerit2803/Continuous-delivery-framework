@@ -12,7 +12,7 @@
 | Ankur Saxena | asaxena3 | Jenkins setup for iTrust2-v2 and coverage report, Documentation  |
 
 ## Screencast
-+ The screencast for [Milestone2 - iTrust2-v2]()
++ The screencast for [Milestone2 - iTrust2-v2](https://youtu.be/32AC1298EB8)
 + The screencast for [Milestone2 - checkbox.io]()
 
 ## Overview
