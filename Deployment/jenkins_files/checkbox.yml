@@ -1,0 +1,50 @@
+- job:
+    block-downstream: false
+    block-upstream: false
+    builders:
+    - shell: |-
+        echo $MONGO_PORT
+        cd server-side/site
+        npm install
+    concurrent: false
+    description: null
+    disabled: false
+    name: !!python/unicode 'checkbox-build'
+    project-type: freestyle
+    properties:
+        - inject:
+            properties-content: |
+                MONGO_PORT='3002'
+    publishers:
+    - post-tasks:
+      - escalate-status: false
+        matches:
+        - log-text: null
+          operator: AND
+        run-if-job-successful: true
+        script: |-
+            cd /var/lib/jenkins/project_repo
+            ansible-playbook -i inventory deploy-checkbox.yml
+    scm:
+    - git:
+        branches:
+        - '*/master'
+        url: https://github.com/chrisparnin/checkbox.io.git
+    triggers: []
+    wrappers:
+        - inject-passwords:
+            global: true
+            mask-password-params: true
+            job-passwords:
+                - name: AWS_ACCESS_KEY_ID
+                  password: ENTER_HERE_AWS_ACCESS_KEY_ID
+                - name: AWS_SECRET_ACCESS_KEY
+                  password: ENTER_HERE_AWS_SECRET_ACCESS_KEY
+                - name: MONGO_USER
+                  password: ENTER_HERE_MONGO_USER
+                - name: MONGO_PASSWORD
+                  password: ENTER_HERE_MONGO_PASSWORD
+                - name: MONGO_IP
+                  password: ENTER_HERE_MONGO_IP
+        - workspace-cleanup:
+            dirmatch: false

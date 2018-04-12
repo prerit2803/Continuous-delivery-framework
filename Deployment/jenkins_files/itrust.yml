@@ -1,0 +1,65 @@
+- job:
+    block-downstream: false
+    block-upstream: false
+    builders:
+    - shell: |-
+        mv $WORKSPACE/iTrust2/src/main/java/db.properties.template $WORKSPACE/iTrust2/src/main/java/db.properties
+        mv $WORKSPACE/iTrust2/src/main/java/email.properties.template $WORKSPACE/iTrust2/src/main/java/email.properties
+        mv $WORKSPACE/iTrust2/src/main/resources/hibernate.properties.template $WORKSPACE/iTrust2/src/main/resources/hibernate.properties
+        sed -i "s/hibernate.connection.password = /hibernate.connection.password = $MYSQL_PASSWORD/g" $WORKSPACE/iTrust2/src/main/resources/hibernate.properties
+        sed -i "s/password/password $MYSQL_PASSWORD/g" $WORKSPACE/iTrust2/src/main/java/db.properties
+        sed -i "s/username/username $MAIL_USER/g" $WORKSPACE/iTrust2/src/main/java/email.properties
+        sed -i "s/password/password $MAIL_PASSWORD/g" $WORKSPACE/iTrust2/src/main/java/email.properties
+        sed -i "s/from/from $MAIL_USER/g" $WORKSPACE/iTrust2/src/main/java/email.properties
+        cp $HOME/project_repo/jenkins_files/pom-data.xml iTrust2/pom-data.xml
+        cd iTrust2
+        mvn -f pom-data.xml process-test-classes
+        mvn clean test verify
+    concurrent: false
+    description: null
+    disabled: false
+    name: !!python/unicode 'itrust-build'
+    project-type: freestyle
+    publishers:
+    - trigger:
+        project: prioritizer
+        threshold: FAILURE
+    - post-tasks:
+      - escalate-status: false
+        matches:
+        - log-text: null
+          operator: AND
+        run-if-job-successful: false
+        script: |-
+            cd /var/lib/jenkins/project_repo
+            ansible-playbook -i inventory deploy-itrust.yml
+    scm:
+    - git:
+        branches:
+        - '*/fuzzer'
+        url: /var/lib/jenkins/project_repo/iTrust2-v2/
+    triggers: []
+    wrappers:
+        - inject-passwords:
+            global: true
+            mask-password-params: true
+            job-passwords:
+                - name: AWS_ACCESS_KEY_ID
+                  password: ENTER_HERE_AWS_ACCESS_KEY_ID
+                - name: AWS_SECRET_ACCESS_KEY
+                  password: ENTER_HERE_AWS_SECRET_ACCESS_KEY
+                - name: GIT_USER
+                  password: ENTER_HERE_GIT_USER
+                - name: GIT_PASSWORD
+                  password: ENTER_HERE_GIT_PASSWORD
+                - name: MYSQL_PASSWORD
+                  password: ENTER_HERE_MYSQL_PASSWORD
+                - name: MAIL_USER
+                  password: ENTER_HERE_MAIL_USER
+                - name: MAIL_PASSWORD
+                  password: ENTER_HERE_MAIL_PASSWORD
+                - name: MAIL_SMTP
+                  password: ENTER_HERE_MAIL_SMTP
+        - workspace-cleanup:
+            dirmatch: false
+

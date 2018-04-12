@@ -1,0 +1,92 @@
+- name: Install python-pip
+  become: yes
+  apt:
+    name: python-pip
+    state: latest
+    update_cache: yes
+
+- name: Install boto for ec2 Ansible module
+  become: yes
+  pip:
+    name: "{{item}}"
+    state: present
+  with_items:
+    - boto
+    - boto3
+
+# REFERENCES: https://fullmetalhealth.com/spin-off-ansible-ssh-bastion-host-dynamic-infrastructure-aws-gathering-ssh-public-key-aws-system-log/
+
+- name: Create a new EC2 key
+  ec2_key:
+    name: jenkins-key
+    region: us-east-2
+  register: ec2_key_result
+
+- name: Save private key
+  copy: content="{{ ec2_key_result.key.private_key }}" dest="~/jenkins-key.pem" mode=0600
+  when: ec2_key_result.changed
+
+- name: Create a new EC2 Security Group
+  ec2_group:
+    name: jenkins-sec-grp
+    description: A EC2 security group for Jenkins
+    region: us-east-2
+    rules:
+      - proto: tcp
+        ports: 22
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        ports: 8080
+        cidr_ip: 0.0.0.0/0
+
+- name: Create an AWS server for Jenkins
+  ec2:
+    key_name: jenkins-key
+    group: jenkins-sec-grp
+    instance_type: t2.micro
+    image: ami-965e6bf3
+    wait: yes
+    count: 1
+    region: us-east-2
+    state: present
+  register: aws
+
+- debug:
+    msg: Created instance "{{ aws.instances[0].id }}" and ip "{{ aws.instances[0].public_ip }}"
+
+- name: Wait for EC2 instance to become running and finish Status Checks
+  wait_for:
+    timeout: 180
+
+- name: Install awscli
+  become: yes
+  apt:
+    name: awscli
+    state: present
+    update_cache: yes
+
+- name: Get public key of EC2 instance
+  shell: aws ec2 get-console-output \
+          --region us-east-2 \
+          --instance-id "{{aws.instances[0].id}}" \
+          --output text|sed -n 's/^.*\(ecdsa-sha2-nistp256 \)\(.*\)/\2/p' | awk '{print $1}'
+  register: key_results
+  retries: 100
+  until: key_results.stdout != ''
+
+- name: Register public key to known_hosts
+  lineinfile:
+    name: "{{ ansible_env.HOME }}/.ssh/known_hosts"
+    create: yes
+    line: "{{ aws.instances[0].public_ip }} ecdsa-sha2-nistp256 {{key_results.stdout}}"
+    insertafter: EOF
+    state: present
+
+- name: Update inventory
+  lineinfile:
+    path: ./build-inventory
+    insertafter: 'jenkins'
+    line: "{{aws.instances[0].public_ip}} ansible_ssh_user=ubuntu ansible_ssh_private_key_file=~/jenkins-key.pem"
+    state: present
+
+- meta: refresh_inventory
