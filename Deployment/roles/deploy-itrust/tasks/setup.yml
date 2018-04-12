@@ -76,10 +76,11 @@
     line: "hibernate.connection.password = {{ lookup( 'env', 'MYSQL_PASSWORD') }}"
     backrefs: yes
 
-- name: Populate data
-  shell: mvn process-test-classes
-  args:
-    chdir: "{{ ansible_env.HOME }}/itrust/iTrust2"
+# This fails. Skip it for now.
+#- name: Populate data
+#  shell: mvn process-test-classes
+#  args:
+#    chdir: "{{ ansible_env.HOME }}/itrust/iTrust2"
 
 - name: Run Server
   shell: nohup mvn jetty:run &

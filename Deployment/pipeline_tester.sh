@@ -15,6 +15,6 @@ print data['env_vars'][sys.argv[1]]
 """ >> ymlparse.py
 
 /bin/bash ./pipeline_test_scripts/iTrust_pipeline_tester.sh
-#/bin/bash ./pipeline_test_scripts/chekcbox_pipeline_tester.sh
+/bin/bash ./pipeline_test_scripts/chekcbox_pipeline_tester.sh
 
 rm ymlparse.py

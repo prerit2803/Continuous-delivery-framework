@@ -30,6 +30,7 @@ cd /var/lib/jenkins/checkbox.io
 
 sudo git remote add prod "/var/lib/jenkins/checkbox.io.git"
 
+sudo rm README.md
 sudo touch README.md
 sudo git add README.md
 sudo git commit -m 'test'

@@ -15,7 +15,7 @@ pushd .
 
 cd /var/lib/jenkins
 
-sudo git clone "https://`echo $GIT_USER`:`echo $GIT_PASSWORD`@github.ncsu.edu/engr-csc326-staff/iTrust2-v2.git"
+sudo git clone https://`echo $GIT_USER`:`echo $GIT_PASSWORD`@github.ncsu.edu/engr-csc326-staff/iTrust2-v2.git
 
 sudo mkdir iTrust.git
 cd iTrust.git
@@ -32,6 +32,7 @@ cd /var/lib/jenkins/iTrust2-v2
 
 sudo git remote add prod "/var/lib/jenkins/iTrust.git"
 
+sudo rm README.md
 sudo touch README.md
 sudo git add README.md
 sudo git commit -m 'test'
