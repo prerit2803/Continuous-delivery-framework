@@ -166,7 +166,7 @@
 
 - name: Set Mongo IP environment variable for Checkbox.io Job
   vars:
-    mongoip: "{{ env_vars.MONGODB_IP }}"
+    mongoip: "{{ env_vars.MONGO_IP }}"
   replace:
     path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
     regexp: 'ENTER_HERE_MONGO_IP'
@@ -175,7 +175,7 @@
 
 - name: Set Mongo User environment variable for Checkbox.io Job
   vars:
-    mongouser: "{{ env_vars.MONGODB_USER }}"
+    mongouser: "{{ env_vars.MONGO_USER }}"
   replace:
     path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
     regexp: 'ENTER_HERE_MONGO_USER'
@@ -184,7 +184,7 @@
 
 - name: Set Mongo Password environment variable for Checkbox.io Job
   vars:
-    mongopass: "{{ env_vars.MONGODB_PASS }}"
+    mongopass: "{{ env_vars.MONGO_PASSWORD }}"
   replace:
     path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
     regexp: 'ENTER_HERE_MONGO_PASSWORD'
@@ -249,13 +249,6 @@
 
 - name: Upload checkbox Job to Jenkins
   command: jenkins-jobs --conf jenkins_jobs.ini update checkbox.yml
-  args:
-    chdir: /var/lib/jenkins/project_repo/jenkins_files/
-  tags:
-    upload-job
-
-- name: Upload prioritizer Job to Jenkins
-  command: jenkins-jobs --conf jenkins_jobs.ini update prioritizer.yml
   args:
     chdir: /var/lib/jenkins/project_repo/jenkins_files/
   tags:

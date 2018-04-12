@@ -36,9 +36,15 @@
     scm:
     - git:
         branches:
-        - '*/fuzzer'
-        url: /var/lib/jenkins/project_repo/iTrust2-v2/
-    triggers: []
+        - '*/master'
+        name: origin
+        refspec: +refs/heads/*:refs/remotes/origin/*
+        url: /var/lib/jenkins/iTrust.git
+        wipe-workspace: true
+    triggers:
+    - pollscm:
+        cron: null
+        ignore-post-commit-hooks: false
     wrappers:
         - inject-passwords:
             global: true

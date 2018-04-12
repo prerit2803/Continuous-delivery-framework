@@ -29,8 +29,14 @@
     - git:
         branches:
         - '*/master'
-        url: https://github.com/chrisparnin/checkbox.io.git
-    triggers: []
+        name: origin
+        refspec: +refs/heads/*:refs/remotes/origin/*
+        url: /var/lib/jenkins/checkbox.io.git
+        wipe-workspace: true
+    triggers:
+    - pollscm:
+        cron: null
+        ignore-post-commit-hooks: false
     wrappers:
         - inject-passwords:
             global: true
