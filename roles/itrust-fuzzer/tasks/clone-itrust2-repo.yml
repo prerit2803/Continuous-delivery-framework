@@ -1,7 +1,0 @@
-- name: Cloning iTrust repo to home
-  git:
-    repo: "https://{{ env_vars.GIT_USER }}:{{env_vars.GIT_PASSWORD | urlencode }}@github.ncsu.edu/engr-csc326-staff/iTrust2-v2.git"
-    version: master
-    dest: "/var/lib/jenkins/project_repo/iTrust2-v2"
-    force: yes
-  become: yes

@@ -1,8 +1,0 @@
--------------------------------------------------------------------------------
-Test set: edu.ncsu.csc.itrust2.unit.LogTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.051 s <<< FAILURE! - in edu.ncsu.csc.itrust2.unit.LogTest
-testLogging(edu.ncsu.csc.itrust2.unit.LogTest)  Time elapsed: 0.051 s  <<< ERROR!
-java.lang.IllegalArgumentException: fromIndex(1783787227) > toIndex(1)
-	at edu.ncsu.csc.itrust2.unit.LogTest.testLogging(LogTest.java:45)
-
