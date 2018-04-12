@@ -1,0 +1,41 @@
+---
+version: "3"
+services:
+  mongodb:
+    image: mongo:3.6
+    container_name: mongod
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+  checkbox.io:
+    image: checkbox
+    build:
+      context: .
+      dockerfile: build.Dockerfile
+    container_name: checkbox
+    environment:
+      - MONGO_PORT=3002 
+      - MONGO_IP=mongodb
+      - MONGO_USER=admin
+      - MONGO_PASSWORD=password
+      - MAIL_USER=devops.itrustv2@gmail.com
+      - MAIL_PASSWORD=itrustv2!
+      - MAIL_SMTP=smtp.gmail.com
+    volumes:
+      - ./checkbox.io/server-side/site:/usr/src/app
+      - /usr/src/app/node_modules
+    working_dir: /usr/src/app
+    command: npm start 
+    depends_on:
+      - mongodb
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./checkbox.io/public_html:/usr/share/nginx/html
+      - ./checkbox.io/local-conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./checkbox.io/local-conf/default:/etc/nginx/sites-available/default
+    ports:
+      - "80:80"
+    depends_on:
+      - checkbox.io
