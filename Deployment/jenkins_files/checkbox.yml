@@ -35,7 +35,7 @@
         wipe-workspace: true
     triggers:
     - pollscm:
-        cron: null
+        cron: ''
         ignore-post-commit-hooks: false
     wrappers:
         - inject-passwords:

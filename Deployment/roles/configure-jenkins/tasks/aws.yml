@@ -1,0 +1,22 @@
+- name: Install python-pip
+  become: yes
+  apt:
+    name: python-pip
+    state: latest
+    update_cache: yes
+
+- name: Install boto for ec2 Ansible module
+  become: yes
+  pip:
+    name: "{{item}}"
+    state: present
+  with_items:
+    - boto
+    - boto3
+
+- name: Install aws cli
+  become: yes
+  apt:
+    name: awscli
+    state: latest
+    update_cache: yes
