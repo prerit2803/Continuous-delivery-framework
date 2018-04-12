@@ -25,6 +25,10 @@
       - proto: tcp
         ports: 3002
         cidr_ip: 0.0.0.0/0
+    rules_egress:
+      - proto: all
+        ports: all
+        cidr_ip: 0.0.0.0/0
 
 - name: Create an AWS server for Checkbox.io
   ec2:
