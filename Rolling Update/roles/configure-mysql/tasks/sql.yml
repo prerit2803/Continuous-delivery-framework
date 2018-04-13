@@ -1,0 +1,70 @@
+# REFERENCES: http://mysql.freeideas.cz/subdom/mysql/2017/07/26/install-latest-mysql-5-7-on-remote-instance-using-ansible/
+- name: Add PGP key
+  become: yes
+  apt_key:
+    keyserver: pgp.mit.edu
+    id: 5072E1F5
+- name: Add official APT repository
+  become: yes
+  apt_repository:
+    repo: "deb http://repo.mysql.com/apt/ubuntu/ trusty mysql-5.7"
+- name: Set mysql-server root password
+  become: yes
+  debconf:
+    name: mysql-server-5.7
+    question: mysql-server/root_password
+    value: "{{ env_vars.mysql_password }}"
+    vtype: password
+- name: Confirm mysql-server root password
+  become: yes
+  debconf:
+    name: mysql-server-5.7
+    question: mysql-server/root_password_again
+    value: "{{ env_vars.mysql_password }}"
+    vtype: password
+- name: Set mysql-community-server root password
+  become: yes
+  debconf:
+    name: mysql-community-server
+    question: mysql-community-server/root-pass
+    value: "{{ env_vars.mysql_password }}"
+    vtype: password
+- name: Confirm mysql-community-server root password
+  become: yes
+  debconf:
+    name: mysql-community-server
+    question: mysql-community-server/re-root-pass
+    value: "{{ env_vars.mysql_password }}"
+    vtype: password
+- name: Install mysql-server
+  become: yes
+  apt:
+    name: mysql-server
+    state: present
+    update_cache: yes
+
+# REFERENCES:  https://stackoverflow.com/questions/42267299/ansible-install-mysql-5-7-set-root-user-password?rq=1
+- mysql_user:
+    name: "{{ env_vars.mysql_user }}"
+    password: "{{ env_vars.mysql_password }}"
+    host: '%'
+    priv: '*.*:ALL,GRANT'
+    state: present
+    login_user: root
+    login_password: "{{ env_vars.mysql_password }}"
+  become: yes
+
+- lineinfile:
+    path: "/etc/mysql/mysql.conf.d/mysqld.cnf"
+    state: present
+    regexp: 'bind-address'
+    line: "bind-address = 0.0.0.0"
+    backrefs: yes
+  become: yes
+
+- name: Restart the MySQL service
+  become: yes
+  service:
+    name: mysql
+    state: restarted
+    enabled: true

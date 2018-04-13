@@ -1,0 +1,47 @@
+- set_fact:
+    outer_item: "{{ item }}"
+
+- name: "Create an AWS server for iTrust{{ outer_item }}"
+  ec2:
+    key_name: itrust-key
+    instance_tags:
+       Name: "iTrust{{ outer_item }}"
+    group: itrust-sec-grp
+    instance_type: t2.micro
+    image: ami-965e6bf3
+    wait: yes
+    count: 1
+    region: us-east-2
+    state: present
+  register: aws
+
+- debug:
+    msg: "Created instance{{ outer_item }} {{ aws.instances[0].id }} and ip {{ aws.instances[0].public_ip }}"
+
+- name: "Wait for EC2 instance{{ outer_item }} to become running and finish Status Checks"
+  wait_for:
+    timeout: 180
+
+- name: "Get public key of EC2 instance{{ outer_item }}"
+  shell: aws ec2 get-console-output \
+          --region us-east-2 \
+          --instance-id "{{aws.instances[0].id}}" \
+          --output text|sed -n 's/^.*\(ecdsa-sha2-nistp256 \)\(.*\)/\2/p' | awk '{print $1}'
+  register: key_results
+  retries: 100
+  until: key_results.stdout != ''
+
+- name: Register public key to known_hosts
+  lineinfile:
+    name: "{{ ansible_env.HOME }}/.ssh/known_hosts"
+    create: yes
+    line: "{{ aws.instances[0].public_ip }} ecdsa-sha2-nistp256 {{key_results.stdout}}"
+    insertafter: EOF
+    state: present
+
+- name: Update inventory
+  lineinfile:
+    path: ./inventory
+    insertafter: 'itrust'
+    line: "{{aws.instances[0].public_ip}} ansible_ssh_user=ubuntu ansible_ssh_private_key_file=~/itrust-key.pem"
+    state: present

@@ -1,0 +1,39 @@
+- name: Create a new EC2 key
+  ec2_key:
+    name: itrust-key
+    region: us-east-2
+  register: ec2_key_result
+
+- name: Save private key
+  copy: content="{{ ec2_key_result.key.private_key }}" dest="~/itrust-key.pem" mode=0600
+  when: ec2_key_result.changed
+
+# REFERENCES: https://fullmetalhealth.com/spin-off-ansible-ssh-bastion-host-dynamic-infrastructure-aws-gathering-ssh-public-key-aws-system-log/
+
+- name: Create a new EC2 Security Group
+  ec2_group:
+    name: itrust-sec-grp
+    description: A EC2 security group for iTrust
+    region: us-east-2
+    tags:
+       Name: iTrust-sec-grp
+    rules:
+      - proto: tcp
+        ports: 22
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        ports: 8080
+        cidr_ip: 0.0.0.0/0
+    rules_egress:
+      - proto: all
+        cidr_ip: 0.0.0.0/0
+
+- include_tasks: provisionEC2Instance.yml
+  loop:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+
+- meta: refresh_inventory

@@ -1,0 +1,12 @@
+---
+env_vars:
+  mysql_host: "<HOST_HERE>"
+  mysql_user: ""
+  mysql_password: ""
+  ACCESS_KEY: ""
+  SECRET_KEY: ""
+  GIT_USER: ""
+  GIT_PASSWORD: ""
+  MAIL_PASSWORD: ""
+  MAIL_USER: ""
+  MAIL_SMTP: ""
