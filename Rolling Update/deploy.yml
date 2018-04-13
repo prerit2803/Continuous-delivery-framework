@@ -7,8 +7,9 @@
   roles:
     - provision-config
     - provision-mysql
+    - provision-itrust
 
-- hosts: mysql
+- hosts: all
   gather_facts: no
   tasks:
   - name: Install python 2
@@ -18,3 +19,9 @@
   gather_facts: yes
   roles:
     - configure-mysql
+
+- hosts: itrust
+  gather_facts: yes
+  roles:
+    - configure-itrust
+    - deploy-itrust

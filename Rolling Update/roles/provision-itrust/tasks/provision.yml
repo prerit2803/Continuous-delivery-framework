@@ -1,4 +1,4 @@
-- name: Create a new EC2 key
+- name: Create a new EC2 key  for iTrust
   ec2_key:
     name: itrust-key
     region: us-east-2
@@ -10,7 +10,7 @@
 
 # REFERENCES: https://fullmetalhealth.com/spin-off-ansible-ssh-bastion-host-dynamic-infrastructure-aws-gathering-ssh-public-key-aws-system-log/
 
-- name: Create a new EC2 Security Group
+- name: Create a new EC2 Security Group for iTrust
   ec2_group:
     name: itrust-sec-grp
     description: A EC2 security group for iTrust

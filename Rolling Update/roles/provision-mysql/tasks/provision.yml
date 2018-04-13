@@ -1,16 +1,16 @@
-- name: Create a new EC2 key
+- name: Create a new EC2 key for MySQL
   ec2_key:
     name: mysql-key
     region: us-east-2
   register: ec2_key_result
 
-- name: Save private key
+- name: Save private key for MySQL
   copy: content="{{ ec2_key_result.key.private_key }}" dest="~/mysql-key.pem" mode=0600
   when: ec2_key_result.changed
 
 # REFERENCES: https://fullmetalhealth.com/spin-off-ansible-ssh-bastion-host-dynamic-infrastructure-aws-gathering-ssh-public-key-aws-system-log/
 
-- name: Create a new EC2 Security Group
+- name: Create a new EC2 Security Group for MySQL
   ec2_group:
     name: mysql-sec-grp
     description: A EC2 security group for MySQL
@@ -52,7 +52,7 @@
   wait_for:
     timeout: 180
 
-- name: Get public key of EC2 instance
+- name: Get public key of EC2 instance for MySQL
   shell: aws ec2 get-console-output \
           --region us-east-2 \
           --instance-id "{{aws.instances[0].id}}" \
@@ -61,7 +61,7 @@
   retries: 100
   until: key_results.stdout != ''
 
-- name: Register public key to known_hosts
+- name: Register public key to known_hosts for MySQL
   lineinfile:
     name: "{{ ansible_env.HOME }}/.ssh/known_hosts"
     create: yes
@@ -74,7 +74,7 @@
     regexp: '<HOST_HERE>'
     replace: "{{ aws.instances[0].public_ip }}"
 
-- name: Update inventory
+- name: Update inventory for MySQL
   lineinfile:
     path: ./inventory
     insertafter: 'mysql'

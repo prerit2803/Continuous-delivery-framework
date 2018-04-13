@@ -1,4 +1,9 @@
 # REFERENCES:  https://stackoverflow.com/questions/42267299/ansible-install-mysql-5-7-set-root-user-password?rq=1
+- name: Get env_vars
+  include_vars:
+    file: ./group_vars/all/vars.yml
+    name: var
+
 - name: Copy db.properties File
   become: yes
   copy:
@@ -38,7 +43,7 @@
     path: "{{ ansible_env.HOME }}/itrust/iTrust2/src/main/java/db.properties"
     state: present
     regexp: 'localhost'
-    line: "url jdbc:mysql://{{ env_vars.mysql_host }}:3306/iTrust2?createDatabaseIfNotExist=true"
+    line: "url jdbc:mysql://{{ var.env_vars.mysql_host }}:3306/iTrust2?createDatabaseIfNotExist=true"
     backrefs: yes
 
 - lineinfile:
@@ -66,7 +71,7 @@
     path: "{{ ansible_env.HOME }}/itrust/iTrust2/src/main/resources/hibernate.properties"
     state: present
     regexp: 'hibernate.connection.url'
-    line: "hibernate.connection.url = jdbc:mysql://{{ env_vars.mysql_host }}:3306/iTrust2?createDatabaseIfNotExist=true"
+    line: "hibernate.connection.url = jdbc:mysql://{{ var.env_vars.mysql_host }}:3306/iTrust2?createDatabaseIfNotExist=true"
     backrefs: yes
 
 - lineinfile:
