@@ -39,6 +39,12 @@
     insertafter: EOF
     state: present
 
+- name: Update IP for monitoring
+  replace:
+    path: ./Monitoring/main.js
+    regexp: "<SERVER-{{ outer_item }}>"
+    replace: "{{ aws.instances[0].public_ip }}"
+
 - name: Update inventory
   lineinfile:
     path: ./inventory

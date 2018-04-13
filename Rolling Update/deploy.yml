@@ -25,3 +25,8 @@
   roles:
     - configure-itrust
     - deploy-itrust
+
+- hosts: local
+  gather_facts: yes
+  roles:
+    - monitoring
