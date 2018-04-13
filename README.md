@@ -14,11 +14,11 @@
 ## Componenets
 
 ### Deployment
-+ **[README](./Deployment/README.md)**
++ **[README](./Deployment)**
 + **[Screencast]()**
 
 ### Infrastructure Upgrade
-+ **[README](./Infrastructure/README.md)**
++ **[README](./Infrastructure)**
 + **[Screencast]()**
 
 ### Canary Release
