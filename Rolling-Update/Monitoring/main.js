@@ -90,7 +90,7 @@ function measureLatenancy(server)
 		}
 	});
 	console.log("latency",  server.latency);
-	if( server.latency > 10 )
+	if( server.latency > 0 )
 		return {color: "#00ff00"};
 	else
 		return {color: "#ff0000"};
