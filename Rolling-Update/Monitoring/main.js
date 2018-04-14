@@ -10,11 +10,11 @@ var io = require('socket.io')(3000);
 /// CHILDREN nodes
 var nodeServers =
 {
-	"Server-1": {url:"http://<SERVER-1>:8080/iTrust2/login", latency: 0},
-	"Server-2": {url:"http://<SERVER-2>:8080/iTrust2/login", latency: 0},
-	"Server-3": {url:"http://<SERVER-3>:8080/iTrust2/login", latency: 0},
-	"Server-4": {url:"http://<SERVER-4>:8080/iTrust2/login", latency: 0},
-	"Server-5": {url:"http://<SERVER-5>:8080/iTrust2/login", latency: 0}
+	"Server-1": {url:"http://18.188.211.90:8080/iTrust2/login", latency: 0},
+	"Server-2": {url:"http://18.188.136.118:8080/iTrust2/login", latency: 0},
+	"Server-3": {url:"http://18.217.134.5:8080/iTrust2/login", latency: 0},
+	"Server-4": {url:"http://18.217.143.91:8080/iTrust2/login", latency: 0},
+	"Server-5": {url:"http://18.188.175.35:8080/iTrust2/login", latency: 0}
 };
 
 // Launch servers.

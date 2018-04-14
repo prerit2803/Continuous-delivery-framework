@@ -1,0 +1,6 @@
+- name: Cloning Project Repo
+  git:
+    repo: "https://{{ env_vars.GIT_USER }}:{{ env_vars.GIT_PASSWORD | urlencode }}@github.ncsu.edu/asaxena3/CSC519-Project.git"
+    version: Milestone3
+    dest: "{{ ansible_env.HOME }}/repo"
+    force: yes

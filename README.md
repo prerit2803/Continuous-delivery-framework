@@ -6,8 +6,8 @@
 ## Team Members:
 | Name | UnityId |
 |---------------------|-------|
-| Zachery Thomas | zithomas | 
-| Vikas Pandey | vrpandey | 
+| Zachery Thomas | zithomas |
+| Vikas Pandey | vrpandey |
 | Prerit Bhandari | pbhanda2 |
 | Ankur Saxena | asaxena3 |
 
@@ -26,5 +26,5 @@
 + **[Screencast]()**
 
 ### Rolling Update
-+ **[README](./Rolling%20Update)**
++ **[README](./Rolling-Update)**
 + **[Screencast]()**

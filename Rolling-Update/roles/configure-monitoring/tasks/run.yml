@@ -1,0 +1,9 @@
+- name: Run HTTP-Server
+  shell: nohup http-server &
+  args:
+    chdir: "{{ ansible_env.HOME }}/repo/CSC519-Project/Rolling-Update/Monitoring/www"
+
+- name: Run main.js
+  shell: node main.js &
+  args:
+    chdir: "{{ ansible_env.HOME }}/repo/CSC519-Project/Rolling-Update/Monitoring"

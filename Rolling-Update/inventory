@@ -5,3 +5,6 @@ localhost ansible_connection=local
 
 
 [itrust]
+
+
+[monitoring]

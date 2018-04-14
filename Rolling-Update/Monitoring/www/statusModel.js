@@ -105,7 +105,7 @@ $(document).ready( function()
     ko.applyBindings(viewModel);
     $('#statusTable').DataTable( { "paging":   false, "info":     false });
 
-    var socket = io.connect('http://192.168.125.110:3000');
+    var socket = io.connect('http://<MONITOR-HERE>:3000');
     console.log(socket);
 
     socket.on("heartbeat", function(client)

@@ -1,9 +1,0 @@
-- name: Run HTTP-Server
-  shell: nohup http-server &
-  args:
-    chdir: "./Monitoring/www"
-
-- name: Run main.js
-  shell: node main.js &
-  args:
-    chdir: "./Monitoring"

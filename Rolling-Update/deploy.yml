@@ -8,6 +8,7 @@
     - provision-config
     - provision-mysql
     - provision-itrust
+    - provision-monitoring
 
 - hosts: all
   gather_facts: no
@@ -26,7 +27,7 @@
     - configure-itrust
     - deploy-itrust
 
-- hosts: local
+- hosts: monitoring
   gather_facts: yes
   roles:
-    - monitoring
+    - configure-monitoring

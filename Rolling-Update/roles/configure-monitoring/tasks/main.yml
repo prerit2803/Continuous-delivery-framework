@@ -1,3 +1,4 @@
 ---
 - import_tasks: nodejs.yml
+- import_tasks: clone.yml
 - import_tasks: run.yml
