@@ -39,9 +39,9 @@
     insertafter: EOF
     state: present
 
-- name: Update IP for monitoring
+- name: Update IP for monitoring in vars.yml
   replace:
-    path: ./Monitoring/main.js
+    path: ./group_vars/all/vars.yml
     regexp: "<SERVER-{{ outer_item }}>"
     replace: "{{ aws.instances[0].public_ip }}"
 
