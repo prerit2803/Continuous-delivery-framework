@@ -24,6 +24,9 @@
       - proto: tcp
         ports: 8080
         cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        ports: 3000
+        cidr_ip: 0.0.0.0/0
     rules_egress:
       - proto: all
         cidr_ip: 0.0.0.0/0

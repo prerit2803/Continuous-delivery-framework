@@ -44,6 +44,10 @@
   args:
     chdir: "{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring/www"
 
+- name: Build Monitoring Server
+  npm:
+    path: "{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring"
+
 - name: Run main.js
   shell: node main.js &
   args:
