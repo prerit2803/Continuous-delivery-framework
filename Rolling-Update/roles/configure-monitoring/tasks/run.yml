@@ -40,7 +40,7 @@
     replace: "{{ var.env_vars.iTrust5 }}"
 
 - name: Run HTTP-Server
-  shell: nohup http-server &
+  shell: http-server &
   args:
     chdir: "{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring/www"
 
@@ -48,7 +48,5 @@
   npm:
     path: "{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring"
 
-- name: Run main.js
-  shell: node main.js &
-  args:
-    chdir: "{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring"
+- name: Start App
+  command: forever start main.js chdir="{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring"

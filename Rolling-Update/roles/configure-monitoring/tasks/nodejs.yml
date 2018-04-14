@@ -26,3 +26,9 @@
   npm:
     name: http-server
     global: yes
+
+- name: Install "forever" node.js package globally
+  become: yes
+  npm:
+    name: forever
+    global: yes

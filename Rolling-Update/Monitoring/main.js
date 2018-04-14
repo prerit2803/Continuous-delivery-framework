@@ -79,7 +79,7 @@ function measureLatenancy(server)
 	request(options, function (error, res, body)
 	{
 		// console.log( error, res.statusCode, server.url);
-		if(error){
+		if(error || res.statusCode != 200){
 			console.log("ERROR", server.url);
 			server.latency = 0;
 			// return {color: "#ff0000"};
