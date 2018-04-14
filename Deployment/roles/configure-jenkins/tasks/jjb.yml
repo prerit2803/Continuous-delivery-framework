@@ -36,7 +36,7 @@
   become: yes
   replace:
     path: /etc/default/jenkins
-    regexp: 'HTTP_PORT=[0-9]{4}$'
+    regexp: 'HTTP_PORT=[0-9]{1,5}$'
     replace: "HTTP_PORT={{env_vars.jenkins_port | int }}"
 
 - name: Create init.groovy.d folder in $JENKINS_HOME
@@ -254,29 +254,16 @@
   tags:
     upload-job
 
-# - name: Trigger build for Checkbox
-#   become: yes
-#   command: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ build 'checkbox-build'"
-#   tags:
-#     - build-jobs
-#     - build_checkbox
+- name: Cleanup iTrust
+  become: yes
+  file:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    state: absent
+    mode: 0440
 
-# - name: Trigger build for iTrust
-#   become: yes
-#   command: "java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080/ build 'itrust-build'"
-#   tags:
-#     build-jobs
-
-#- name: Cleanup iTrust
-#  become: yes
-#  file:
-#    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
-#    state: absent
-#    mode: 0440
-
-#- name: Cleanup checkbox
-#  become: yes
-#  file:
-#    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
-#    state: absent
-#    mode: 0440
+- name: Cleanup checkbox
+  become: yes
+  file:
+    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+    state: absent
+    mode: 0440
