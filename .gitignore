@@ -4,3 +4,5 @@ Vagrantfile
 keys/
 Milestone1/
 Milestone2/
+*/node_modules/
+*.retry
