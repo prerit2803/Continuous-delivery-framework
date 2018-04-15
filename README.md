@@ -11,7 +11,7 @@
 | Prerit Bhandari | pbhanda2 | Rolling Update |
 | Ankur Saxena | asaxena3 | Infrastructure Upgrade: kubernetes cluster, Dockerized image of Checkbox.io |
 
-## Componenets
+## Components
 
 ### Deployment
 + **[README](./Deployment)**
