@@ -40,7 +40,7 @@
     replace: "{{ var.env_vars.iTrust5 }}"
 
 - name: Run HTTP-Server
-  shell: http-server &
+  shell: forever start -c "http-server" ./
   args:
     chdir: "{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring/www"
 
