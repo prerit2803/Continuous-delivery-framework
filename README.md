@@ -23,7 +23,7 @@
 
 ### Canary Release
 + **[README]()**
-+ **[Screencast]()**
++ **[Screencast](https://youtu.be/qNnUehNGPIg)**
 
 ### Rolling Update
 + **[README](./Rolling-Update)**
