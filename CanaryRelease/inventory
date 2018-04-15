@@ -1,0 +1,11 @@
+[stable]
+192.168.33.168 ansible_ssh_user=vagrant ansible_ssh_private_key_file=./keys/stable.key
+[canary]
+192.168.33.167 ansible_ssh_user=vagrant ansible_ssh_private_key_file=./keys/canary.key
+[local]
+localhost ansible_connection=local
+[mongo]
+192.168.33.169 ansible_ssh_user=vagrant ansible_ssh_private_key_file=./keys/mongo.key
+[servers]
+192.168.33.167 ansible_ssh_user=vagrant ansible_ssh_private_key_file=./keys/canary.key
+192.168.33.168 ansible_ssh_user=vagrant ansible_ssh_private_key_file=./keys/stable.key

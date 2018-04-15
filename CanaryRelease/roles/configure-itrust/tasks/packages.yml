@@ -1,0 +1,19 @@
+- import_tasks: java8.yml
+
+- name: Install Git, Maven, Pip, mysql-python
+  become: yes
+  apt: 
+    name: "{{item}}" 
+    state: latest
+  with_items:
+    - git
+    - maven
+    - python-pip
+    - libmysqlclient-dev
+# REFERENCE: https://stackoverflow.com/questions/25865270/how-to-install-python-mysqldb-module-using-pip
+
+- name: Install mysql-python 
+  become: yes
+  pip:
+    name: MySQL-python
+    state: latest

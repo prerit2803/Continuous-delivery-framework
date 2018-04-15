@@ -1,0 +1,31 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+  - name: Install python 2
+    raw: sudo test -e /usr/bin/python || (sudo apt-get install -y python-minimal)
+
+
+- hosts: mongo
+  gather_facts: yes
+  ignore_errors: no
+  environment:
+  - MONGO_PORT: "{{ env_vars.MONGO_PORT }}"
+  - MONGO_IP: "{{ env_vars.MONGO_IP }}"
+  - MONGO_USER: "{{ env_vars.MONGO_USER }}"
+  - MONGO_PASSWORD: "{{ env_vars.MONGO_PASSWORD }}"
+  roles:  
+    - configure-mongo  
+
+
+- hosts: servers
+  gather_facts: yes
+  ignore_errors: no
+  environment:
+  - MONGO_PORT: "{{ env_vars.MONGO_PORT }}"
+  - MONGO_IP: "{{ env_vars.MONGO_IP }}"
+  - MONGO_USER: "{{ env_vars.MONGO_USER }}"
+  - MONGO_PASSWORD: "{{ env_vars.MONGO_PASSWORD }}"
+  roles:  
+    - configure-jenkins
+    - configure-checkbox      
