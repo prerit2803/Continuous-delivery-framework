@@ -25,8 +25,7 @@ app.use(function(req, res, next)
 console.log("Something went wrong:", alert);
   if(count % 4 != 0 || alert === true)
   {
-    // count = ipDataStable.length;
-    // var ran = Math.floor(Math.random() * (count))
+   
     
     server = ipDataStable;
     temp = ipDataStable;  
@@ -35,8 +34,7 @@ console.log("Something went wrong:", alert);
 }
   else
   {
-    // count = ipDataNew.length;
-    // var ran = Math.floor(Math.random() * (count))
+   
     server = ipDataNew;
     temp = ipDataNew;   
           console.log("CanaryServer called: ", ipDataNew);
@@ -44,7 +42,7 @@ console.log("Something went wrong:", alert);
           
         
 }
-  //console.log("Traffic is redirecting to new instance : http://"+temp+":"+port);
+  
   proxy.web( req, res, {target: 'http://'+temp+":"+port } );
 
 
@@ -81,18 +79,7 @@ var refreshId = setInterval(function()
    var port = server.address().port
    ipDataStable = fs.readFileSync('/home/vagrant/data/stableInstance').toString().split("\n");
   
-   // for(i=0;i<array.length;i++){
-   //  if(array[i] !=""){
-   //   ipDataStable.push(array[i])
-   //      }
-   // }
-
    temp = ipDataStable;
  ipDataNew = fs.readFileSync('/home/vagrant/data/canaryInstance').toString().split("\n");
  
-   // for(i=0;i<array.length;i++){
-   //  if(array[i] !=""){
-   //   ipDataNew.push(array[i])
-   //      }
-   // }
  })
