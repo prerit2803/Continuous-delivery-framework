@@ -1,0 +1,7 @@
+---
+env_vars:
+  MAIL_PASSWORD: ""
+  MAIL_USER: ""
+  MAIL_SMTP: ""
+  MONGO_USER: ""
+  MONGO_PASSWORD: ""
