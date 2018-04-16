@@ -1,0 +1,35 @@
+---
+- hosts: itrust1
+  gather_facts: yes
+  roles:
+    - kill-server
+    - deploy-itrust
+    - pause
+
+- hosts: itrust2
+  gather_facts: yes
+  roles:
+    - kill-server
+    - deploy-itrust
+    - pause
+
+- hosts: itrust3
+  gather_facts: yes
+  roles:
+    - kill-server
+    - deploy-itrust
+    - pause
+
+- hosts: itrust4
+  gather_facts: yes
+  roles:
+    - kill-server
+    - deploy-itrust
+    - pause
+
+- hosts: itrust5
+  gather_facts: yes
+  roles:
+    - kill-server
+    - deploy-itrust
+    - pause

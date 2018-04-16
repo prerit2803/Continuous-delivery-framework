@@ -1,0 +1,52 @@
+- name: Get env_vars
+  include_vars:
+    file: ./group_vars/all/vars.yml
+    name: var
+
+- name: Update IP for monitoring
+  replace:
+    path: "{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring/www/statusModel.js"
+    regexp: "<MONITOR-HERE>"
+    replace: "{{ var.env_vars.MONITOR_SERVER }}"
+
+- name: Update iTrust Server 1 IP for monitoring
+  replace:
+    path: "{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring/main.js"
+    regexp: "<SERVER-1>"
+    replace: "{{ var.env_vars.iTrust1 }}"
+
+- name: Update iTrust Server 2 IP for monitoring
+  replace:
+    path: "{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring/main.js"
+    regexp: "<SERVER-2>"
+    replace: "{{ var.env_vars.iTrust2 }}"
+
+- name: Update iTrust Server 3 IP for monitoring
+  replace:
+    path: "{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring/main.js"
+    regexp: "<SERVER-3>"
+    replace: "{{ var.env_vars.iTrust3 }}"
+
+- name: Update iTrust Server 4 IP for monitoring
+  replace:
+    path: "{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring/main.js"
+    regexp: "<SERVER-4>"
+    replace: "{{ var.env_vars.iTrust4 }}"
+
+- name: Update iTrust Server 5 IP for monitoring
+  replace:
+    path: "{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring/main.js"
+    regexp: "<SERVER-5>"
+    replace: "{{ var.env_vars.iTrust5 }}"
+
+- name: Run HTTP-Server
+  shell: forever start -c "http-server" ./
+  args:
+    chdir: "{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring/www"
+
+- name: Build Monitoring Server
+  npm:
+    path: "{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring"
+
+- name: Start App
+  command: forever start main.js chdir="{{ ansible_env.HOME }}/repo/Rolling-Update/Monitoring"
