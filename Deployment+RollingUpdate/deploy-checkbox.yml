@@ -1,15 +1,4 @@
 ---
-# - hosts: local
-#   gather_facts: yes
-#   roles:
-#     - provision-checkbox
-
-# - hosts: checkbox
-#   gather_facts: no
-#   tasks:
-#   - name: Install python 2
-#     raw: sudo test -e /usr/bin/python || (sudo apt-get install -y python-minimal)
-
 - hosts: checkbox
   gather_facts: yes
   roles:

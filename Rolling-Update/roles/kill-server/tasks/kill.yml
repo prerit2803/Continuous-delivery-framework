@@ -1,7 +1,0 @@
-- name: Get running Jetty Server PID
-  shell: "ps -ef | grep -v grep | grep -w jetty:run | awk '{print $2}'"
-  register: running_processes
-
-- name: "Kill running jetty server for IP {{ ansible_eth0.ipv4.address }}"
-  shell: "kill {{ item }}"
-  with_items: "{{ running_processes.stdout_lines }}"

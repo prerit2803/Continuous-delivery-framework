@@ -1,5 +1,0 @@
----
-- import_tasks: java8.yml
-- import_tasks: jenkins.yml
-- import_tasks: aws.yml
-- import_tasks: jjb.yml
