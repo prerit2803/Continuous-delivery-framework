@@ -1,7 +1,7 @@
 # Deployment + Rolling Update
 
 ## Steps to run:
-+ Clone the repo
++ Clone the repo and change directory to `Deployment+RollingUpdate` folder
 + Install [Ansible](./getAnsible.sh)
 + Fill in all of the varibales value in [group_vars](./group_vars/all/vars.yml)
 ```
@@ -30,7 +30,9 @@
   ```
     ./pipeline_tester.sh
   ```
-  
+## Description
+
+
 ## Screencast
 The screencast for Milestone3 - [ Deployment and Rolling Update ](https://youtu.be/OgyeE7KXN0s)
 
