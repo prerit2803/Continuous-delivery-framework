@@ -1,6 +1,6 @@
 # Deployment + Rolling Update
 
 ## Screencast
-The screencast for Milestone3 - [ Deployment and Rolling Update ](https://github.ncsu.edu/asaxena3/CSC519-Project/tree/Milestone3)
+The screencast for Milestone3 - [ Deployment and Rolling Update ](https://youtu.be/OgyeE7KXN0s)
 
 ![](../tutorial-material/Pipeline.png)
