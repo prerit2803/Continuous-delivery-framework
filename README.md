@@ -15,7 +15,7 @@
 
 ### Deployment + Rolling-Update
 + **[README](./Deployment%2BRollingUpdate)**
-+ **[Screencast]()**
++ **[Screencast](https://github.ncsu.edu/asaxena3/CSC519-Project/tree/Milestone3)**
 
 ### Infrastructure Upgrade
 + **[README](./Infrastructure)**
