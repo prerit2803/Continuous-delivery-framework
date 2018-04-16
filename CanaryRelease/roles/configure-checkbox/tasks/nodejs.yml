@@ -20,3 +20,9 @@
     update_cache: yes
   with_items:
     - nodejs
+
+- name: Install "forever" node.js package globally
+  become: yes
+  npm:
+    name: forever
+    global: yes 
