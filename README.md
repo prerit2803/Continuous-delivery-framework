@@ -23,5 +23,5 @@
 
 ### Canary Release
 + **[README](./CanaryRelease)**
-+ **[Screencast](https://youtu.be/qNnUehNGPIg)**
++ **[Screencast](https://youtu.be/xv2Xlu7iNNs)**
 
