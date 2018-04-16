@@ -17,7 +17,7 @@ Canary release is a technique to reduce the risk of introducing a new software v
 
 5. Once alert is raised, all 100% requests are sent to our stable server.
 
-
+ **[Canary Release Demo](https://youtu.be/xv2Xlu7iNNs)**
 
 
 
