@@ -13,8 +13,8 @@
 
 ## Components
 
-### Deployment
-+ **[README](./Deployment)**
+### Deployment + Rolling-Update
++ **[README](./Deployment%2BRollingUpdate)**
 + **[Screencast]()**
 
 ### Infrastructure Upgrade
@@ -25,6 +25,3 @@
 + **[README](./CanaryRelease)**
 + **[Screencast](https://youtu.be/qNnUehNGPIg)**
 
-### Rolling Update
-+ **[README](./Rolling-Update)**
-+ **[Screencast]()**
