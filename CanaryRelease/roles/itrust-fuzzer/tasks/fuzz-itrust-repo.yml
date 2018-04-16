@@ -1,0 +1,80 @@
+- name: Create fuzzer branch in iTrust repo
+  command: git checkout -b fuzzer
+  become: yes
+  args:
+    chdir: "/var/lib/jenkins/project_repo/iTrust2-v2"
+  ignore_errors: True
+
+
+- name: Run mvn compile for fuzzer
+  command: mvn compile
+  become: yes
+  args:
+    chdir: "/var/lib/jenkins/project_repo/iTrust-fuzzer/"
+  tags:
+    - "compile_fuzzer"
+
+
+- name: Run fuzzer, commit, revert 100 times
+  shell: >
+    git config --global user.email "temp@temp.com";
+    git config --global user.name "temp";
+
+    cd /var/lib/jenkins/project_repo/iTrust2-v2;
+    git checkout fuzzer;
+
+    COUNTER=0;
+    RUNS=100;
+    JOB_URL=http://localhost:{{ env_vars.jenkins_port }}/job/itrust-test
+    JOB_STATUS_URL=${JOB_URL}/lastBuild/api/json
+
+    while [ "$COUNTER" -lt "$RUNS" ]; do
+      # dont fuzz first run
+      if [ "$COUNTER" -ne 0 ]
+      then
+        cd /var/lib/jenkins/project_repo/iTrust-fuzzer;
+        mvn exec:java -Dexec.mainClass="com.cowboydevop.fuzzer.Fuzzer";
+      fi
+
+      cd /var/lib/jenkins/project_repo/iTrust2-v2/iTrust2;
+      mvn compile;
+      if [ "$?" -eq "0" ]
+      then
+        echo "Compiles. Committing!"
+        git add --all;
+        git commit -m "commit `echo "$COUNTER"`";
+
+        sleep 10;
+        java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -s http://localhost:{{ env_vars.jenkins_port }}/ build 'itrust-test';
+
+        GREP_RETURN_CODE=0
+
+        # Poll every couple of seconds until the build is finished
+        while [ $GREP_RETURN_CODE -eq 0 ]
+        do
+            sleep 10
+            # Grep will return 0 while the build is running:
+            curl --silent $JOB_STATUS_URL | grep result\":null > /dev/null
+            GREP_RETURN_CODE=$?
+        done
+        # from https://serverfault.com/questions/309848/how-to-check-the-build-status-of-a-jenkins-build-from-the-command-line
+
+        git reset --hard HEAD^;
+
+        COUNTER=`expr $COUNTER + 1`
+        echo "job finished; incrementing counter"
+        echo $COUNTER
+
+      else
+        echo "Does not compile. Removing Changes."
+        git reset --hard HEAD;
+      fi
+    done
+  async: 99999 
+  poll: 0
+  become: yes
+  args:
+    chdir: "/var/lib/jenkins/project_repo/"
+  tags:
+    - "shell"
+

@@ -1,0 +1,9 @@
+[local]
+localhost ansible_connection=local
+
+[serverInstances]
+54.164.78.38 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./keys/CanaryServer.pem
+52.91.48.40 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./keys/StableServer.pem
+
+[mongo]
+34.238.253.63 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./keys/MongoSever.pem

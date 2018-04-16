@@ -1,0 +1,37 @@
+- name: Initialize kubernetes master
+  become: yes
+  command: kubeadm init 
+  register: kubeinit
+
+- name: Save joining token
+  copy:
+    content: "{{kubeinit.stdout}}"
+    dest: /tmp/kubeinit
+
+- name: Extract joining token
+  become: yes
+  shell: grep 'join' /tmp/kubeinit | tail -1 > /tmp/jointoken.sh
+
+- name: Fetch join token to local
+  fetch:
+    src: /tmp/jointoken.sh
+    dest: /tmp
+
+- name: Create kube directory
+  file:
+    path: /home/ubuntu/.kube
+    state: directory
+    mode: 0644
+    
+- name: Copy admin.conf
+  become: yes
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /home/ubuntu/.kube/config
+    owner: ubuntu
+    group: ubuntu
+    remote_src: yes
+
+- name: Deploy a POD network
+  shell: sudo kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
+

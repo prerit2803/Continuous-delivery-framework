@@ -1,0 +1,61 @@
+- name: Install python
+  become: yes
+  apt:
+    name: python
+    state: present
+    update_cache: yes
+
+- name: Install pip
+  become: yes
+  apt:
+    name: python-pip
+    state: latest
+    update_cache: yes
+
+- name: Install aws-cli, boto for ec2 Ansible module
+  become: yes
+  pip:
+    name: "{{item}}"
+    state: present
+  with_items:
+    - boto
+    - boto3
+    - awscli
+
+# REFERENCES: https://fullmetalhealth.com/spin-off-ansible-ssh-bastion-host-dynamic-infrastructure-aws-gathering-ssh-public-key-aws-system-log/
+
+- name: Create a new EC2 key
+  ec2_key:
+    name: kubernetes-key
+    region: us-east-2
+  register: ec2_key_result
+
+- name: Save private key
+  copy: 
+    content: "{{ ec2_key_result.key.private_key }}" 
+    dest: "~/kubernetes-key.pem" 
+    mode: 0600
+  when: ec2_key_result.changed
+
+- name: Create a new EC2 Security Group
+  ec2_group:
+    name: kubernetes-sec-grp
+    description: A EC2 security group for Kubernetes
+    region: us-east-2
+    rules:
+      - proto: tcp
+        ports: 22
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        ports: 8080
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        ports: 6443
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        ports: 80
+        cidr_ip: 0.0.0.0/0
+    rules_egress:
+      - proto: all
+        ports: 0-65535
+        cidr_ip: 0.0.0.0/0

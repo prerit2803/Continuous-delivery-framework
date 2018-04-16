@@ -1,0 +1,14 @@
+- name: Find join token_path
+  local_action: command find /tmp -name 'jointoken.sh'
+  register: token_path
+
+- name: Copy the jointoken
+  become: yes
+  copy:
+    src: "{{token_path.stdout}}"
+    dest: /tmp/jointoken.sh
+    mode: 'u=rx,g=rx,o=rx'
+
+- name: Join the kubernetes network
+  become: yes
+  shell: /tmp/jointoken.sh
