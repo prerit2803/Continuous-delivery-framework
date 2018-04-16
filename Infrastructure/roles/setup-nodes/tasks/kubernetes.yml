@@ -1,0 +1,36 @@
+- name: Download kubectl
+  become: yes
+  get_url:
+    url: https://storage.googleapis.com/kubernetes-release/release/v1.10.1/bin/linux/amd64/kubectl
+    dest: /usr/local/bin/kubectl
+    mode: 0555
+- name: Install apt-transport-https and curl
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - apt-transport-https
+    - curl
+
+- name: Add Kubernetes apt key
+  become: yes
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Update 
+  shell: echo deb http://apt.kubernetes.io/ kubernetes-xenial main | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+- name: Install kubectl, kubeadm, kubelet, kubernetes-cni
+  become: yes
+  apt:
+    name: "{{item}}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - kubectl
+    - kubeadm
+    - kubelet
+    - kubernetes-cni

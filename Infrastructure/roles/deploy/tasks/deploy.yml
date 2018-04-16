@@ -1,0 +1,23 @@
+- name: Install kompose
+  become: yes
+  get_url: 
+    url: https://github.com/kubernetes/kompose/releases/download/v1.11.0/kompose-linux-amd64
+    dest: /usr/local/bin/kompose
+    mode: "u=rx,o=rx,g=rx"
+
+- name: Copy checkbox files
+  become: yes
+  synchronize:
+    src: /milestone/Infrastructure
+    dest: /usr/src/
+    recursive: yes
+
+- name: Create docker-compose.yml
+  template: 
+    src: ./docker-compose.yml
+    dest: /usr/src/Infrastructure/docker-compose.yml
+
+# - name: Deploy checkbox
+#   command: docker-compose -d up
+#   args:
+#     chdir: /usr/src/Infrastructure

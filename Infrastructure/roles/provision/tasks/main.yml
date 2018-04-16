@@ -1,0 +1,4 @@
+---
+- import_tasks: prereqs.yml
+- import_tasks: provision-master.yml
+- import_tasks: provision-slaves.yml
