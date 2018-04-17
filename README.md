@@ -21,7 +21,7 @@
 + **[README](./Infrastructure)**
 + **[Screencast:](./Infrastructure)**
   + [Redis Feature Flag](https://youtu.be/EVDjo-KJ-40)
-  + [Kubernetes Cluster Deployment]()
+  + [Kubernetes Cluster Deployment](https://youtu.be/PyV4RplfIQI)
 
 ### Canary Release
 + **[README](./CanaryRelease)**
