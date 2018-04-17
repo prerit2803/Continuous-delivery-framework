@@ -23,11 +23,6 @@
   template: 
     src: ./docker-compose.yml
     dest: /usr/src/Infrastructure/docker-compose.yml
-
-- name: Create checkbox docker image
-  command: docker-compose up -d
-  args:
-    chdir: /usr/src/Infrastructure 
-
+  
 - name: Deploy checkbox image
   shell: sudo kubectl run checkbox --image=ankursaxena135/checkbox
