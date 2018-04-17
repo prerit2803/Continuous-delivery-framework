@@ -28,3 +28,49 @@ The kubernets maintains a Checkbox containers i.e. Checkbox pod running on the n
 ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone3/tutorial-material/k8s.png)
 
 
+## Redis Feature Flag
+### Steps to Run
+#### 1. Install Docker and Docker-Compose
+For this demo we will be using Docker and Docker-Compose to manage our containers. This will make it easy to spin up and down instances of the servers we will need.
+
+### 2. Run docker-compose build
+```
+docker-compose -f docker-compose-redisFF.yml build
+```
+We will run this command to build an image for our checkbox container. This will also pull images (ex. nginx, redis, mongodb) from dockerhub if we do not have them locally.
+
+### 3. Run docker-compose up
+```
+docker-compose -f docker-compose-redisFF.yml up -d
+```
+This will spin up all of our containers. The -d flag means the containers will run in the background.
+
+### 4. Toggle on/off createStudy feature
+```
+docker exec -it redismaster redis-cli
+```
+Running this command will start the redis-cli within the redismaster container. We can now execute commands in the redis-cli.
+We can now set the value for createStudy.
+
+```
+set createStudy true
+```
+
+or
+
+```
+set createStudy false
+```
+
+### 5. Checking value on slave
+
+### 4. Toggle on/off createStudy feature
+```
+docker exec -it redisslave redis-cli
+```
+Running this command will start the redis-cli within the redisslave container.
+We can view the value of createStudy.
+```
+get createStudy
+```
+It will mirror the value set in the master database.
