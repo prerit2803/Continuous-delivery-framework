@@ -63,8 +63,6 @@ set createStudy false
 ```
 
 ### 5. Checking value on slave
-
-### 4. Toggle on/off createStudy feature
 ```
 docker exec -it redisslave redis-cli
 ```
