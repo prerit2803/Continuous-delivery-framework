@@ -19,7 +19,9 @@
 
 ### Infrastructure Upgrade
 + **[README](./Infrastructure)**
-+ **[Screencast](./Infrastructure)**
++ **[Screencast:](./Infrastructure)**
+  + [Redis Feature Flag](https://youtu.be/EVDjo-KJ-40)
+  + [Kubernetes Cluster Deployment]()
 
 ### Canary Release
 + **[README](./CanaryRelease)**
