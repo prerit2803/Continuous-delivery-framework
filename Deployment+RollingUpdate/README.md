@@ -44,7 +44,12 @@ When the shell script is ran, it creates a bare repo for both iTrust and Checkbo
 
 Once the build is triggerred through the push, all the instances are redeployed.
 
+
+![](../tutorial-material/Pipeline.png)
+
+
 ## Screencast
 The screencast for Milestone3 - [ Deployment and Rolling Update ](https://youtu.be/OgyeE7KXN0s)
 
-![](../tutorial-material/Pipeline.png)
+
+![](../tutorial-material/Rolling-Update.gif)
