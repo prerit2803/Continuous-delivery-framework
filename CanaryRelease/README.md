@@ -17,11 +17,15 @@ Canary release is a technique to reduce the risk of introducing a new software v
 
 5. Once alert is raised, all 100% requests are sent to our stable server.
 
- **[Canary Release Demo](https://youtu.be/xv2Xlu7iNNs)**
-
 
 
 ![image]( https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone3/CanaryRelease/Canary.png "Canary Release")
+
+
+
+## Screencast
+The screencast for Milestone3 - [Canary Release Demo](https://youtu.be/xv2Xlu7iNNs)
+
 
 
 
