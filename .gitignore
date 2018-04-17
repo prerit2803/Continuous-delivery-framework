@@ -6,3 +6,4 @@ Milestone1/
 Milestone2/
 node_modules/
 *.retry
+Infrastructure/group_vars/

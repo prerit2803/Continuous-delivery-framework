@@ -1,14 +1,14 @@
-- name: Install kompose
+- name: Install docker-compose
   become: yes
   get_url: 
-    url: https://github.com/kubernetes/kompose/releases/download/v1.11.0/kompose-linux-amd64
-    dest: /usr/local/bin/kompose
+    url: https://github.com/docker/compose/releases/download/1.21.0/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
     mode: "u=rx,o=rx,g=rx"
 
 - name: Copy checkbox files
   become: yes
   synchronize:
-    src: /milestone/Infrastructure
+    src: $HOME/CSC519-Project/Infrastructure
     dest: /usr/src/
     recursive: yes
 
@@ -17,7 +17,24 @@
     src: ./docker-compose.yml
     dest: /usr/src/Infrastructure/docker-compose.yml
 
-# - name: Deploy checkbox
-#   command: docker-compose -d up
-#   args:
-#     chdir: /usr/src/Infrastructure
+- name: Create checkbox docker image
+  command: docker-compose up -d
+  args:
+    chdir: /usr/src/Infrastructure 
+
+- name: Deploy checkbox image
+  shell: sudo kubectl run checkbox --image=ankursaxena135/checkbox
+
+- name: Test pod network
+  shell: sudo kubectl get nodes
+  register: nodes_output
+
+- debug:
+    msg: "{{nodes_output.stdout}}"
+
+- name: Test pod network
+  shell: sudo kubectl get pods
+  register: pods_output
+
+- debug:
+    msg: "{{pods_output.stdout}}"

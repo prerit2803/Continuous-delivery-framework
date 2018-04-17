@@ -23,6 +23,10 @@
 - name: Update 
   shell: echo deb http://apt.kubernetes.io/ kubernetes-xenial main | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
+# http://docs.platform9.com/support/disabling-swap-kubernetes-node/
+- name: Disable swap
+  shell:  sudo swapoff -a && sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+
 - name: Install kubectl, kubeadm, kubelet, kubernetes-cni
   become: yes
   apt:
