@@ -73,3 +73,9 @@ We can view the value of createStudy.
 get createStudy
 ```
 It will mirror the value set in the master database.
+
+## Screenshots  
+
+#### Redis Feature Flag  
+
+![](../tutorial-material/Redis-feature-flag.gif)
