@@ -1,0 +1,6 @@
+---
+- hosts: checkbox
+  gather_facts: yes
+  roles:
+    - configure-checkbox
+    - deploy-checkbox

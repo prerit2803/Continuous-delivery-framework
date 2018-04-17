@@ -1,0 +1,10 @@
+[local]
+localhost ansible_connection=local
+
+[mysql]
+
+[itrust]
+
+[monitoring]
+
+[checkbox]

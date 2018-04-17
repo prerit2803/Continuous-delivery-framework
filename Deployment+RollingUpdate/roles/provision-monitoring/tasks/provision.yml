@@ -1,0 +1,85 @@
+- name: Create a new EC2 key for Monitoring
+  ec2_key:
+    name: monitoring-key
+    region: us-east-2
+  register: ec2_key_result
+
+- name: Save private key for Monitoring
+  copy: content="{{ ec2_key_result.key.private_key }}" dest="./monitoring-key.pem" mode=0600
+  when: ec2_key_result.changed
+
+# REFERENCES: https://fullmetalhealth.com/spin-off-ansible-ssh-bastion-host-dynamic-infrastructure-aws-gathering-ssh-public-key-aws-system-log/
+
+- name: Create a new EC2 Security Group for Monitoring
+  ec2_group:
+    name: monitoring-sec-grp
+    description: A EC2 security group for Monitoring
+    region: us-east-2
+    tags:
+       Name: Monitoring-sec-grp
+    rules:
+      - proto: tcp
+        ports: 22
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        ports: 8080
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        ports: 3000
+        cidr_ip: 0.0.0.0/0
+    rules_egress:
+      - proto: all
+        cidr_ip: 0.0.0.0/0
+
+- name: Create an AWS server for Monitoring
+  ec2:
+    key_name: monitoring-key
+    instance_tags:
+       Name: Monitoring
+    group: monitoring-sec-grp
+    instance_type: t2.micro
+    image: ami-965e6bf3
+    wait: yes
+    count: 1
+    region: us-east-2
+    state: present
+  register: aws
+
+- debug:
+    msg: "Created instance {{ aws.instances[0].id }} and ip {{ aws.instances[0].public_ip }}"
+
+- name: Wait for EC2 instance to become running and finish Status Checks
+  wait_for:
+    timeout: 180
+
+- name: Get public key of EC2 instance for Monitoring
+  shell: aws ec2 get-console-output \
+          --region us-east-2 \
+          --instance-id "{{aws.instances[0].id}}" \
+          --output text|sed -n 's/^.*\(ecdsa-sha2-nistp256 \)\(.*\)/\2/p' | awk '{print $1}'
+  register: key_results
+  retries: 100
+  until: key_results.stdout != ''
+
+- name: Register public key to known_hosts for Monitoring
+  lineinfile:
+    name: "{{ ansible_env.HOME }}/.ssh/known_hosts"
+    create: yes
+    line: "{{ aws.instances[0].public_ip }} ecdsa-sha2-nistp256 {{key_results.stdout}}"
+    insertafter: EOF
+    state: present
+
+- name: Update IP for monitoring in vars.yml
+  replace:
+    path: ./group_vars/all/vars.yml
+    regexp: "<MONITOR-HERE>"
+    replace: "{{ aws.instances[0].public_ip }}"
+
+- name: Update inventory for Monitoring
+  lineinfile:
+    path: ./inventory
+    insertafter: 'monitoring'
+    line: "{{aws.instances[0].public_ip}} ansible_ssh_user=ubuntu ansible_ssh_private_key_file=./monitoring-key.pem"
+    state: present
+
+- meta: refresh_inventory

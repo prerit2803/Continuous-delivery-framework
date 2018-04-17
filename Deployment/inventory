@@ -1,9 +1,0 @@
-[local]
-localhost ansible_connection=local
-
-[jenkins]
-
-[checkbox]
-
-[itrust]
-

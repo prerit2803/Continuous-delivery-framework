@@ -1,0 +1,308 @@
+#- name: Cloning Project Repo at $JENKINS_HOME
+#  git:
+#    repo: "https://{{ env_vars.GIT_USER }}:{{env_vars.GIT_PASSWORD | urlencode }}@github.ncsu.edu/asaxena3/CSC519-Project.git"
+#    version: Milestone2
+#    dest: /var/lib/jenkins/project_repo
+#    force: yes
+#  become: yes
+
+- name: Copy host repo to new repo at $JENKINS_HOME
+  synchronize:
+    src: ../../../
+    dest: /var/lib/jenkins/project_repo
+    # force: yes
+    recursive: yes
+  become: yes
+
+- name: Change Repo Permission to User Jenkins
+  become: yes
+  command: chown -hR jenkins:jenkins /var/lib/jenkins/project_repo
+
+- name: Make jenkins user passwordless with sudo permissions
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%jenkins'
+    line: '%jenkins ALL=(ALL) NOPASSWD: ALL'
+    validate: visudo -cf %s
+  become: yes
+
+- name: Add jenkins user to sudo group
+  user:
+    name: "jenkins"
+    groups: jenkins
+    append: yes
+  become: yes
+
+- name: Provide jenkins user permissions on $JENKINS_HOME
+  shell: "chown -R jenkins:jenkins /var/lib/jenkins"
+  become: yes
+
+- name: Install Jenkins Job Builder
+  become: yes
+  pip:
+    name: jenkins-job-builder
+    state: present
+
+# REFERENCES: https://docs.openstack.org/infra/jenkins-job-builder/
+
+- name: Disable Jenkins' initial authorization wizard
+  become: yes
+  replace:
+    path: /etc/default/jenkins
+    regexp: -Djava.awt.headless=true
+    replace: -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false
+
+- name: Change Jenkins default port
+  become: yes
+  replace:
+    path: /etc/default/jenkins
+    regexp: 'HTTP_PORT=[0-9]{1,5}$'
+    replace: "HTTP_PORT={{env_vars.jenkins_port | int }}"
+
+- name: Create init.groovy.d folder in $JENKINS_HOME
+  become: yes
+  file:
+    path: /var/lib/jenkins/init.groovy.d/
+    state: directory
+
+- name: Copy groovy scripts to $JENKINS_HOME
+  become: yes
+  command: cp -r /var/lib/jenkins/project_repo/jenkins_files/init.groovy.d/{{ item }} /var/lib/jenkins/init.groovy.d/
+  with_items:
+    - init.groovy
+    - makeCred.groovy
+    - remove.groovy
+
+# Setting Env for Groovy Script
+- name: Set Git User name in Groovy script
+  vars:
+    gituser: "{{ env_vars.GIT_USER }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
+    regexp: 'githubuser'
+    replace: "{{gituser}}"
+  become: yes
+
+- name: Set Git Password in Groovy script
+  vars:
+    gitpass: "{{ env_vars.GIT_PASSWORD }}"
+  replace:
+    path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
+    regexp: 'githubpwd'
+    replace: "{{gitpass}}"
+  become: yes
+
+# Setting env for iTrust Job
+- name: Set AWS Access Key environment variable for iTrust Job
+  vars:
+    accessKey: "{{ env_vars.ACCESS_KEY }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    regexp: 'ENTER_HERE_AWS_ACCESS_KEY_ID'
+    replace: "{{accessKey}}"
+  become: yes
+
+- name: Set AWS Secret Key environment variable for iTrust Job
+  vars:
+    secretKey: "{{ env_vars.SECRET_KEY }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    regexp: 'ENTER_HERE_AWS_SECRET_ACCESS_KEY'
+    replace: "{{secretKey}}"
+  become: yes
+
+- name: Set GitHub User environment variable for iTrust Job
+  vars:
+    gituser: "{{ env_vars.GIT_USER }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    regexp: 'ENTER_HERE_GIT_USER'
+    replace: "{{gituser}}"
+  become: yes
+
+- name: Set GitHub Password environment variable for iTrust Job
+  vars:
+    gitpass: "{{ env_vars.GIT_PASSWORD }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    regexp: 'ENTER_HERE_GIT_PASSWORD'
+    replace: "{{gitpass}}"
+  become: yes
+
+- name: Set MySQL User environment variable for iTrust Job
+  vars:
+    mysqluser: "{{ env_vars.mysql_user }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    regexp: 'ENTER_HERE_MYSQL_USER'
+    replace: "{{mysqluser}}"
+  become: yes
+
+- name: Set MySQL Password environment variable for iTrust Job
+  vars:
+    mysqlpass: "{{ env_vars.mysql_password }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    regexp: 'ENTER_HERE_MYSQL_PASSWORD'
+    replace: "{{mysqlpass}}"
+  become: yes
+
+- name: Set MySQL Host environment variable for iTrust Job
+  vars:
+    mysqlhost: "{{ env_vars.mysql_host }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    regexp: 'ENTER_HERE_MYSQL_HOST'
+    replace: "{{mysqlhost}}"
+  become: yes
+
+- name: Set Mail User environment variable for iTrust Job
+  vars:
+    mailuser: "{{ env_vars.MAIL_USER }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    regexp: 'ENTER_HERE_MAIL_USER'
+    replace: "{{mailuser}}"
+  become: yes
+
+- name: Set Mail Password environment variable for iTrust Job
+  vars:
+    mailpass: "{{ env_vars.MAIL_PASSWORD }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    regexp: 'ENTER_HERE_MAIL_PASSWORD'
+    replace: "{{mailpass}}"
+  become: yes
+
+- name: Set Mail SMTP environment variable for iTrust Job
+  vars:
+    mailsmtp: "{{ env_vars.MAIL_SMTP }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    regexp: 'ENTER_HERE_MAIL_SMTP'
+    replace: "{{mailsmtp}}"
+  become: yes
+
+# Setting Env for Checkbox.io job
+- name: Set AWS Access Key environment variable for Checkbox.io Job
+  vars:
+    accessKey: "{{ env_vars.ACCESS_KEY }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+    regexp: 'ENTER_HERE_AWS_ACCESS_KEY_ID'
+    replace: "{{accessKey}}"
+  become: yes
+
+- name: Set AWS Secret Key environment variable for Checkbox.io Job
+  vars:
+    secretKey: "{{ env_vars.SECRET_KEY }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+    regexp: 'ENTER_HERE_AWS_SECRET_ACCESS_KEY'
+    replace: "{{secretKey}}"
+  become: yes
+
+- name: Set Mongo IP environment variable for Checkbox.io Job
+  vars:
+    mongoip: "{{ env_vars.MONGO_IP }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+    regexp: 'ENTER_HERE_MONGO_IP'
+    replace: "{{mongoip}}"
+  become: yes
+
+- name: Set Mongo User environment variable for Checkbox.io Job
+  vars:
+    mongouser: "{{ env_vars.MONGO_USER }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+    regexp: 'ENTER_HERE_MONGO_USER'
+    replace: "{{mongouser}}"
+  become: yes
+
+- name: Set Mongo Password environment variable for Checkbox.io Job
+  vars:
+    mongopass: "{{ env_vars.MONGO_PASSWORD }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+    regexp: 'ENTER_HERE_MONGO_PASSWORD'
+    replace: "{{mongopass}}"
+  become: yes
+
+- file:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    mode: "u=rw,g=rw,o=rw"
+  become: yes
+
+- file:
+    path: /var/lib/jenkins/init.groovy.d/makeCred.groovy
+    mode: "u=rw,g=rw,o=rw"
+  become: yes
+
+- import_tasks: restart_jenkins.yml
+
+- name: Install plugins for Jenkins
+  jenkins_plugin:
+    name: "{{item}}"
+    with_dependencies: yes
+    url: "http://localhost:{{env_vars.jenkins_port | int }}"
+  with_items:
+    - git
+    - postbuild-task
+    - envinject
+    - ansible
+    - jacoco
+  tags:
+    installer
+
+- import_tasks: restart_jenkins.yml
+
+- name: Add Jenkins url to jenkins_jobs.ini
+  become: yes
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/jenkins_jobs.ini
+    regexp: url=
+    replace: "url=http://localhost:{{env_vars.jenkins_port}}"
+
+- name: Create /etc/jenkins_jobs to place jenkins_jobs.ini
+  become: yes
+  file:
+    path: /etc/jenkins_jobs/
+    state: directory
+    group: jenkins
+    owner: jenkins
+
+- name: Copy jenkins_jobs.ini file
+  become: yes
+  copy:
+    src: /var/lib/jenkins/project_repo/jenkins_files/jenkins_jobs.ini
+    dest: /etc/jenkins_jobs/jenkins_jobs.ini
+
+- name: Upload Itrust Job to Jenkins
+  command: jenkins-jobs --conf jenkins_jobs.ini update itrust.yml
+  args:
+    chdir: /var/lib/jenkins/project_repo/jenkins_files/
+  tags:
+    upload-job
+
+- name: Upload checkbox Job to Jenkins
+  command: jenkins-jobs --conf jenkins_jobs.ini update checkbox.yml
+  args:
+    chdir: /var/lib/jenkins/project_repo/jenkins_files/
+  tags:
+    upload-job
+
+- name: Cleanup iTrust
+  become: yes
+  file:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    state: absent
+    mode: 0440
+
+- name: Cleanup checkbox
+  become: yes
+  file:
+    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+    state: absent
+    mode: 0440

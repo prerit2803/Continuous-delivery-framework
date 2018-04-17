@@ -1,0 +1,5 @@
+- name: Clone forked iTrust2 repo
+  git:
+    repo: "https://{{ env_vars.GIT_USER }}:{{ env_vars.GIT_PASSWORD| urlencode }}@github.ncsu.edu/pbhanda2/iTrust2-v2.git"
+    dest: "{{ ansible_env.HOME }}/itrust"
+    force: yes
