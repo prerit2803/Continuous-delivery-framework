@@ -9,7 +9,7 @@
 ### Steps to run
 #### 1. Clone the repository
 Clone the repository on your local machine in the $HOME directory and change into the __Infrastructure__ folder by running `cd $HOME/CSC519-Project/Infrastructure`.
-#### 2.  Set environment variables in the [group_vars/all/vars.yml](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/74876a5b22a733d8c2fcebb3d39909893e7b2ae6/Infrastructure/group_vars/all/vars.yml#L1)  
+#### 2.  Set environment variables in the [group_vars/all/vars.yml](./group_vars/all/vars.yml#L1)  
 + __AWS_ACCESS_KEY_ID__ : AWS account Access key
 + __AWS_SECRET_ACCESS_KEY__ : AWS account secret key
 + __MAIL_USER__ : Mongodb mail user
