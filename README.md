@@ -15,10 +15,10 @@
 The screencast for [Milestone1.](https://youtu.be/yg7V67ptg18)
 ## Success Demo
 ### iTrust  
-    ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/tutorial_material/itrust-demo.gif)   
+    ![](./tutorial_material/itrust-demo.gif)   
 
 ### Checkbox.io    
-    ![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/tutorial_material/checkbox-demo.gif)
+    ![](./tutorial_material/checkbox-demo.gif)
 
 ## Overview
 For the Milestone1 of the project, we are provisioning Amazon Web Services EC2 instances for our jenkins server, and deploying _Checkbox.io_ and _iTrust2_.
@@ -52,8 +52,8 @@ Once you clone the repository, you can see the following file structure:
 
 ## Setup
 ### Setting variables
-We first set variable values in [`group/all/vars.yml`](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/group_vars/all/vars.yml)  
-![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/tutorial_material/vault.PNG).  
+We first set variable values in [`group/all/vars.yml`](./group_vars/all/vars.yml)  
+![](./tutorial_material/vault.PNG).  
 You must edit following variables (don't provide blank values to any variable):
 
 + `mysql_password`: MySQL admin password
@@ -148,9 +148,9 @@ We passed one more argument `-Djenkins.install.runSetupWizard=false` to $JAVA_AR
 #### 2. Configuring Jenkins through groovy
 We placed an [init.groovy](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/jenkins_files/init.groovy.d/init.groovy) script in `$JENKINS_HOME/init.groovy.d/` to set desired values for the Jenkins state.
 This included,
-+ [Setting Jenkins installState to RUNNING](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/a8857fb4bc701349e7a0bf9124b5a677a9b822a7/jenkins_files/init.groovy.d/init.groovy#L24)
-+ [Enabling CLI](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/a8857fb4bc701349e7a0bf9124b5a677a9b822a7/jenkins_files/init.groovy.d/init.groovy#L12)
-+ [Disabling security](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/a8857fb4bc701349e7a0bf9124b5a677a9b822a7/jenkins_files/init.groovy.d/init.groovy#L15): This was necessary to make changes to jenkins configuration without having created any user.
++ [Setting Jenkins installState to RUNNING](./jenkins_files/init.groovy.d/init.groovy#L24)
++ [Enabling CLI](./jenkins_files/init.groovy.d/init.groovy#L12)
++ [Disabling security](./jenkins_files/init.groovy.d/init.groovy#L15): This was necessary to make changes to jenkins configuration without having created any user.
 
 #### 3. Configuring plugins
  Installing the required plugins for Jenkins
@@ -200,7 +200,7 @@ The jenkins-job-builder needs a .yml file to build it's job. We inject our envir
                 - name: AWS_ACCESS_KEY_ID
                   password: ENTER_HERE_AWS_ACCESS_KEY_ID
   ```
-Job files are located here, [Checkbox.io](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/43a237e59da65bbe84315da93dc84667a11a3f04/jenkins_files/checkbox.yml) and [iTrust2](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/43a237e59da65bbe84315da93dc84667a11a3f04/jenkins_files/itrust.yml)
+Job files are located here, [Checkbox.io](./jenkins_files/checkbox.yml) and [iTrust2](./jenkins_files/itrust.yml)
 The environment variables injected in this manner are saved to the jenkins' build environment and are hidden in the UI as well.
 #### 2. Substituting values to job.yml file
 We created special keyword to be replaced through regex from ansible as in a sample snippet below
@@ -234,7 +234,7 @@ We delete the `*.yml` files after the job finishes. This maintains confidentiali
 ### #5 Creating git credentials for Jenkins SCM
 Jenkins needs to clone repositories from git as part of the iTrust build step. The `.yml` file needs a git credential associated with the username and password to access the github.ncsu.edu.
 #### 1. Creating Git Credentials
-We create these credential through a groovy script [makeCred.groovy](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/jenkins_files/init.groovy.d/makeCred.groovy)
+We create these credential through a groovy script [makeCred.groovy](./jenkins_files/init.groovy.d/makeCred.groovy)
 + This creates a new git credential from the username and password provided in the file( which are added to the file by ansible).
 + Once the jenkins restarts, the credential is setup in the Jenkins environment through the script.
 
@@ -260,7 +260,7 @@ We set the credentials in the groovy file through ansible
     become: yes
   ```
 #### 3. Cleaning up Credentials
-After setting up the environment, we replace the values of github username and password placed in the `makeCred.groovy` file through another file [remove.groovy](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone1/jenkins_files/init.groovy.d/remove.groovy). This ensures confidentiality of the credentials.
+After setting up the environment, we replace the values of github username and password placed in the `makeCred.groovy` file through another file [remove.groovy](./jenkins_files/init.groovy.d/remove.groovy). This ensures confidentiality of the credentials.
 
 ### #6 Running post-build jobs without sudo access
 The post build jobs are run as Jenkins users so we needed to make sure that all the jobs that were run in the localhost did not need privilege escalation to root user.
