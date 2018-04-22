@@ -19,7 +19,7 @@ Canary release is a technique to reduce the risk of introducing a new software v
 
 
 
-![image]( https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone3/CanaryRelease/Canary.png "Canary Release")
+![image](./Canary.png "Canary Release")
 
 
 
