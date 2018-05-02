@@ -1,0 +1,93 @@
+- name: copy docker-compose to home
+  copy:
+    src: docker-compose.yml
+    dest: "{{ ansible_env.HOME }}/docker-compose.yml"
+  become: yes
+
+- name: Set gerrit port in docker file
+  vars:
+    gerrit_port: "{{ env_vars.gerrit_port }}"
+  replace:
+    dest: "{{ ansible_env.HOME }}/docker-compose.yml"
+    regexp: 'gerrit_port'
+    replace: "{{gerrit_port}}"
+  become: yes
+
+- name: Set gerrit admin user in docker file
+  vars:
+    GERRIT_ADMIN_USER: "{{ env_vars.GERRIT_ADMIN_USER }}"
+  replace:
+    dest: "{{ ansible_env.HOME }}/docker-compose.yml"
+    regexp: 'gerrit_admin_user'
+    replace: "{{GERRIT_ADMIN_USER}}"
+  become: yes
+
+- name: Set gerrit admin email in docker file
+  vars:
+    GERRIT_ADMIN_EMAIL: "{{ env_vars.GERRIT_ADMIN_EMAIL }}"
+  replace:
+    dest: "{{ ansible_env.HOME }}/docker-compose.yml"
+    regexp: 'gerrit_admin_user'
+    replace: "{{GERRIT_ADMIN_EMAIL}}"
+  become: yes
+
+- name: Set gerrit admin pwd in docker file
+  vars:
+    GERRIT_ADMIN_PASSWORD: "{{ env_vars.GERRIT_ADMIN_PASSWORD }}"
+  replace:
+    dest: "{{ ansible_env.HOME }}/docker-compose.yml"
+    regexp: 'gerrit_admin_password'
+    replace: "{{GERRIT_ADMIN_PASSWORD}}"
+  become: yes
+
+- name: Set gerrit default account in docker file
+  vars:
+    GERRIT_USER_USER: "{{ env_vars.GERRIT_USER_USER }}"
+    GERRIT_USER_FULLNAME: "{{ env_vars.GERRIT_USER_FULLNAME }}"
+    GERRIT_USER_PASSWORD: "{{ env_vars.GERRIT_USER_PASSWORD }}"
+    GERRIT_USER_EMAIL: "{{ env_vars.GERRIT_USER_EMAIL }}"
+  replace:
+    dest: "{{ ansible_env.HOME }}/docker-compose.yml"
+    regexp: 'gerrit_accounts'
+    replace: "{{GERRIT_USER_USER}},{{GERRIT_USER_FULLNAME}},{{GERRIT_USER_EMAIL}},{{GERRIT_USER_PASSWORD}},Administrators;"
+  become: yes
+
+- name: Set gerrit andmin key location in docker file
+  replace:
+    dest: "{{ ansible_env.HOME }}/docker-compose.yml"
+    regexp: 'admin_key_location'
+    replace: "{{ ansible_env.HOME }}"
+  become: yes
+
+- name: make admin keys
+  become: yes
+  shell: "ssh-keygen -t rsa -N '' -f id_{{ env_vars.GERRIT_ADMIN_USER }}_rsa"
+  args:
+    chdir: "{{ ansible_env.HOME }}"
+  ignore_errors: yes
+
+
+- name: Start Gerrit Container
+  become: yes
+  shell: docker-compose up -d
+  args:
+    chdir: "{{ ansible_env.HOME }}"
+  ignore_errors: yes
+
+# Make sure Gerrit is ready to run after last restart
+- name: Ensure Gerrit is up and running
+  uri:
+    url: "http://localhost:{{env_vars.gerrit_port | int }}"
+    status_code: 200
+    timeout: 5
+  register: gerrit_service_status
+  # Keep trying for 5 mins in 5 sec intervals
+  retries: 18
+  delay: 10
+  until: >
+     'status' in gerrit_service_status and
+     gerrit_service_status['status'] == 200
+
+- name: run gerrit setup script
+  become: yes
+  shell: bash gerrit_steps.sh

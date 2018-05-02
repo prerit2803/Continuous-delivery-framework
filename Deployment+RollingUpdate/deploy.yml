@@ -24,6 +24,7 @@
     - configure-itrust
     - configure-checkbox
     - configure-jenkins
+    - configure-gerrit
 
 - hosts: mysql
   gather_facts: yes

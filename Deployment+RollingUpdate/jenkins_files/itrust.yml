@@ -43,11 +43,11 @@
         - '*/master'
         name: origin
         refspec: +refs/heads/*:refs/remotes/origin/*
-        url: /var/lib/jenkins/iTrust.git
+        url: http://localhost:ENTER_HERE_GERRIT_PORT/iTrust2-v2
         wipe-workspace: true
     triggers:
     - pollscm:
-        cron: ''
+        cron: '* * * * *'
         ignore-post-commit-hooks: false
     wrappers:
         - inject-passwords:

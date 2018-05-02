@@ -1,0 +1,21 @@
+version: "2.0"
+
+services:
+  gerrit:
+    image: docker.io/fabric8/gerrit:latest
+    volumes:
+       - admin_key_location/id_admin_rsa:/home/gerrit/ssh-keys/id_admin_rsa
+       - admin_key_location/id_admin_rsa.pub:/home/gerrit/ssh-keys/id_admin_rsa.pub
+       - /home/gerrit-site:/home/gerrit/site
+    ports:
+       - "29418:29418"
+       - "gerrit_port:8080"
+    environment:
+       - AUTH_TYPE=DEVELOPMENT_BECOME_ANY_ACCOUNT
+       - GERRIT_ADMIN_USER=gerrit_admin_user
+       - GERRIT_ADMIN_EMAIL=gerrit_admin_email
+       - GERRIT_ADMIN_FULLNAME=Administrator
+       - GERRIT_ADMIN_PWD=gerrit_admin_password
+       - GERRIT_ADMIN_PRIVATE_KEY=/home/gerrit/ssh-keys/id_admin_rsa
+       - GERRIT_PUBLIC_KEYS_PATH=/home/gerrit/ssh-keys
+       - GERRIT_ACCOUNTS=gerrit_accounts

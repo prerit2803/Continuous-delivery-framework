@@ -31,11 +31,11 @@
         - '*/master'
         name: origin
         refspec: +refs/heads/*:refs/remotes/origin/*
-        url: /var/lib/jenkins/checkbox.io.git
+        url: http://localhost:ENTER_HERE_GERRIT_PORT/checkbox.io
         wipe-workspace: true
     triggers:
     - pollscm:
-        cron: ''
+        cron: '* * * * *'
         ignore-post-commit-hooks: false
     wrappers:
         - inject-passwords:
@@ -54,3 +54,4 @@
                   password: ENTER_HERE_MONGO_IP
         - workspace-cleanup:
             dirmatch: false
+            

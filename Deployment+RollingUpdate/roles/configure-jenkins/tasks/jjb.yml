@@ -42,6 +42,7 @@
   become: yes
   pip:
     name: jenkins-job-builder
+    version: 2.0.5
     state: present
 
 # REFERENCES: https://docs.openstack.org/infra/jenkins-job-builder/
@@ -94,6 +95,15 @@
   become: yes
 
 # Setting env for iTrust Job
+- name: Set gerrit_port for iTrust Job
+  vars:
+    gerritPort: "{{ env_vars.gerrit_port }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/itrust.yml
+    regexp: 'ENTER_HERE_GERRIT_PORT'
+    replace: "{{gerritPort}}"
+  become: yes
+
 - name: Set AWS Access Key environment variable for iTrust Job
   vars:
     accessKey: "{{ env_vars.ACCESS_KEY }}"
@@ -185,6 +195,15 @@
   become: yes
 
 # Setting Env for Checkbox.io job
+- name: Set gerrit port for checkbox.io Job
+  vars:
+    gerritPort: "{{ env_vars.gerrit_port }}"
+  replace:
+    path: /var/lib/jenkins/project_repo/jenkins_files/checkbox.yml
+    regexp: 'ENTER_HERE_GERRIT_PORT'
+    replace: "{{gerritPort}}"
+  become: yes
+
 - name: Set AWS Access Key environment variable for Checkbox.io Job
   vars:
     accessKey: "{{ env_vars.ACCESS_KEY }}"
