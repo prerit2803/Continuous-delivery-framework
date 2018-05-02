@@ -1,5 +1,11 @@
-Make sure you have your gerrit / git creds set up in the repo
+Go ahead and pull from your git repo...
 ```
+git clone http://${GERRIT_URL}:${GERRIT_PORT}/${REPO_NAME}
+```
+
+Go into your repo. Make sure you have your gerrit / git creds set up in the repo
+```
+cd checkbox.io
 git config --global user.email "you@example.com"
 git config --global user.name "Your Name"
 ```
@@ -18,7 +24,7 @@ git commit -m 'This is a test!'
 Add gerrit as a remote w/ your creds. Push to that remote with HEAD:refs/for/master
 
 ```
-git remote add gerrit_user http://${USERUSER}:${USERPASS}@${GERRIT_URL}:${GERRIT_PORT}/checkbox.io
+git remote add gerrit_user http://${USERUSER}:${USERPASS}@${GERRIT_URL}:${GERRIT_PORT}/${REPO_NAME}
 git push gerrit_user HEAD:refs/for/master
 ```
 
