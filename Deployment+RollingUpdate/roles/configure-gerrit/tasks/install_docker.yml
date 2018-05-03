@@ -36,5 +36,6 @@
     - ubuntu
 
 - name: Install docker compose
+  become: yes
   apt:
     name: docker-compose
