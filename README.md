@@ -7,9 +7,9 @@
 | Name | UnityId | Contribution |
 |---------------------|-------|-----|
 | Zachery Thomas | zithomas | Gerrit Setup, Gerrit Demo |
-| Vikas Pandey | vrpandey | |
-| Prerit Bhandari | pbhanda2 | |
-| Ankur Saxena | asaxena3 | |
+| Vikas Pandey | vrpandey | Monitoring and Notification | 
+| Prerit Bhandari | pbhanda2 | Monitoring and Notification |
+| Ankur Saxena | asaxena3 | Presentation and Demo |
 
 ## Features
 
