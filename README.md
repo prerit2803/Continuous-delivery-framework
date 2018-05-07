@@ -4,26 +4,23 @@
 ![SEE YOU SPACE COWBOY](https://img.youtube.com/vi/yg7V67ptg18/0.jpg)
 
 ## Team Members:
-| Name | UnityId | Contribution |
-|---------------------|-------|---------------------|
-| Zachery Thomas | zithomas | Deployment, Infrastructure Upgrade: Feature Flag (Redis) |
-| Vikas Pandey | vrpandey | Canary Release |
-| Prerit Bhandari | pbhanda2 | Rolling Update |
-| Ankur Saxena | asaxena3 | Infrastructure Upgrade: kubernetes cluster, Dockerized image of Checkbox.io |
+| Name | UnityId | 
+|---------------------|-------|
+| Zachery Thomas | zithomas |
+| Vikas Pandey | vrpandey |
+| Prerit Bhandari | pbhanda2 |
+| Ankur Saxena | asaxena3 | 
 
-## Components
+## Features
 
-### Deployment + Rolling-Update
-+ **[README](./Deployment%2BRollingUpdate)**
-+ **[Screencast](https://youtu.be/OgyeE7KXN0s)**
+### Code Review
 
-### Infrastructure Upgrade
-+ **[README](./Infrastructure)**
-+ **[Screencast:](./Infrastructure)**
-  + [Redis Feature Flag](https://youtu.be/EVDjo-KJ-40)
-  + [Kubernetes Cluster Deployment](https://youtu.be/PyV4RplfIQI)
 
-### Canary Release
-+ **[README](./CanaryRelease)**
-+ **[Screencast](https://youtu.be/xv2Xlu7iNNs)**
+### Monitoring and Notification
+
+Purpose: To continuously monitor our servers for KPI's and raise a notification(email/messgae) in case of an alert.
+
+Solutions: We used AWS Cloudwatch service to manage a dashboard for KPI's such as CPU utilization, status of the servers, NetworkIn, etc. An alarm was raised if any KPI value crossed its critical/threshold value and AWS Simple Notification Service was used to send an alert email.
+
+Tools/Technologies used: AWS Cloudwatch, AWS SNS
 
