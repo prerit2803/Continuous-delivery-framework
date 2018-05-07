@@ -17,7 +17,7 @@
 
 Purpose: During the duration of this project in DevOps all members were allowed to contribute any code to our github repository. Sometimes changes were submitted that were buggy, formatted poorly or just kind of hacky. Having peers review your code before submitting it to a repository would prevent small imperfections and easily preventable bugs from compounding in your codebase. It also allows teammates to better collaborate and have a say about which direction the project should go in.
 
-Solutions: We used a Dockerized version of Gerrit to host copies of Checkbox.io and iTrust. That way we could upload changes to Gerrit, submit, ammend or abort those changes before they are submitted to the repo, and then build those changes using Jenkins. After that the pipeline for deployment mirrors that of Milestone 3. Instructions on how to clone and push to the Gerrit copies of each repo can be found [here.](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone4/Deployment%2BRollingUpdate/HOW%20TO%20COMMIT%20TO%20GERRIT.md)
+Solutions: We used a Dockerized version of Gerrit to host copies of Checkbox.io and iTrust. That way we could upload changes to Gerrit, submit, amend or abort those changes before they are submitted to the repo, and then build those changes using Jenkins. After that the pipeline for deployment mirrors that of Milestone 3. Instructions on how to clone and push to the Gerrit copies of each repo can be found [here.](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone4/Deployment%2BRollingUpdate/HOW%20TO%20COMMIT%20TO%20GERRIT.md)
 
 Tools/Technologies used: Docker, Gerrit
 
