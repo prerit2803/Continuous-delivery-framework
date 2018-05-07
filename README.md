@@ -6,7 +6,7 @@
 ## Team Members:
 | Name | UnityId | Contribution |
 |---------------------|-------|-----|
-| Zachery Thomas | zithomas | |
+| Zachery Thomas | zithomas | Gerrit Setup, Gerrit Demo |
 | Vikas Pandey | vrpandey | |
 | Prerit Bhandari | pbhanda2 | |
 | Ankur Saxena | asaxena3 | |
@@ -21,6 +21,7 @@ Solutions: We used a Dockerized version of Gerrit to host copies of Checkbox.io 
 
 Tools/Technologies used: Docker, Gerrit
 
+![Gerrit Infrastucture Example](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone4/tutorial-material/GerritInfra.png)
 
 ### Monitoring and Notification
 
