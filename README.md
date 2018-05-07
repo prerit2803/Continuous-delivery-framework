@@ -24,3 +24,6 @@ Solutions: We used AWS Cloudwatch service to manage a dashboard for KPI's such a
 
 Tools/Technologies used: AWS Cloudwatch, AWS SNS
 
+
+![image]( https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone4/CanaryRelease/Cloudwatch_dashboard.png "Monitoring Dashboard")
+
