@@ -26,7 +26,7 @@ Run the playbook using the following command `ansible-playbook -i inventory depl
 We have created a Kubernetes cluster of 3 nodes with 1 master and 2 slaves on AWS.  
 The kubernets maintains a Checkbox containers i.e. Checkbox pod running on the network at all times. So as long as one of the slaves is working on the cluster, the kubernetes master can keep he service up without the external user realizing about the slave failures. Diagram below explains the concept.
 
-![](https://github.ncsu.edu/asaxena3/CSC519-Project/blob/Milestone3/tutorial-material/k8s.png)
+![](../tutorial-material/k8s.png)
 
 
 ## Redis Feature Flag
